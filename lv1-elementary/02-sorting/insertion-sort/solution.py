@@ -1,23 +1,31 @@
-### Insertion Sort (삽입 정렬)
+"""삽입 정렬 — 앞쪽의 정렬된 구간에 새 원소를 알맞은 자리에 끼워 넣는 정렬
 
-# k번째 원소를 1 ~ k-1번째 원소와 비교해서 정렬 순서에 맞는 적절한 위치에 끼위넣는 알고리즘
-# 시간복잡도는 O(n^2)이나, n이 작을 떄는 매우 좋은 퍼포먼스를 보여줌
-# 단, 자료 구조에 따라 원소를 끼워넣는 과정에서 다른 원소를 밀어내는 데 많은 시간이 걸릴 수 있음
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 입력 리스트를 제자리에서 오름차순으로 정렬합니다. (안정 정렬)
+- 직접 실행하면 첫 줄에 N, 둘째 줄부터 N개의 정수를 받아 오름차순으로 한 줄에 하나씩 출력합니다.
+"""
+import sys
 
-### 예시 코드
 
-def Insertion_Sort(li: list):
-    n = len(li)
-    for i in range(1, n):
-        # i부터 0까지 거꾸로 비교해나감
-        for j in range(i, 0, -1):
-            if li[j - 1] > li[j]:
-                li[j - 1], li[j] = li[j], li[j - 1]
-    return li
+def insertion_sort(arr: list) -> None:
+    """arr 을 제자리에서 오름차순으로 정렬한다."""
+    for i in range(1, len(arr)):
+        # arr[:i] 는 이미 정렬되어 있다. arr[i] 를 꺼내 들고 들어갈 자리를 찾는다.
+        value = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > value:  # 엄격하게 큰 값만 밀어야 같은 값의 순서가 유지된다
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = value
 
-### 예제
 
-li = [1, 9, 2, 3, 7, 4, 5, 0, 6, 8]
-print("before :", li)
-Insertion_Sort(li)
-print("after :", li)
+def main() -> None:
+    input = sys.stdin.readline
+    n = int(input())
+    arr = [int(input()) for _ in range(n)]
+    insertion_sort(arr)
+    print("\n".join(map(str, arr)))
+
+
+if __name__ == "__main__":
+    main()

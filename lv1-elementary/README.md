@@ -31,12 +31,12 @@ summary: 기본 자료구조와 정렬·탐색, DFS/BFS, DP·그리디 입문을
 
 | 개념 | 상태 | 시간 복잡도 | 선행 개념 |
 |---|---|---|---|
-| [Bubble Sort (버블 정렬)](02-sorting/bubble-sort/) | `migrated` | O(n^2) | [array](../lv0-basics/01-data-structures/array/) |
-| [Selection Sort (선택 정렬)](02-sorting/selection-sort/) | `migrated` | O(n^2) | [array](../lv0-basics/01-data-structures/array/) |
-| [Insertion Sort (삽입 정렬)](02-sorting/insertion-sort/) | `migrated` | O(n^2) | [array](../lv0-basics/01-data-structures/array/) |
-| [Merge Sort (병합 정렬)](02-sorting/merge-sort/) | `migrated` | O(n log n) | [array](../lv0-basics/01-data-structures/array/) |
-| [Quick Sort (퀵 소트)](02-sorting/quick-sort/) | `migrated` | 평균 O(n log n), 최악 O(n^2) | [array](../lv0-basics/01-data-structures/array/) |
-| [Heap Sort (힙 정렬)](02-sorting/heap-sort/) | `migrated` | O(n log n) | [priority-queue](01-data-structures/priority-queue/) |
+| [Bubble Sort (버블 정렬)](02-sorting/bubble-sort/) | `done` | 최악 O(n^2), 이미 정렬되어 있으면 O(n) | [array](../lv0-basics/01-data-structures/array/) |
+| [Selection Sort (선택 정렬)](02-sorting/selection-sort/) | `done` | O(n^2) | [array](../lv0-basics/01-data-structures/array/) |
+| [Insertion Sort (삽입 정렬)](02-sorting/insertion-sort/) | `done` | 최악 O(n^2), 이미 정렬되어 있으면 O(n) | [array](../lv0-basics/01-data-structures/array/) |
+| [Merge Sort (병합 정렬)](02-sorting/merge-sort/) | `done` | O(n log n) | [array](../lv0-basics/01-data-structures/array/) |
+| [Quick Sort (퀵 정렬)](02-sorting/quick-sort/) | `done` | 평균 O(n log n), 최악 O(n^2) | [array](../lv0-basics/01-data-structures/array/) |
+| [Heap Sort (힙 정렬)](02-sorting/heap-sort/) | `done` | O(n log n) | [priority-queue](01-data-structures/priority-queue/) |
 
 ### [이분 탐색 (Binary Search)](03-binary-search/)
 

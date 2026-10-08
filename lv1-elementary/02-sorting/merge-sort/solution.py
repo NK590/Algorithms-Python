@@ -1,42 +1,73 @@
-### Merge Sort (병합 정렬)
+"""병합 정렬 — 반으로 나눠 각각 정렬한 뒤, 두 정렬된 리스트를 합치는 정렬 (분할 정복)
 
-# 분할 정복을 이용한 재귀 정렬 알고리즘으로 O(nlogn)의 시간 복잡도를 가짐
-# 주어진 리스트를 먼저 길이가 1이 될 때까지 절반으로 쪼갠 뒤 합치는 과정에서 순서에 맞게 정렬
-# 쪼갠 데이터를 보관할 메모리가 필요하므로, 메모리 측면에선 비효율적
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- merge_sort 는 입력을 바꾸지 않고 정렬된 새 리스트를 반환합니다. (안정 정렬)
+- count_inversions 는 같은 방식으로 뒤집힌 쌍(역전)의 수를 O(n log n) 에 셉니다.
+- 직접 실행하면 첫 줄에 N, 둘째 줄부터 N개의 정수를 받아 오름차순으로 한 줄에 하나씩 출력합니다.
+"""
+import sys
 
-### 예시 코드
 
-def Merge_Sort(li: list):
-    # li의 크기가 1이 될 때까지 반으로 나눠가며 재귀 선언
-    if len(li) < 2:
-        return li
-    
-    mid = len(li) // 2
-    low_li = Merge_Sort(li[:mid])
-    high_li = Merge_Sort(li[mid:])
-    
-    merged_li = []
-    low = 0
-    high = 0
-    
-    # 리스트를 low_li, high_li 두 리스트로 쪼개서 각 리스트 인덱스를 0부터 훑어가면서
-    # 작은 순서대로 merged_li에 넣기
-    while low < len(low_li) and high < len(high_li):
-        if low_li[low] < high_li[high]:
-            merged_li.append(low_li[low])
-            low += 1
+def merge(left: list, right: list) -> list:
+    """정렬된 두 리스트를 하나의 정렬된 리스트로 합친다."""
+    merged = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:  # 같을 때 왼쪽을 먼저 꺼내야 안정 정렬이 된다
+            merged.append(left[i])
+            i += 1
         else:
-            merged_li.append(high_li[high])
-            high += 1
-    # 위 반복문을 다 돌고도 low_li, high_li에 남아있는 원소가 있을 수 있으므로 마지막에 전부 더하기
-    merged_li += low_li[low:]
-    merged_li += high_li[high:]
-    
-    return merged_li
+            merged.append(right[j])
+            j += 1
+    # 둘 중 한쪽이 먼저 바닥나면, 남은 쪽은 이미 정렬되어 있으므로 통째로 붙인다.
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged
 
-### 예제
 
-li = [1, 9, 2, 3, 7, 4, 5, 0, 6, 8]
-print("before :", li)
-ans = Merge_Sort(li)
-print("after :", ans)
+def merge_sort(arr: list) -> list:
+    """arr 을 오름차순으로 정렬한 새 리스트를 반환한다. arr 은 바꾸지 않는다."""
+    if len(arr) <= 1:
+        return list(arr)
+    mid = len(arr) // 2
+    return merge(merge_sort(arr[:mid]), merge_sort(arr[mid:]))
+
+
+def count_inversions(arr: list) -> int:
+    """i < j 이면서 arr[i] > arr[j] 인 쌍의 수를 센다. arr 은 바꾸지 않는다."""
+    return _sort_and_count(list(arr))[1]
+
+
+def _sort_and_count(arr: list) -> tuple[list, int]:
+    if len(arr) <= 1:
+        return arr, 0
+    mid = len(arr) // 2
+    left, left_count = _sort_and_count(arr[:mid])
+    right, right_count = _sort_and_count(arr[mid:])
+
+    merged = []
+    count = left_count + right_count
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            # right[j] 가 left[i:] 의 모든 원소보다 작다. 이 원소들은 모두 right[j] 와 뒤집힌 쌍이다.
+            count += len(left) - i
+            merged.append(right[j])
+            j += 1
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged, count
+
+
+def main() -> None:
+    input = sys.stdin.readline
+    n = int(input())
+    arr = [int(input()) for _ in range(n)]
+    print("\n".join(map(str, merge_sort(arr))))
+
+
+if __name__ == "__main__":
+    main()

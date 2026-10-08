@@ -1,68 +1,46 @@
-### Heap Sort (힙 정렬)
+"""힙 정렬 — 최대 힙을 만든 뒤, 가장 큰 값을 맨 뒤로 보내는 일을 반복하는 정렬
 
-# 힙 트리(Heap Tree) 자료 구조를 이용한 정렬 방식으로, 주어진 리스트를 힙 트리 형태로 만든 뒤,
-# 이를 바탕으로 원소를 정렬하는 방식. 시간복잡도는 O(nlogn)으로 퀵 정렬과 동일하나, 
-# 실제로는 퀵 정렬이 빠른 경우가 많고 반면 힙 정렬은 비교적 편차가 적은 안정적인 성능을 보여줌
-# 선택 정렬의 최적화 버전이라고도 볼 수 있음
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 입력 리스트를 제자리에서 오름차순으로 정렬합니다. (안정 정렬이 아님)
+- 배열을 완전 이진 트리로 봅니다. 0번 시작 배열에서 i 번 원소의 자식은 2*i+1, 2*i+2 번입니다.
+- 직접 실행하면 첫 줄에 N, 둘째 줄부터 N개의 정수를 받아 오름차순으로 한 줄에 하나씩 출력합니다.
+"""
+import sys
 
-### 예시 코드 1
 
-def Heapify(li: list, index: int, len_li: int):
-    left = index * 2
-    right = index * 2 + 1
-    largest = index
-    
-    # index 번째 노드의 각 자식들을 비교하면서 힙 순서에 맞게 largest를 갱신
-    if left < len_li and li[left] > li[largest]:
-        largest = left
-    if right < len_li and li[right] > li[largest]:
-        largest = right
-    
-    # 만약 largest 값과 초기 index 값이 불일치할 시 li 내 두 값을 스왑
-    if largest != index:
-        li[largest], li[index] = li[index], li[largest]
-        # 위 과정까지 끝내면 국소적으로 힙 구조를 완성했으므로, 이를 자식에게 재귀적으로 수행
-        Heapify(li, largest, len_li)
-        
-def Heap_Sort(li: list):
-    len_li = len(li)
-    
-    # leaf 노드부터 밑에서부터 순차적으로 heapify 연산을 하여 입력 리스트를 min heap으로 만듬
-    for i in range((len_li // 2) - 1, -1, -1):
-        Heapify(li, i, len_li)
-    
-    # min heap에서 root 노드와 leaf 노드를 비교하면서 제일 작은 값을 앞으로 빼고, heapify로
-    # min heap 구조를 유지함
-    for i in range(len_li - 1, 0, -1):
-        li[0], li[i] = li[i], li[0]
-        Heapify(li, 0, i)
-    
-    return li
+def _sift_down(arr: list, i: int, size: int) -> None:
+    """arr[:size] 를 힙으로 볼 때, i 번 원소를 자식과 비교해 아래로 내려 보내 최대 힙 성질을 회복한다."""
+    while True:
+        child = 2 * i + 1
+        if child >= size:  # 자식이 없으면 끝
+            return
+        if child + 1 < size and arr[child + 1] > arr[child]:  # 두 자식 중 더 큰 쪽을 고른다
+            child += 1
+        if arr[i] >= arr[child]:  # 부모가 자식보다 크면 이미 힙 성질을 만족한다
+            return
+        arr[i], arr[child] = arr[child], arr[i]
+        i = child
 
-### 예시 코드 2
-# 파이썬 내장 라이브러리인 heapq를 이용하면 다음과 같이 매우 간단하게 구현이 가능하다.
 
-import heapq
+def heap_sort(arr: list) -> None:
+    """arr 을 제자리에서 오름차순으로 정렬한다."""
+    n = len(arr)
+    # 1단계: 마지막 부모부터 거슬러 올라가며 내려 보내면 전체가 최대 힙이 된다. (O(n))
+    for i in range(n // 2 - 1, -1, -1):
+        _sift_down(arr, i, n)
+    # 2단계: 루트(가장 큰 값)를 힙의 맨 뒤와 바꿔 확정하고, 줄어든 힙을 다시 정리한다.
+    for end in range(n - 1, 0, -1):
+        arr[0], arr[end] = arr[end], arr[0]
+        _sift_down(arr, 0, end)
 
-def Heap_Sort_2(li: list):
-    heapq.heapify(li)
-    
-    ans = []
-    
-    while li:
-        ans.append(heapq.heappop(li))
-    
-    return ans
 
-### 예제
+def main() -> None:
+    input = sys.stdin.readline
+    n = int(input())
+    arr = [int(input()) for _ in range(n)]
+    heap_sort(arr)
+    print("\n".join(map(str, arr)))
 
-li = [1, 9, 2, 3, 7, 4, 5, 0, 6, 8]
-print("before :", li)
-Heap_Sort(li)
-print("after :", li)
 
-li = [1, 9, 2, 3, 7, 4, 5, 0, 6, 8]
-print("before :", li)
-ans = Heap_Sort_2(li)
-print("after :", ans)
-
+if __name__ == "__main__":
+    main()

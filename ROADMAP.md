@@ -286,7 +286,7 @@ flowchart LR
 
 1. **Phase 0 · 뼈대** — 레벨 구조, 문서 템플릿, 도구·CI, 기존 코드 이전 *(완료)*
 2. **Phase 1 · 기준 샘플** — 다익스트라를 템플릿 전 항목(설명·구현·테스트·연습문제)으로 완성해 기준으로 삼기 *(완료)*
-3. **Phase 2 · Lv0~1** — 기존 개념을 템플릿에 맞게 다시 쓰고, 빠진 주제 추가
+3. **Phase 2 · Lv0~1** — 기존 개념을 템플릿에 맞게 다시 쓰고, 빠진 주제 추가 *(진행 중: 정렬 그룹 완료)*
 4. **Phase 3 · Lv2**
 5. **Phase 4 · Lv3**
 6. **Phase 5 · Lv4~5**
@@ -295,10 +295,9 @@ flowchart LR
 
 기존 코드를 이전하면서 확인한 문제입니다. 각 개념을 템플릿에 맞춰 다시 쓰고 테스트를 붙일 때 고칠 예정입니다.
 
+정렬 그룹에서 확인된 세 건(퀵 정렬의 중복값 `RecursionError`, 힙 정렬의 자식 인덱스, 병합 정렬의 안정성)은 다시 쓰면서 고쳤고, 각 개념의 `test_solution.py`가 같은 문제가 되돌아오지 않도록 막고 있습니다. 아래는 아직 고치지 않은 것입니다.
+
 | 개념 | 문제 |
 |---|---|
 | [그래프](lv1-elementary/05-graph-basics/graph/) | 인접 리스트 예제의 리스트 리터럴에 쉼표가 빠져 있어 실행하면 `TypeError`가 발생합니다. |
-| [퀵 정렬](lv1-elementary/02-sorting/quick-sort/) | `Quick_Sort`(예시 코드 1)가 값이 중복된 입력에서 `RecursionError`를 냅니다. |
-| [힙 정렬](lv1-elementary/02-sorting/heap-sort/) | `Heapify`의 자식 인덱스 계산이 0-based 배열과 맞지 않아 일부 입력에서 틀린 결과가 나옵니다. |
-| [병합 정렬](lv1-elementary/02-sorting/merge-sort/) | 병합 단계의 비교가 `<`라서 안정 정렬이 아닙니다. |
 | [에라토스테네스의 체](lv1-elementary/06-number-theory/sieve-of-eratosthenes/) | 설명의 시간 복잡도가 `O(nlogn)`으로 되어 있지만 올바른 값은 `O(n log log n)`입니다. |

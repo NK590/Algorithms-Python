@@ -1,26 +1,33 @@
-### Selection Sort (선택 정렬)
+"""선택 정렬 — 남은 구간에서 가장 작은 값을 골라 맨 앞으로 보내는 정렬
 
-# 인접한 원소들끼리만 비교해서 교환하는 버블 정렬과 다르게 처음부터 끝까지 한번 훑은 다음,
-# 제일 작은 원소를 맨 앞으로 보내는 것을 반복하는 알고리즘
-# 버블 정렬과 비슷하게 시간 복잡도는 O(n^2)로 비효율적
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 입력 리스트를 제자리에서 오름차순으로 정렬합니다. (안정 정렬이 아님)
+- 직접 실행하면 첫 줄에 N, 둘째 줄부터 N개의 정수를 받아 오름차순으로 한 줄에 하나씩 출력합니다.
+"""
+import sys
 
-### 예시 코드
 
-def Selection_Sort(li: list):
-    n = len(li)
-    for i in range(len(li)):
-        # i+1번째 인덱스부터 반복문을 돌려서 min_index에 제일 작은 값의 인덱스를 갱신
-        min_index = i
+def selection_sort(arr: list) -> None:
+    """arr 을 제자리에서 오름차순으로 정렬한다."""
+    n = len(arr)
+    for i in range(n - 1):
+        # arr[i:] 중 가장 작은 값의 위치를 찾는다.
+        smallest = i
         for j in range(i + 1, n):
-            if li[j] < li[min_index]:
-                min_index = j
-        # i번째 인덱스 자료값과 min_index 값을 바꿔서 제일 작은 값을 앞으로 보냄
-        li[i], li[min_index] = li[min_index], li[i]
-    return li
+            if arr[j] < arr[smallest]:
+                smallest = j
+        # 맨 앞과 맞바꾼다. 멀리 떨어진 원소끼리 바뀌므로 같은 값의 순서가 뒤집힐 수 있다.
+        if smallest != i:
+            arr[i], arr[smallest] = arr[smallest], arr[i]
 
-### 예제
 
-li = [1, 9, 2, 3, 7, 4, 5, 0, 6, 8]
-print("before :", li)
-Selection_Sort(li)
-print("after :", li)
+def main() -> None:
+    input = sys.stdin.readline
+    n = int(input())
+    arr = [int(input()) for _ in range(n)]
+    selection_sort(arr)
+    print("\n".join(map(str, arr)))
+
+
+if __name__ == "__main__":
+    main()
