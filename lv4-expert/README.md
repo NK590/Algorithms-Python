@@ -33,6 +33,23 @@ summary: 트리 분해, 영속·고급 자료구조, FFT, 정수론 심화 등 �
 |---|---|---|---|
 | [헤비-라이트 분할 (Heavy-Light Decomposition, HLD)](02-tree-decomposition/heavy-light-decomposition/) | `done` | 전처리 O(n), 경로 질의 O(log² n) (구간 트리 사용 시), LCA O(log n) | [segment-tree](../lv3-advanced/01-range-query-structures/segment-tree/), [lazy-propagation](../lv3-advanced/01-range-query-structures/lazy-propagation/), [fenwick-tree](../lv3-advanced/01-range-query-structures/fenwick-tree/), [lca](../lv3-advanced/03-graph-advanced/lca/), [tree-dp](../lv2-intermediate/03-trees/tree-dp/) |
 | [센트로이드 분해 (Centroid Decomposition)](02-tree-decomposition/centroid-decomposition/) | `done` | 분해 O(n log n), 거리 기반 쌍 세기 O(n log² n) (정렬) 또는 O(n log n) (해시), 질의·갱신 O(log n) | [tree-dp](../lv2-intermediate/03-trees/tree-dp/), [dfs](../lv1-elementary/05-graph-basics/dfs/), [bfs](../lv1-elementary/05-graph-basics/bfs/), [divide-and-conquer](../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/), [two-pointers](../lv1-elementary/04-range-techniques/two-pointers/) |
+
+### [고급 자료구조 (Advanced Data Structures)](03-advanced-data-structures/)
+
+| 개념 | 상태 | 시간 복잡도 | 선행 개념 |
+|---|---|---|---|
+| [퍼시스턴트 세그먼트 트리 (Persistent Segment Tree)](03-advanced-data-structures/persistent-segment-tree/) | `done` | 갱신 O(log n), 질의 O(log n), 구간 k 번째 O(log n) | [segment-tree](../lv3-advanced/01-range-query-structures/segment-tree/), [coordinate-compression](../lv2-intermediate/08-search-techniques/coordinate-compression/), [prefix-sum](../lv1-elementary/04-range-techniques/prefix-sum/) |
+| [머지 소트 트리 (Merge Sort Tree)](03-advanced-data-structures/merge-sort-tree/) | `done` | 준비 O(n log n), 질의 O(log² n), 갱신 O(n) (C 속도의 리스트 이동), 구간 k 번째 O(log³ n) | [segment-tree](../lv3-advanced/01-range-query-structures/segment-tree/), [binary-search](../lv1-elementary/03-binary-search/binary-search/), [lower-upper-bound](../lv1-elementary/03-binary-search/lower-upper-bound/), [sort-with-key](../lv1-elementary/02-sorting/sort-with-key/) |
+| [웨이블릿 트리 (Wavelet Tree) / 웨이블릿 행렬 (Wavelet Matrix)](03-advanced-data-structures/wavelet-tree/) | `done` | 준비 O(n log σ), 질의 O(log σ) (σ = 서로 다른 값의 수) | [coordinate-compression](../lv2-intermediate/08-search-techniques/coordinate-compression/), [prefix-sum](../lv1-elementary/04-range-techniques/prefix-sum/), [bitwise-operators](../lv1-elementary/09-bit-manipulation/bitwise-operators/) |
+| [리 차오 트리 심화 (Li Chao Tree: 선분·되돌리기·오프라인)](03-advanced-data-structures/li-chao-tree/) | `done` | 직선 추가·질의 O(log C), 선분 추가 O(log² C), 시간 구간이 있는 오프라인 O((L+Q) log Q log C) | [convex-hull-trick](../lv3-advanced/07-dp-advanced/convex-hull-trick/), [segment-tree](../lv3-advanced/01-range-query-structures/segment-tree/), [divide-and-conquer](../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/) |
+| [트립 (Treap)](03-advanced-data-structures/treap/) | `done` | split / merge / 삽입 / 삭제 / 구간 연산 기대 O(log n) | [binary-search-tree](../lv2-intermediate/03-trees/binary-search-tree/), [lazy-propagation](../lv3-advanced/01-range-query-structures/lazy-propagation/), [divide-and-conquer](../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/) |
+| [스플레이 트리 (Splay Tree)](03-advanced-data-structures/splay-tree/) | `done` | 분할 상환 O(log n) (한 번의 연산은 O(n)일 수 있다) | [binary-search-tree](../lv2-intermediate/03-trees/binary-search-tree/), [lazy-propagation](../lv3-advanced/01-range-query-structures/lazy-propagation/) |
+
+### [문자열 심화 (Advanced Strings)](05-strings/)
+
+| 개념 | 상태 | 시간 복잡도 | 선행 개념 |
+|---|---|---|---|
+| [접미사 자동자 (Suffix Automaton)](05-strings/suffix-automaton/) | `done` | 만들기 O(n) (알파벳 크기 상수), 부분 문자열 포함·횟수 질의 O(\|패턴\|) | [trie](../lv2-intermediate/07-strings/trie/), [kmp](../lv2-intermediate/07-strings/kmp/), [suffix-array-lcp](../lv3-advanced/05-strings-advanced/suffix-array-lcp/) |
 <!-- INDEX:END -->
 
 이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.

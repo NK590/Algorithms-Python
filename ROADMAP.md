@@ -133,6 +133,13 @@ flowchart LR
   n_burnside_lemma["burnside-lemma"]
   n_heavy_light_decomposition["heavy-light-decomposition"]
   n_centroid_decomposition["centroid-decomposition"]
+  n_persistent_segment_tree["persistent-segment-tree"]
+  n_merge_sort_tree["merge-sort-tree"]
+  n_wavelet_tree["wavelet-tree"]
+  n_li_chao_tree["li-chao-tree"]
+  n_treap["treap"]
+  n_splay_tree["splay-tree"]
+  n_suffix_automaton["suffix-automaton"]
   n_array --> n_two_dimensional_array
   n_array --> n_string_basics
   n_naive_prime_check --> n_divisors_and_multiples
@@ -371,6 +378,27 @@ flowchart LR
   n_bfs --> n_centroid_decomposition
   n_divide_and_conquer --> n_centroid_decomposition
   n_two_pointers --> n_centroid_decomposition
+  n_segment_tree --> n_persistent_segment_tree
+  n_coordinate_compression --> n_persistent_segment_tree
+  n_prefix_sum --> n_persistent_segment_tree
+  n_segment_tree --> n_merge_sort_tree
+  n_binary_search --> n_merge_sort_tree
+  n_lower_upper_bound --> n_merge_sort_tree
+  n_sort_with_key --> n_merge_sort_tree
+  n_coordinate_compression --> n_wavelet_tree
+  n_prefix_sum --> n_wavelet_tree
+  n_bitwise_operators --> n_wavelet_tree
+  n_convex_hull_trick --> n_li_chao_tree
+  n_segment_tree --> n_li_chao_tree
+  n_divide_and_conquer --> n_li_chao_tree
+  n_binary_search_tree --> n_treap
+  n_lazy_propagation --> n_treap
+  n_divide_and_conquer --> n_treap
+  n_binary_search_tree --> n_splay_tree
+  n_lazy_propagation --> n_splay_tree
+  n_trie --> n_suffix_automaton
+  n_kmp --> n_suffix_automaton
+  n_suffix_array_lcp --> n_suffix_automaton
   classDef lv0 fill:#d8f0d8,stroke:#555,color:#111
   class n_array,n_two_dimensional_array,n_string_basics,n_naive_prime_check,n_divisors_and_multiples,n_base_conversion,n_modular_arithmetic,n_brute_force,n_permutations_and_combinations,n_fast_io,n_time_complexity,n_simulation,n_string_processing,n_recursion_basics lv0
   classDef lv1 fill:#d6e6fb,stroke:#555,color:#111
@@ -380,7 +408,7 @@ flowchart LR
   classDef lv3 fill:#fbd9c8,stroke:#555,color:#111
   class n_fenwick_tree,n_segment_tree,n_lazy_propagation,n_sparse_table,n_extended_euclidean_algorithm,n_chinese_remainder_theorem,n_lca,n_scc,n_two_sat,n_articulation_and_bridges,n_dinic,n_bipartite_matching,n_ccw,n_segment_intersection,n_convex_hull,n_z_algorithm,n_manacher,n_aho_corasick,n_suffix_array_lcp,n_mos_algorithm,n_sqrt_decomposition,n_meet_in_the_middle,n_digit_dp,n_expected_value_dp,n_divide_and_conquer_optimization,n_convex_hull_trick,n_matrix_exponentiation lv3
   classDef lv4 fill:#f2d0ee,stroke:#555,color:#111
-  class n_miller_rabin,n_pollard_rho,n_fft_ntt,n_mobius_inversion,n_lucas_theorem,n_burnside_lemma,n_heavy_light_decomposition,n_centroid_decomposition lv4
+  class n_miller_rabin,n_pollard_rho,n_fft_ntt,n_mobius_inversion,n_lucas_theorem,n_burnside_lemma,n_heavy_light_decomposition,n_centroid_decomposition,n_persistent_segment_tree,n_merge_sort_tree,n_wavelet_tree,n_li_chao_tree,n_treap,n_splay_tree,n_suffix_automaton lv4
 ```
 
 색상: Lv0 초록 · Lv1 파랑 · Lv2 노랑 · Lv3 주황 · Lv4 보라
