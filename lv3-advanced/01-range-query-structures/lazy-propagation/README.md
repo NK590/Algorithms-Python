@@ -2,7 +2,7 @@
 level: 3
 order: 3
 tags: [data-structure, segment-tree, lazy-propagation, range-update, range-query]
-prerequisites: [segment-tree, recursion]
+prerequisites: [segment-tree, recursion-basics]
 time: 구간 갱신·구간 질의 O(log n)
 space: O(n)
 status: done
