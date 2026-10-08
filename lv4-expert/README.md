@@ -26,6 +26,13 @@ summary: 트리 분해, 영속·고급 자료구조, FFT, 정수론 심화 등 �
 | [뫼비우스 반전 (Möbius Inversion)](01-number-theory/mobius-inversion/) | `done` | 체 O(n), 변환 O(n log n), 서로소 쌍 O(√n) (메르텐스 표가 있을 때) | [euler-phi](../lv2-intermediate/06-number-theory/euler-phi/), [sieve-of-eratosthenes](../lv1-elementary/06-number-theory/sieve-of-eratosthenes/), [divisor-sieve](../lv1-elementary/06-number-theory/divisor-sieve/) |
 | [뤼카 정리와 이항 계수의 일반화 (Lucas' Theorem)](01-number-theory/lucas-theorem/) | `done` | 소수 p: O(p + log_p n), 합성수 m: 소인수 p^e 마다 O(p^e + log n) | [ncr-mod](../lv2-intermediate/06-number-theory/ncr-mod/), [chinese-remainder-theorem](../lv3-advanced/02-number-theory/chinese-remainder-theorem/), [fermat-little-theorem](../lv2-intermediate/06-number-theory/fermat-little-theorem/) |
 | [번사이드 보조정리 (Burnside's Lemma)](01-number-theory/burnside-lemma/) | `done` | 군의 원소 수 \|G\| × 자리 수 n (필요하면 약수만 O(d(n))) | [euler-phi](../lv2-intermediate/06-number-theory/euler-phi/), [permutations-and-combinations](../lv0-basics/03-brute-force/permutations-and-combinations/), [modular-inverse](../lv2-intermediate/06-number-theory/modular-inverse/) |
+
+### [트리 분해 (Tree Decomposition)](02-tree-decomposition/)
+
+| 개념 | 상태 | 시간 복잡도 | 선행 개념 |
+|---|---|---|---|
+| [헤비-라이트 분할 (Heavy-Light Decomposition, HLD)](02-tree-decomposition/heavy-light-decomposition/) | `done` | 전처리 O(n), 경로 질의 O(log² n) (구간 트리 사용 시), LCA O(log n) | [segment-tree](../lv3-advanced/01-range-query-structures/segment-tree/), [lazy-propagation](../lv3-advanced/01-range-query-structures/lazy-propagation/), [fenwick-tree](../lv3-advanced/01-range-query-structures/fenwick-tree/), [lca](../lv3-advanced/03-graph-advanced/lca/), [tree-dp](../lv2-intermediate/03-trees/tree-dp/) |
+| [센트로이드 분해 (Centroid Decomposition)](02-tree-decomposition/centroid-decomposition/) | `done` | 분해 O(n log n), 거리 기반 쌍 세기 O(n log² n) (정렬) 또는 O(n log n) (해시), 질의·갱신 O(log n) | [tree-dp](../lv2-intermediate/03-trees/tree-dp/), [dfs](../lv1-elementary/05-graph-basics/dfs/), [bfs](../lv1-elementary/05-graph-basics/bfs/), [divide-and-conquer](../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/), [two-pointers](../lv1-elementary/04-range-techniques/two-pointers/) |
 <!-- INDEX:END -->
 
 이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.
