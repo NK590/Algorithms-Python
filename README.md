@@ -24,7 +24,7 @@ PS/CP 알고리즘을 **낮은 난이도부터 매우 높은 난이도까지** �
 | [Lv2](lv2-intermediate/) | 중급 | Gold | 31 | 0 | 0 | 0 | 31 | 최단 경로·위상 정렬 같은 그래프 알고리즘과 DP 심화를 익힌다 |
 | [Lv3](lv3-advanced/) | 고급 | Platinum | 27 | 0 | 0 | 0 | 27 | 구간 질의 자료구조, 고급 그래프(SCC·플로우), 문자열·기하 도구를 익힌다 |
 | [Lv4](lv4-expert/) | 최상급 | Diamond | 21 | 0 | 0 | 0 | 21 | 트리 분해, 영속·고급 자료구조, FFT, 정수론 심화 등 대회 상위권 도구를 다룬다 |
-| [Lv5](lv5-master/) | 마스터 | Ruby | 0 | 0 | 0 | 0 | 0 | Link-Cut Tree, Blossom 등 소수만 쓰는 최상위 알고리즘을 다룬다 |
+| [Lv5](lv5-master/) | 마스터 | Ruby | 2 | 0 | 0 | 0 | 2 | Link-Cut Tree, Blossom 등 소수만 쓰는 최상위 알고리즘을 다룬다 |
 <!-- INDEX:END -->
 
 각 레벨을 눌러 개념 목록을 볼 수 있고, 앞으로 추가할 주제는 [ROADMAP](ROADMAP.md)에 정리되어 있습니다.

@@ -146,6 +146,8 @@ flowchart LR
   n_sprague_grundy["sprague-grundy"]
   n_aliens_trick["aliens-trick"]
   n_half_plane_intersection["half-plane-intersection"]
+  n_link_cut_tree["link-cut-tree"]
+  n_top_tree["top-tree"]
   n_array --> n_two_dimensional_array
   n_array --> n_string_basics
   n_naive_prime_check --> n_divisors_and_multiples
@@ -422,6 +424,12 @@ flowchart LR
   n_ccw --> n_half_plane_intersection
   n_convex_hull --> n_half_plane_intersection
   n_segment_intersection --> n_half_plane_intersection
+  n_splay_tree --> n_link_cut_tree
+  n_heavy_light_decomposition --> n_link_cut_tree
+  n_lca --> n_link_cut_tree
+  n_heavy_light_decomposition --> n_top_tree
+  n_link_cut_tree --> n_top_tree
+  n_tree_dp --> n_top_tree
   classDef lv0 fill:#d8f0d8,stroke:#555,color:#111
   class n_array,n_two_dimensional_array,n_string_basics,n_naive_prime_check,n_divisors_and_multiples,n_base_conversion,n_modular_arithmetic,n_brute_force,n_permutations_and_combinations,n_fast_io,n_time_complexity,n_simulation,n_string_processing,n_recursion_basics lv0
   classDef lv1 fill:#d6e6fb,stroke:#555,color:#111
@@ -432,9 +440,11 @@ flowchart LR
   class n_fenwick_tree,n_segment_tree,n_lazy_propagation,n_sparse_table,n_extended_euclidean_algorithm,n_chinese_remainder_theorem,n_lca,n_scc,n_two_sat,n_articulation_and_bridges,n_dinic,n_bipartite_matching,n_ccw,n_segment_intersection,n_convex_hull,n_z_algorithm,n_manacher,n_aho_corasick,n_suffix_array_lcp,n_mos_algorithm,n_sqrt_decomposition,n_meet_in_the_middle,n_digit_dp,n_expected_value_dp,n_divide_and_conquer_optimization,n_convex_hull_trick,n_matrix_exponentiation lv3
   classDef lv4 fill:#f2d0ee,stroke:#555,color:#111
   class n_miller_rabin,n_pollard_rho,n_fft_ntt,n_mobius_inversion,n_lucas_theorem,n_burnside_lemma,n_heavy_light_decomposition,n_centroid_decomposition,n_persistent_segment_tree,n_merge_sort_tree,n_wavelet_tree,n_li_chao_tree,n_treap,n_splay_tree,n_min_cost_max_flow,n_hungarian_algorithm,n_suffix_automaton,n_kitamasa,n_sprague_grundy,n_aliens_trick,n_half_plane_intersection lv4
+  classDef lv5 fill:#e0e0e0,stroke:#555,color:#111
+  class n_link_cut_tree,n_top_tree lv5
 ```
 
-색상: Lv0 초록 · Lv1 파랑 · Lv2 노랑 · Lv3 주황 · Lv4 보라
+색상: Lv0 초록 · Lv1 파랑 · Lv2 노랑 · Lv3 주황 · Lv4 보라 · Lv5 회색
 <!-- GRAPH:END -->
 
 ## Lv0 · 입문 (Bronze)
