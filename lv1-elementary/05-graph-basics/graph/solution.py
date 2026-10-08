@@ -1,56 +1,106 @@
-### Graph (그래프)
+"""그래프의 표현 — 정점과 간선을 코드로 담는 방법 (간선 목록, 인접 행렬, 인접 리스트)
 
-# 아주 중요한 자료구조 중 하나로, 정점(Node 혹은 Vertex)과 그 정점 사이를 잇는 간선(Edge)들로 이루어진 자료구조
-# 정점을 이어주는 간선이 방향성이 있냐 없냐에 따라 유향 그래프(Directed Graph), 무향 그래프(Undirected Graph)
-# 등으로 나눌 수 있음
-# 간선이 특정 수치를 가질 수 있는데, 이럴 경우 이를 가중치(Weighted Value)라고 함
-# 응용 방식이 무궁무진하고, 구현하는 방식도 여러 가지가 있고, 여기서는 그 중 몇가지를 작성
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 정점은 0 ~ n-1 번이고, 간선은 (u, v) 또는 가중치가 있는 (u, v, w) 튜플입니다. 가중치가 없으면 1 로 봅니다.
+- 직접 실행하면 `V E` 와 E 개의 `u v` (정점 번호는 1부터) 를 받아, 정점마다 이웃을 한 줄씩 출력합니다.
+"""
+import sys
 
-### 예시 코드
+INF = float("inf")
 
-# 이중 리스트를 이용한 구현 (1) (인접 행렬)
 
-# 모든 정점에 대한 순서쌍의 간선을 이중 리스트에 하나하나 전부 표현함
-# graph[i][j]은 정점 i에서 정점 j가 직접 연결되어 있는지 아닌지를 나타냄
-# graph[i][j] == 0 이면 정점 i와 정점 j가 직접 연결되어 있지 않고, 1이면 직접 연결되어 있음
-# 메모리 소비가 심하긴 하지만 구현이 직관적이고, 데이터 값을 0이나 1이 아닌 간선의 가중치로 설정하면
-# 간선 가중치 변경이 용이한 등 장점이 있음
-# 플로이드-워셜 알고리즘 등 이 구현법이 더 적용하기 편한 알고리즘이 존재
+def _parse(edge):
+    u, v = edge[0], edge[1]
+    return u, v, (edge[2] if len(edge) > 2 else 1)
 
-graph = [
-    [0, 1, 1, 1, 0],
-    [1, 0, 0, 1, 1],
-    [1, 0, 0, 1, 0],
-    [1, 1, 1, 0, 1],
-    [0, 1, 0, 1, 0]
-]
 
-# 이중 리스트를 이용한 구현 (2) (인접 리스트)
+def build_adjacency_matrix(n: int, edges: list, directed: bool = False, no_edge=0) -> list:
+    """matrix[u][v] = u → v 간선의 가중치, 간선이 없으면 no_edge. 메모리 O(n²), 간선 유무 확인 O(1).
 
-# 리스트의 인덱스를 출발하는 정점 번호로 보고, 그 원소를 연결되는 다른 정점으로 표현
-# 연결되는 정점 뿐만 아니라 가중치 정보도 같이 넣어줄 수 있으나, 이 경우는 연결되는 정점과 그 가중치를
-# 리스트나 다른 형태의 자료구조로 묶어서 넣어야 되므로 3중 리스트로 구현됨
-# 가독성이 비교적 좋지 않으나, 메모리 면에서 이득을 봄
+    가중치가 0 인 간선이 있을 수 있다면 no_edge 를 INF 로 두어야 "간선 없음"과 구분된다.
+    같은 쌍의 간선이 여러 개면 마지막 것이 남는다.
+    """
+    matrix = [[no_edge] * n for _ in range(n)]
+    for edge in edges:
+        u, v, w = _parse(edge)
+        matrix[u][v] = w
+        if not directed:
+            matrix[v][u] = w
+    return matrix
 
-# 그래프 리스트의 인덱스는 출발하는 정점 번호, 이중 리스트 내 리스트의 첫번째 원소는 연결되는 정점 번호,
-# 두번째 원소는 가중치를 나타냄
-# [첫번째 정점, 두번째 정점, 가중치]와 같이 구현하는 것도 가능
 
-graph = [
-    [[1, 2], [2, 3]]
-    [[0, 7]]
-    [[0, 1], [1, 4]]
-]
+def build_adjacency_list(n: int, edges: list, directed: bool = False) -> list:
+    """adj[u] = u 에서 나가는 간선의 도착 정점들. 메모리 O(n + E), 이웃 훑기 O(차수).
 
-# 딕셔너리를 이용한 구현
+    무방향 간선은 양쪽에 모두 넣는다. 자기 자신으로 가는 간선은 한 번만 넣는다.
+    """
+    adj = [[] for _ in range(n)]
+    for edge in edges:
+        u, v = edge[0], edge[1]
+        adj[u].append(v)
+        if not directed and u != v:
+            adj[v].append(u)
+    return adj
 
-# 위와 거의 동일한 구현이나, 리스트 대신 딕셔너리를 이용함
-# 입출력이 리스트를 이용한 구현만큼 자유롭고 편하진 않지만, 해시 테이블 기반 자료구조인 딕셔너리 특성상
-# 단순 참조 등에서는 속도가 상당히 빠름
-# 특히 정점을 숫자가 아닌 임의의 문자열 등으로 입력받을 경우 유용함
 
-graph = {
-    'A' : [['B', 1], ['C', 3]],
-    'B' : [['C', 2]],
-    'C' : [['A', 3], ['B', 4]]
-}
+def build_weighted_adjacency_list(n: int, edges: list, directed: bool = False) -> list:
+    """adj[u] = [(v, w), ...]. 다익스트라 같은 최단 경로 알고리즘이 쓰는 형태."""
+    adj = [[] for _ in range(n)]
+    for edge in edges:
+        u, v, w = _parse(edge)
+        adj[u].append((v, w))
+        if not directed and u != v:
+            adj[v].append((u, w))
+    return adj
+
+
+def matrix_to_list(matrix: list, no_edge=0) -> list:
+    """인접 행렬을 인접 리스트로 바꾼다. 행 전체를 훑으므로 O(n²)."""
+    return [[v for v, w in enumerate(row) if w != no_edge] for row in matrix]
+
+
+def list_to_matrix(adj: list) -> list:
+    """인접 리스트를 (가중치 없는) 인접 행렬로 바꾼다. 간선이 있으면 1."""
+    matrix = [[0] * len(adj) for _ in adj]
+    for u, neighbors in enumerate(adj):
+        for v in neighbors:
+            matrix[u][v] = 1
+    return matrix
+
+
+def has_edge_matrix(matrix: list, u: int, v: int, no_edge=0) -> bool:
+    """O(1)"""
+    return matrix[u][v] != no_edge
+
+
+def has_edge_list(adj: list, u: int, v: int) -> bool:
+    """O(u 의 차수)"""
+    return v in adj[u]
+
+
+def degrees(adj: list, directed: bool = False):
+    """무방향이면 정점별 차수 리스트, 방향이면 (진입 차수 리스트, 진출 차수 리스트)."""
+    out_degree = [len(neighbors) for neighbors in adj]
+    if not directed:
+        return out_degree
+    in_degree = [0] * len(adj)
+    for neighbors in adj:
+        for v in neighbors:
+            in_degree[v] += 1
+    return in_degree, out_degree
+
+
+def main() -> None:
+    input = sys.stdin.readline
+    n, m = map(int, input().split())
+    edges = []
+    for _ in range(m):
+        u, v = map(int, input().split())
+        edges.append((u - 1, v - 1))  # 입력은 1번부터, 코드는 0번부터
+    adj = build_adjacency_list(n, edges)
+    for u in range(n):
+        print(u + 1, ":", *(v + 1 for v in sorted(adj[u])))
+
+
+if __name__ == "__main__":
+    main()
