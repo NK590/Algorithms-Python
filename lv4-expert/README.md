@@ -45,11 +45,27 @@ summary: 트리 분해, 영속·고급 자료구조, FFT, 정수론 심화 등 �
 | [트립 (Treap)](03-advanced-data-structures/treap/) | `done` | split / merge / 삽입 / 삭제 / 구간 연산 기대 O(log n) | [binary-search-tree](../lv2-intermediate/03-trees/binary-search-tree/), [lazy-propagation](../lv3-advanced/01-range-query-structures/lazy-propagation/), [divide-and-conquer](../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/) |
 | [스플레이 트리 (Splay Tree)](03-advanced-data-structures/splay-tree/) | `done` | 분할 상환 O(log n) (한 번의 연산은 O(n)일 수 있다) | [binary-search-tree](../lv2-intermediate/03-trees/binary-search-tree/), [lazy-propagation](../lv3-advanced/01-range-query-structures/lazy-propagation/) |
 
+### [흐름과 매칭 심화 (Flow & Matching)](04-flow-matching/)
+
+| 개념 | 상태 | 시간 복잡도 | 선행 개념 |
+|---|---|---|---|
+| [최소 비용 최대 유량 (Min-Cost Max-Flow, MCMF)](04-flow-matching/min-cost-max-flow/) | `done` | O(F · E log V) (F = 증가 경로 횟수 ≤ 총 유량), SPFA는 O(F · VE) 최악 | [dinic](../lv3-advanced/03-graph-advanced/dinic/), [bellman-ford](../lv2-intermediate/01-shortest-path/bellman-ford/), [dijkstra](../lv2-intermediate/01-shortest-path/dijkstra/), [bipartite-matching](../lv3-advanced/03-graph-advanced/bipartite-matching/) |
+| [헝가리안 알고리즘 (Hungarian Algorithm)](04-flow-matching/hungarian-algorithm/) | `done` | O(n² m) (n ≤ m, 행렬이 꽉 찬 경우), 정사각 O(n³) | [bipartite-matching](../lv3-advanced/03-graph-advanced/bipartite-matching/), [dijkstra](../lv2-intermediate/01-shortest-path/dijkstra/), [min-cost-max-flow](04-flow-matching/min-cost-max-flow/) |
+
 ### [문자열 심화 (Advanced Strings)](05-strings/)
 
 | 개념 | 상태 | 시간 복잡도 | 선행 개념 |
 |---|---|---|---|
 | [접미사 자동자 (Suffix Automaton)](05-strings/suffix-automaton/) | `done` | 만들기 O(n) (알파벳 크기 상수), 부분 문자열 포함·횟수 질의 O(\|패턴\|) | [trie](../lv2-intermediate/07-strings/trie/), [kmp](../lv2-intermediate/07-strings/kmp/), [suffix-array-lcp](../lv3-advanced/05-strings-advanced/suffix-array-lcp/) |
+
+### [기타 고급 기법 (Misc)](06-misc/)
+
+| 개념 | 상태 | 시간 복잡도 | 선행 개념 |
+|---|---|---|---|
+| [키타마사 (Kitamasa) — 선형 점화식의 n 번째 항](06-misc/kitamasa/) | `done` | O(k² log n) (k = 점화식의 차수), 행렬 거듭제곱은 O(k³ log n) | [matrix-exponentiation](../lv3-advanced/07-dp-advanced/matrix-exponentiation/), [fast-exponentiation](../lv2-intermediate/05-divide-and-conquer/fast-exponentiation/) |
+| [스프라그-그런디 정리 (Sprague–Grundy Theorem)](06-misc/sprague-grundy/) | `done` | 그런디 표 O(n · 수의 개수) (뺄셈 게임), 8진 게임 O(n²), 합의 승패는 O(성분 수) | [bitwise-operators](../lv1-elementary/09-bit-manipulation/bitwise-operators/), [dynamic-programming](../lv1-elementary/07-algorithm-paradigms/dynamic-programming/) |
+| [에일리언 트릭 (Aliens trick, WQS 이분 탐색)](06-misc/aliens-trick/) | `done` | O(T · log C) (T = 벌점이 있는 완화 문제를 한 번 푸는 시간, C = 벌점의 탐색 범위) | [parametric-search](../lv2-intermediate/08-search-techniques/parametric-search/), [convex-hull-trick](../lv3-advanced/07-dp-advanced/convex-hull-trick/), [dynamic-programming](../lv1-elementary/07-algorithm-paradigms/dynamic-programming/) |
+| [반평면 교집합 (Half-Plane Intersection)](06-misc/half-plane-intersection/) | `done` | O(n log n) (각도 정렬이 지배), 정렬된 입력이면 O(n) | [ccw](../lv3-advanced/04-geometry/ccw/), [convex-hull](../lv3-advanced/04-geometry/convex-hull/), [segment-intersection](../lv3-advanced/04-geometry/segment-intersection/) |
 <!-- INDEX:END -->
 
 이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.
