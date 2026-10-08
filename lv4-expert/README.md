@@ -16,11 +16,16 @@ summary: 트리 분해, 영속·고급 자료구조, FFT, 정수론 심화 등 �
 ## 개념 목록
 
 <!-- INDEX:START -->
-### [정수론 (Number Theory)](01-number-theory/)
+### [정수론 심화 (Advanced Number Theory)](01-number-theory/)
 
 | 개념 | 상태 | 시간 복잡도 | 선행 개념 |
 |---|---|---|---|
-| [Miller-Rabin Primality Test (밀러-라빈 소수 판정법)](01-number-theory/miller-rabin/) | `stub` | O(k log^3 n) | [fermat-little-theorem](../lv2-intermediate/06-number-theory/fermat-little-theorem/) |
+| [밀러-라빈 소수 판정법 (Miller–Rabin Primality Test)](01-number-theory/miller-rabin/) | `done` | O(k log³ n) | [fermat-little-theorem](../lv2-intermediate/06-number-theory/fermat-little-theorem/), [fast-exponentiation](../lv2-intermediate/05-divide-and-conquer/fast-exponentiation/) |
+| [폴라드 로 (Pollard's rho)](01-number-theory/pollard-rho/) | `done` | 기대 O(n^(1/4)) (약수 하나) | [miller-rabin](01-number-theory/miller-rabin/), [euclidean-algorithm](../lv1-elementary/06-number-theory/euclidean-algorithm/) |
+| [FFT / NTT (고속 푸리에 변환, 수론 변환)](01-number-theory/fft-ntt/) | `done` | O(n log n) | [fast-exponentiation](../lv2-intermediate/05-divide-and-conquer/fast-exponentiation/), [modular-inverse](../lv2-intermediate/06-number-theory/modular-inverse/), [divide-and-conquer](../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/) |
+| [뫼비우스 반전 (Möbius Inversion)](01-number-theory/mobius-inversion/) | `done` | 체 O(n), 변환 O(n log n), 서로소 쌍 O(√n) (메르텐스 표가 있을 때) | [euler-phi](../lv2-intermediate/06-number-theory/euler-phi/), [sieve-of-eratosthenes](../lv1-elementary/06-number-theory/sieve-of-eratosthenes/), [divisor-sieve](../lv1-elementary/06-number-theory/divisor-sieve/) |
+| [뤼카 정리와 이항 계수의 일반화 (Lucas' Theorem)](01-number-theory/lucas-theorem/) | `done` | 소수 p: O(p + log_p n), 합성수 m: 소인수 p^e 마다 O(p^e + log n) | [ncr-mod](../lv2-intermediate/06-number-theory/ncr-mod/), [chinese-remainder-theorem](../lv3-advanced/02-number-theory/chinese-remainder-theorem/), [fermat-little-theorem](../lv2-intermediate/06-number-theory/fermat-little-theorem/) |
+| [번사이드 보조정리 (Burnside's Lemma)](01-number-theory/burnside-lemma/) | `done` | 군의 원소 수 \|G\| × 자리 수 n (필요하면 약수만 O(d(n))) | [euler-phi](../lv2-intermediate/06-number-theory/euler-phi/), [permutations-and-combinations](../lv0-basics/03-brute-force/permutations-and-combinations/), [modular-inverse](../lv2-intermediate/06-number-theory/modular-inverse/) |
 <!-- INDEX:END -->
 
 이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.
