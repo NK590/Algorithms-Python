@@ -20,7 +20,7 @@ summary: 최단 경로·위상 정렬 같은 그래프 알고리즘과 DP 심화
 
 | 개념 | 상태 | 시간 복잡도 | 선행 개념 |
 |---|---|---|---|
-| [Dijkstra's Algorithm (다익스트라 알고리즘)](01-shortest-path/dijkstra/) | `migrated` | O((V+E) log V) | [bfs](../lv1-elementary/05-graph-basics/bfs/), [priority-queue](../lv1-elementary/01-data-structures/priority-queue/) |
+| [Dijkstra's Algorithm (다익스트라 알고리즘)](01-shortest-path/dijkstra/) | `done` | O((V+E) log V) | [bfs](../lv1-elementary/05-graph-basics/bfs/), [priority-queue](../lv1-elementary/01-data-structures/priority-queue/) |
 | [Bellman-Ford Algorithm (벨만-포드 알고리즘)](01-shortest-path/bellman-ford/) | `migrated` | O(VE) | [graph](../lv1-elementary/05-graph-basics/graph/) |
 | [Floyd-Warshall Algorithm (플로이드-워셜 알고리즘)](01-shortest-path/floyd-warshall/) | `migrated` | O(V^3) | [graph](../lv1-elementary/05-graph-basics/graph/) |
 | [0-1 BFS (0-1 너비 우선 탐색)](01-shortest-path/zero-one-bfs/) | `stub` | O(V+E) | [bfs](../lv1-elementary/05-graph-basics/bfs/), [deque](../lv1-elementary/01-data-structures/deque/) |

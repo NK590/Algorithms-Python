@@ -1,12 +1,16 @@
-# 연습문제
+# 연습문제 — 개념 이름
 
-쉬운 문제부터 어려운 순서로 정리합니다. **문제 지문은 옮기지 않고**, 링크와 "이 문제에서 배울 점"만 씁니다.
+쉬운 것부터 어려운 순서로 정리합니다. **문제 지문은 옮기지 않고**, 링크와 "이 문제에서 배울 점"만 씁니다. 난이도(solved.ac 티어 등)는 시간이 지나며 바뀌므로 표에 적지 않고 링크에서 확인하게 합니다. (기준 샘플: [다익스트라 problems.md](../../lv2-intermediate/01-shortest-path/dijkstra/problems.md))
 
-| 난이도 | 문제 | 배울 점 |
-|---|---|---|
-| Silver | [백준 0000 문제 이름](https://www.acmicpc.net/problem/0000) | 알고리즘의 기본 형태를 그대로 적용해 본다 |
-| Gold | [백준 0000 문제 이름](https://www.acmicpc.net/problem/0000) | 입력 변환(그래프 모델링)이 핵심이다 |
-| Platinum | [Codeforces 0000A 문제 이름](https://codeforces.com/problemset/problem/0000/A) | 다른 기법과 결합해야 한다 |
+| # | 문제 | 유형 | 배울 점 |
+|---|---|---|---|
+| 1 | [백준 0000 문제 이름](https://www.acmicpc.net/problem/0000) | 기본형 | 알고리즘의 기본 형태를 그대로 적용해 본다 |
+| 2 | [백준 0000 문제 이름](https://www.acmicpc.net/problem/0000) | 모델링 | 입력을 그래프로 바꾸는 것이 핵심이다 |
+| 3 | [Codeforces 0000A 문제 이름](https://codeforces.com/problemset/problem/0000/A) | 응용 | 다른 기법과 결합해야 한다 |
+
+## 함께 보면 좋은 문제
+
+- 같은 아이디어가 쓰이거나 다른 알고리즘과 비교해 볼 만한 문제
 
 ## 풀이 메모
 
