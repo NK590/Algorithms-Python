@@ -1,80 +1,75 @@
-### Binary Search (이진 탐색)
+"""이분 탐색 — 정렬된 배열에서 탐색 범위를 절반씩 줄여 가며 값을 찾기
 
-# 정렬되어 있는 리스트에서 특정 원소 값을 찾아내는 알고리즘
-# 리스트를 절반씩 나눠가며 해당 값이 어느 쪽에 속해있는지 찾아가는 알고리즘으로,
-# 리스트 내 극히 일부 데이터만 확인해도 탐색이 가능하며 시간복잡도가 O(logn)으로 매우 효율적
-# 단, 단조증가(감소)하는 데이터에만 사용이 가능하고, 그 외에 경우에는 이분 탐색을 적용할 수 없음
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 입력 배열은 오름차순으로 정렬되어 있어야 합니다. 정렬되지 않았다면 결과는 의미가 없습니다.
+- 직접 실행하면 `N M`, 정렬된 N 개의 수, M 개의 질문을 받아 각 질문의 수가 배열에 있으면 1, 없으면 0 을 한 줄에 출력합니다.
+"""
+import sys
 
-### 예시 코드 1
 
-def Binary_Search(li: list, num: int):
-    # 시작점, 끝점을 정의
-    low = 0
-    high = len(li) - 1
-    
-    # 시작점이 끝점보다 커질때까지 반복
-    while low <= high:
-        # 중간점 정의
-        mid = (low + high) // 2
-        
-        # num이 li의 중간 원소보다 작을 경우 끝점을 mid로 끌어내림
-        if num < li[mid]:
-            high = mid - 1
-        # num이 li의 중간 원소보다 클 경우 시작점을 mid로 끌어올림
-        elif li[mid] < num:
-            low = mid + 1
-        # num이 li의 중간 원소와 같을 경우 탐색이 끝났으므로 mid를 리턴
-        else:
+def binary_search(arr: list, target) -> int:
+    """target 이 있는 위치를 반환한다. 없으면 -1. 같은 값이 여러 개면 그중 어느 위치가 나올지는 정해지지 않는다. O(log n)"""
+    lo, hi = 0, len(arr) - 1  # 답이 있다면 arr[lo..hi] 안에 있다
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if arr[mid] == target:
             return mid
-    
-    # 반복문을 돌 때까지 못 발견했으면 num은 li 안에 없음
+        if arr[mid] < target:
+            lo = mid + 1  # 가운데보다 작은 쪽은 모두 버린다
+        else:
+            hi = mid - 1
     return -1
 
-### 예시 코드 2
-# 재귀적으로도 구현 가능
 
-def Binary_Search_2(li: list, num: int, low: int, high: int):
-    if low > high:
+def binary_search_recursive(arr: list, target, lo: int = 0, hi: int | None = None) -> int:
+    """같은 탐색을 재귀로. 깊이가 log n 이라 깊이 제한 걱정은 없다."""
+    if hi is None:
+        hi = len(arr) - 1
+    if lo > hi:
         return -1
-    
-    mid = (low + high) // 2
-    
-    if num < li[mid]:
-        high = mid - 1
-    elif li[mid] < num:
-        low = mid + 1
-    else:
+    mid = (lo + hi) // 2
+    if arr[mid] == target:
         return mid
-    
-    return Binary_Search_2(li, num, low, high)
+    if arr[mid] < target:
+        return binary_search_recursive(arr, target, mid + 1, hi)
+    return binary_search_recursive(arr, target, lo, mid - 1)
 
-### 예시 코드 3
-# 파이썬 내장 bisect 모듈을 사용하면 별다른 구현 없이 사용 가능
 
-from bisect import bisect_left, bisect_right
+def binary_search_steps(arr: list, target) -> int:
+    """탐색이 끝날 때까지 가운데를 들여다본 횟수. 최악에도 ⌊log2 n⌋ + 1 번이다."""
+    lo, hi = 0, len(arr) - 1
+    steps = 0
+    while lo <= hi:
+        steps += 1
+        mid = (lo + hi) // 2
+        if arr[mid] == target:
+            break
+        if arr[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return steps
 
-# bisect 함수는 left, right에 따라 각각 왼쪽, 오른쪽 인덱스를 구함
-# 만약 주어진 리스트 안에 찾는 원소가 없을 경우도, 가장 가까운 인덱스를 출력
-def Binary_Search_3_left(li, num):
-    return bisect_left(li, num)
 
-def Binary_Search_3_right(li, num):
-    return bisect_right(li, num)
+def integer_sqrt(n: int) -> int:
+    """x * x <= n 인 가장 큰 x. 배열이 없어도 "x 가 크면 x*x 도 크다"는 단조성만 있으면 이분 탐색을 쓸 수 있다."""
+    lo, hi = 0, n  # lo 는 항상 조건을 만족하고, hi + 1 은 항상 만족하지 않는다
+    while lo < hi:
+        mid = (lo + hi + 1) // 2  # 올림해야 lo = mid 로 갈 때 무한 반복에 빠지지 않는다
+        if mid * mid <= n:
+            lo = mid
+        else:
+            hi = mid - 1
+    return lo
 
-### 예제
 
-li = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
-num1 = 8
-num2 = 10
+def main() -> None:
+    input = sys.stdin.readline
+    n, m = map(int, input().split())
+    arr = list(map(int, input().split()))[:n]
+    queries = list(map(int, input().split()))[:m]
+    print(*(1 if binary_search(arr, q) != -1 else 0 for q in queries))
 
-print(Binary_Search(li, num1))
-print(Binary_Search(li, num2))
 
-print(Binary_Search_2(li, num1, 0, 10))
-print(Binary_Search_2(li, num2, 0, 10))
-
-print(Binary_Search_3_left(li, num1))
-print(Binary_Search_3_left(li, num2))
-
-print(Binary_Search_3_right(li, num1))
-print(Binary_Search_3_right(li, num2))
+if __name__ == "__main__":
+    main()

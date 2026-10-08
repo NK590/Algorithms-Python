@@ -1,24 +1,69 @@
-### Prefix Sum (구간 합)
+"""누적 합 — 앞에서부터의 합을 미리 구해 두고, 구간 합을 O(1) 에 구하기
 
-# 일반적으로 주어진 리스트의 특정 연속된 구간의 합을 구하는 데에 걸리는 시간 복잡도는 O(n)이지만,
-# 리스트의 첫번째 원소부터 i번째 원소까지의 합을 DP를 이용하여 미리 구해놓는 전처리 작업을 해두면
-# 임의의 연속된 구간의 합을 이 합 리스트의 두 원소를 빼는 식으로 O(1)만에 구할 수 있음
-# 쿼리가 많아지면 많아질수록 효율적이고, 이와 같은 아이디어는 다양한 분야에 응용됨
-
-### 예제
-'''
-임의의 수 n개가 주어졌을 때, 여기서 x번째 수부터 y번째 수까지의 합을 구하시오 (0 <= x <= y < n)
-'''
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- prefix[i] 는 arr[0..i-1] 의 합입니다. (prefix[0] = 0 으로 두면 맨 앞 구간도 같은 식으로 처리됩니다)
+- 직접 실행하면 `N M`, N 개의 수, M 개의 질문 `i j` (1부터, 양 끝 포함)를 받아 arr[i..j] 의 합을 한 줄씩 출력합니다.
+"""
 import sys
 
-li = list(map(int, sys.stdin.readline().split()))
-x, y = map(int, sys.stdin.readline().split())
 
-# x == 0 일 때도 일반화를 시키기 위해 dp[0] = 0으로 두고, dp[1]부터 li의 0번째 합을 계산
-dp = [0 for _ in range(len(li) + 1)]
-dp[1] = li[0]
+def build_prefix(arr: list) -> list:
+    """prefix[i] = arr[0] + ... + arr[i-1]. 길이는 len(arr) + 1. O(n)"""
+    prefix = [0] * (len(arr) + 1)
+    for i, value in enumerate(arr):
+        prefix[i + 1] = prefix[i] + value
+    return prefix
 
-for i in range(2, len(li) + 1):
-    dp[i] = dp[i-1] + li[i-1]
 
-print(dp[y+1] - dp[x])
+def range_sum(prefix: list, left: int, right: int):
+    """arr[left..right] (양 끝 포함, 0부터)의 합. (0..right 의 합) − (0..left-1 의 합) 이다. O(1)"""
+    return prefix[right + 1] - prefix[left]
+
+
+def count_subarrays_with_sum(arr: list, k) -> int:
+    """합이 정확히 k 인 연속 부분 배열의 개수 (음수가 섞여 있어도 된다).
+
+    j 에서 끝나는 구간의 합이 k 이려면 prefix[i] = prefix[j+1] − k 인 i 가 있어야 한다.
+    지금까지 본 prefix 값의 개수를 딕셔너리에 세어 두면 한 번 훑어서 O(n) 이다.
+    """
+    seen = {0: 1}  # 아무것도 포함하지 않는 prefix[0] = 0
+    total = 0
+    count = 0
+    for value in arr:
+        total += value
+        count += seen.get(total - k, 0)
+        seen[total] = seen.get(total, 0) + 1
+    return count
+
+
+def apply_range_adds(n: int, updates: list) -> list:
+    """길이 n 의 0 배열에 구간 더하기 (left, right, value) 들을 모두 적용한 결과. 차이 배열로 O(n + 업데이트 수).
+
+    구간 [l, r] 에 v 를 더하는 일을 diff[l] += v, diff[r+1] -= v 두 칸만 바꿔 기록하고,
+    마지막에 diff 의 누적 합을 구하면 각 칸의 최종 값이 된다.
+    """
+    diff = [0] * (n + 1)
+    for left, right, value in updates:
+        diff[left] += value
+        diff[right + 1] -= value
+    result = []
+    running = 0
+    for i in range(n):
+        running += diff[i]
+        result.append(running)
+    return result
+
+
+def main() -> None:
+    input = sys.stdin.readline
+    n, m = map(int, input().split())
+    prefix = build_prefix(list(map(int, input().split()))[:n])
+    out = []
+    for _ in range(m):
+        i, j = map(int, input().split())
+        out.append(range_sum(prefix, i - 1, j - 1))
+    print("\n".join(map(str, out)))
+
+
+if __name__ == "__main__":
+    main()
