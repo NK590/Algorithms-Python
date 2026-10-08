@@ -1,0 +1,108 @@
+---
+level: 1
+order: 7
+tags: [data-structure, hash, set, dict]
+prerequisites: [hash-table]
+time: 평균 O(1) 연산
+space: O(n)
+status: done
+---
+
+# Set and Dict (집합과 딕셔너리 활용)
+
+> **한 줄 요약**: 해시 테이블 기반의 `set`과 `dict`로 "이미 봤는가?", "몇 번 나왔는가?", "무엇끼리 묶이는가?"를 평균 O(1)에 해결한다.
+
+## 1. 언제 쓰나 (문제 신호)
+
+- "**중복 제거**", "서로 다른 값의 개수", "두 집합의 **교집합/차집합**"
+- "**몇 번 나왔는가**", "가장 많이 나온 값", "빈도수"
+- "**처음으로 반복되는 값**", "이미 방문했는가", "키로 묶어서 분류"
+- 리스트에서 `in`이나 `count`를 반복해 시간 초과가 날 때
+
+## 2. 핵심 아이디어
+
+| 자료형 | 하는 일 | 연산 시간 (평균) |
+|---|---|---|
+| `set` | 중복 없는 값의 모임. 존재 확인, 집합 연산 | `x in s`, 추가, 삭제 O(1) |
+| `dict` | 키 → 값. 키로 찾기 | 읽기, 쓰기, `in` O(1) |
+| `collections.Counter` | 값 → 횟수 | 세기 O(n), `most_common` |
+| `collections.defaultdict` | 없는 키에 기본값을 자동 생성 | `d[k].append(x)`가 에러 없이 |
+
+**집합 연산**: `a & b`(교집합), `a | b`(합집합), `a - b`(차집합), `a ^ b`(대칭 차집합). 각각 O(|a| + |b|)입니다.
+
+**"본 값"을 기억하며 한 번만 훑기**: 처음 보는 값이면 집합에 넣고, 이미 있으면 반복입니다. 정렬이나 이중 반복 없이 O(n)입니다.
+
+**연속 구간(`longest_consecutive`)**: 모든 수를 집합에 넣고, `x − 1`이 없는 수(연속 구간의 **시작**)에서만 `x, x+1, …`을 세어 나가면 각 수를 한 번씩만 봅니다. 정렬 없이 O(n)입니다.
+
+## 3. 손으로 따라가기
+
+**처음으로 반복되는 값** `[3, 1, 4, 1, 5]`:
+
+| 보는 값 | 본 값 집합 | 하는 일 |
+|---|---|---|
+| 3 | `{}` | 처음 → 추가 |
+| 1 | `{3}` | 처음 → 추가 |
+| 4 | `{3, 1}` | 처음 → 추가 |
+| 1 | `{3, 1, 4}` | **이미 있음 → 답 1** |
+
+**연속된 수** `{100, 4, 200, 1, 3, 2}`: `100`은 `99`가 없으므로 시작 → `101`이 없으니 길이 1. `4`는 `3`이 있으니 시작이 아님(건너뜀). `200`은 길이 1. `1`은 `0`이 없으므로 시작 → `2, 3, 4`가 모두 있어 길이 **4**. 가장 긴 연속 구간의 길이는 4입니다.
+
+**횟수 상위 k개** (`[5, 3, 5, 3, 9]`, k = 2): 횟수는 `5: 2, 3: 2, 9: 1`. 횟수가 같으면 **작은 값 먼저**로 정하면 `[3, 5]`입니다.
+
+## 4. 구현
+
+전체 코드는 [solution.py](solution.py)에 있습니다.
+
+```python
+def first_duplicate(values):
+    seen = set()
+    for x in values:
+        if x in seen:               # 평균 O(1)
+            return x
+        seen.add(x)
+    return None
+
+def longest_consecutive(values):
+    present = set(values)
+    best = 0
+    for x in present:
+        if x - 1 not in present:    # 연속 구간의 시작일 때만 센다
+            length = 1
+            while x + length in present:
+                length += 1
+            best = max(best, length)
+    return best
+```
+
+그 밖에 `count_distinct`, `common_elements`, `symmetric_difference_size`, `group_by_length`(`defaultdict`), `top_k_frequent`(`Counter`)가 있습니다. 직접 실행하면 두 집합을 받아 한쪽에만 있는 원소의 개수를 출력합니다.
+
+## 5. 복잡도와 입력 크기 가이드
+
+- 존재 확인·추가·삭제가 평균 **O(1)** 이므로, 길이 n의 입력을 한 번 훑는 풀이는 **O(n)** 입니다. N = 10^6도 가능합니다.
+- 리스트의 `x in list`는 O(n)입니다. 반복하면 O(n²)이라 N = 10^5에서 이미 시간 초과입니다. ([복잡도 치트시트](../../../docs/complexity-cheatsheet.md))
+- 메모리는 값 하나당 꽤 큽니다. 값이 작은 정수 범위라면 배열이나 비트마스크가 더 가볍습니다.
+
+## 6. 자주 하는 실수
+
+- **리스트에 `in` / `count` 반복**: `set`/`Counter`로 바꾸세요.
+- **집합은 순서가 없음**: `set`을 `for`로 돌 때 순서에 의존하면 안 됩니다. 필요하면 `sorted(s)`.
+- **변하는 값을 키/원소로**: 리스트는 해시할 수 없습니다. 튜플로 바꾸세요.
+- **없는 키 읽기**: `d[k]`는 `KeyError`. `d.get(k, 0)`, `defaultdict`, `Counter`를 쓰세요.
+- **순회 중에 수정**: `for k in d:`를 도는 동안 키를 추가·삭제하면 에러가 납니다. `list(d)`로 복사해서 도세요.
+- **`Counter.most_common`의 동점 처리**: 횟수가 같을 때의 순서가 입력 순서입니다. 문제가 정한 기준(작은 값 먼저 등)이 있으면 직접 정렬하세요.
+
+## 7. 변형과 응용
+
+- **해시 테이블의 원리**: [해시 테이블](../hash-table/)
+- **좌표 압축**: 값을 순번으로 바꾸는 딕셔너리 → [좌표 압축](../../../lv2-intermediate/08-search-techniques/coordinate-compression/)
+- **두 수의 합**, **애너그램 묶기**: [해시 테이블](../hash-table/)의 `two_sum`, `group_anagrams`
+- **슬라이딩 윈도우 안의 서로 다른 값의 개수**: 딕셔너리로 횟수를 관리 → [슬라이딩 윈도우](../../../lv2-intermediate/08-search-techniques/sliding-window/)
+
+## 8. 연습문제
+
+[problems.md](problems.md)에 쉬운 것부터 어려운 순서로 정리했습니다.
+
+## 9. 다음 단계
+
+- 선행: [해시 테이블](../hash-table/)
+- 이어서: [정렬 활용](../../02-sorting/sort-with-key/), [좌표 압축](../../../lv2-intermediate/08-search-techniques/coordinate-compression/)

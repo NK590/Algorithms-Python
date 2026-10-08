@@ -4,19 +4,82 @@ order: 3
 tags: [data-structure, deque]
 prerequisites: [queue, stack]
 time: 양끝 push·pop O(1)
-status: stub
+space: O(n)
+status: done
 ---
 
-# Deque (Double-ended Queue, 덱, 쌍방향 큐)
+# Deque (덱, Double-ended Queue)
 
-> **상태: `stub`** — 개념 설명만 있고 구현 코드는 아직 없습니다. [문서 템플릿](../../../docs/TEMPLATE/README.md)에 맞춰 다시 쓸 예정입니다.
+> **한 줄 요약**: 양쪽 끝에서 넣고 뺄 수 있는 자료구조. 스택과 큐를 모두 흉내 낼 수 있다.
 
-## 개요 (기존 주석에서 옮김)
+## 1. 언제 쓰나 (문제 신호)
 
-- 스택과 큐의 구조를 둘 다 가지고 있는 자료 구조
-- 데이터의 앞과 뒤에서 입력 출력 전부 가능한 자료 구조로, 스택과 큐의 단점을 보완
-- Python에서는 Collections 라이브러리의 deque 함수로 구현 가능
+- **앞과 뒤 양쪽**에서 원소를 넣고 빼야 할 때: 회문 검사, 회전하는 큐, 양방향 처리
+- **슬라이딩 윈도우 최솟값/최댓값**처럼 오래된 쪽은 앞에서 빼고 새 쪽은 뒤에서 관리하는 문제 → [슬라이딩 윈도우](../../../lv2-intermediate/08-search-techniques/sliding-window/)
+- **0-1 BFS**: 비용 0 간선은 앞에, 비용 1 간선은 뒤에 넣는다 → [0-1 BFS](../../../lv2-intermediate/01-shortest-path/zero-one-bfs/)
 
-## 코드
+## 2. 핵심 아이디어
 
-구현은 아직 없습니다. [solution.py](solution.py)에는 설명 주석만 있습니다.
+- 스택이 한쪽 끝에서만, 큐가 한쪽에서 넣고 반대쪽에서 빼는 것이라면, 덱은 **네 가지(앞/뒤 × 넣기/빼기) 모두 O(1)** 입니다.
+- 한쪽 끝에서만 쓰면 스택, 뒤에 넣고 앞에서 빼면 큐입니다.
+- 파이썬에서는 `collections.deque`가 이것입니다. (`append`, `appendleft`, `pop`, `popleft`)
+- 직접 만들 때는 **원형 배열**을 씁니다. 머리(head) 위치와 크기를 기억하고, 앞에 넣을 때는 머리를 한 칸 **뒤로**(`head − 1`, 0 아래로 내려가면 배열 끝으로) 옮깁니다. 배열이 가득 차면 두 배로 키우면서 머리를 0번으로 되돌려 일렬로 펴 줍니다.
+
+**주의**: `deque`는 양끝 접근만 O(1)이고, **가운데 인덱스 접근(`d[i]`)은 O(n)** 입니다.
+
+## 3. 손으로 따라가기
+
+용량 2의 덱에서 `push_back 2`, `push_front 1`, `push_back 3`:
+
+| 연산 | 배열 (`_`는 빈 칸) | head | size | 설명 |
+|---|---|---|---|---|
+| `push_back 2` | `[2, _]` | 0 | 1 | 머리 + 크기 위치에 저장 |
+| `push_front 1` | `[2, 1]` | 1 | 2 | 머리를 `(0 − 1) % 2 = 1`로. 앞쪽으로 돌아 배열 끝에 저장 |
+| `push_back 3` | `[1, 2, 3, _]` | 0 | 3 | 가득 차서 두 배로 키움. 머리부터 순서대로 펴서 `[1, 2]`를 옮김 |
+
+논리적인 순서는 항상 `1, 2, 3`입니다.
+
+**회문 판별** `abcba`: 양 끝에서 하나씩 꺼내 비교합니다. `a/a` 같음 → `b/b` 같음 → 남은 `c` 하나 → 회문.
+
+## 4. 구현
+
+전체 코드는 [solution.py](solution.py)에 있습니다.
+
+```python
+def push_front(self, value):
+    if self._size == len(self._data):
+        self._grow()
+    self._head = (self._head - 1) % len(self._data)   # 한 칸 앞으로, 0 아래면 끝으로 돌아간다
+    self._data[self._head] = value
+    self._size += 1
+```
+
+`push_back`, `pop_front`, `pop_back`, `front`, `back`, `to_list`, 회문 검사(`is_palindrome`), 명령 처리(`process_commands`)도 있습니다. 직접 실행하면 `N`과 N개의 명령을 받아 결과를 출력합니다. (비었을 때 -1)
+
+## 5. 복잡도와 입력 크기 가이드
+
+- 양쪽 끝의 넣기·빼기는 모두 O(1)입니다. 배열이 커지는 순간만 O(n)이지만 평균(분할 상환)으로는 O(1)입니다.
+- 가운데 접근 `d[i]`는 O(n)이니 인덱스로 자주 접근해야 한다면 리스트가 맞습니다. ([복잡도 치트시트](../../../docs/complexity-cheatsheet.md))
+
+## 6. 자주 하는 실수
+
+- **리스트로 덱 만들기**: `list.pop(0)`, `insert(0, x)`는 O(n). `deque`를 쓰세요.
+- **가운데 인덱스 접근**: `deque[i]`가 O(n)이라 반복문 안에서 쓰면 느려집니다.
+- **빈 덱에서 꺼내기**: `IndexError`. 문제에서 "비어 있으면 -1"처럼 규칙이 있는지 확인하세요.
+- **원형 배열의 인덱스 계산**: 앞에 넣을 때 `head - 1`이 음수가 되면 `% 길이`로 돌려 줘야 합니다. 파이썬의 `%`는 음수에도 0 이상을 주니 편하지만 다른 언어에서는 `+ 길이`를 더해야 합니다.
+- **덱의 `rotate`**: `deque.rotate(k)`는 O(k)입니다. 크게 돌릴 때는 `k % len`을 먼저 계산하세요.
+
+## 7. 변형과 응용
+
+- **슬라이딩 윈도우 최솟값**: 윈도우 안에서 후보가 될 수 있는 값만 덱에 단조롭게 유지 → [슬라이딩 윈도우](../../../lv2-intermediate/08-search-techniques/sliding-window/)
+- **0-1 BFS**: [0-1 BFS](../../../lv2-intermediate/01-shortest-path/zero-one-bfs/)
+- **뒤집기 플래그**: "배열을 R로 뒤집고 D로 앞을 지운다" 같은 문제는 실제로 뒤집지 않고 방향 플래그만 바꾸며 덱의 양쪽에서 지웁니다.
+
+## 8. 연습문제
+
+[problems.md](problems.md)에 쉬운 것부터 어려운 순서로 정리했습니다.
+
+## 9. 다음 단계
+
+- 선행: [큐](../queue/), [스택](../stack/)
+- 이어서: [0-1 BFS](../../../lv2-intermediate/01-shortest-path/zero-one-bfs/), [슬라이딩 윈도우](../../../lv2-intermediate/08-search-techniques/sliding-window/)

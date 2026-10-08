@@ -3,21 +3,84 @@ level: 1
 order: 2
 tags: [data-structure, queue, fifo]
 prerequisites: [array]
-time: push·pop O(1)
-status: stub
+time: enqueue·dequeue O(1)
+space: O(n)
+status: done
 ---
 
 # Queue (큐)
 
-> **상태: `stub`** — 개념 설명만 있고 구현 코드는 아직 없습니다. [문서 템플릿](../../../docs/TEMPLATE/README.md)에 맞춰 다시 쓸 예정입니다.
+> **한 줄 요약**: 먼저 넣은 것을 먼저 꺼내는(FIFO, First-In First-Out) 자료구조. 줄을 서서 차례를 기다리는 모양이다.
 
-## 개요 (기존 주석에서 옮김)
+## 1. 언제 쓰나 (문제 신호)
 
-- 스택과는 반대로, FIFO(First-In First-Out, 선입선출) 특성을 가지는 자료 구조
-- 제일 먼저 입력받은 데이터를 제일 먼저 빼낼 수 있음
-- 입력받은 데이터를 '순서대로' 처리해야 될 때 유용하지만, 최근에 입력받은 데이터를 출력해야 될 떄 불리
-- Python에서는 자체 지원이 안 되고, 직접 구현하거나 Collections 라이브러리의 deque 함수로 사용 가능
+- "**들어온 순서대로** 처리", 대기열, 프린터 대기, 카드 뭉치에서 위에서 빼서 아래로 보내기
+- [BFS](../../05-graph-basics/bfs/): 가까운 정점부터 차례로 처리하는 핵심 도구
+- 시뮬레이션에서 순서대로 돌아가며 처리하는 일([요세푸스 문제](../../../lv0-basics/05-implementation/simulation/))
 
-## 코드
+## 2. 핵심 아이디어
 
-구현은 아직 없습니다. [solution.py](solution.py)에는 설명 주석만 있습니다.
+연산은 두 개: **enqueue**(뒤에 넣기)와 **dequeue**(앞에서 꺼내기). 파이썬에서는 반드시 `collections.deque`를 씁니다. `list.pop(0)`은 뒤의 원소를 모두 한 칸씩 당겨야 해서 O(n)이기 때문입니다.
+
+**스택 두 개로 큐 만들기**(`TwoStackQueue`): 넣을 때는 `in` 스택에 쌓고, 꺼낼 때는 `out` 스택에서 꺼냅니다. `out`이 비면 `in`의 원소를 모두 `out`으로 옮기는데, 옮기는 과정에서 순서가 **뒤집혀서** 먼저 들어온 것이 위로 옵니다. 한 원소는 많아야 한 번 옮겨지므로 연산당 평균 O(1)입니다(분할 상환).
+
+**원형 큐**(`CircularQueue`): 크기가 고정된 배열에서 머리(head)와 크기만 기억하고, 끝을 넘으면 처음으로 돌아갑니다. 꼬리 위치는 `(head + size) % capacity`입니다. 메모리를 새로 잡지 않고 계속 재사용합니다.
+
+## 3. 손으로 따라가기
+
+**스택 두 개로 만든 큐**:
+
+| 연산 | in 스택 | out 스택 | 결과 |
+|---|---|---|---|
+| enqueue 1, 2, 3 | `[1, 2, 3]` | `[]` | |
+| dequeue | `[]` | `[3, 2, 1]` (옮겨서 뒤집음) → 맨 위 1을 꺼냄 → `[3, 2]` | **1** |
+| enqueue 4 | `[4]` | `[3, 2]` | |
+| dequeue | `[4]` | `[3]` | **2** |
+| dequeue | `[4]` | `[]` | **3** |
+| dequeue | `[]` | `[4]` (옮김) → `[]` | **4** |
+
+**원형 큐 (용량 3)**: `enqueue a, b, c` → `[a, b, c]`(head 0). `dequeue`(a) → head 1. `enqueue d` → 위치 `(1 + 2) % 3 = 0`에 저장 → 배열은 `[d, b, c]`. 꺼내는 순서는 `b, c, d`입니다.
+
+**카드 2** (1~6): 맨 위를 버리고 그다음 카드를 맨 아래로: `[1,2,3,4,5,6]` → 버림 1, 2를 뒤로 `[3,4,5,6,2]` → 버림 3, 4를 뒤로 `[5,6,2,4]` → 버림 5, 6을 뒤로 `[2,4,6]` → 버림 2, 4를 뒤로 `[6,4]` → 버림 6, 4를 뒤로 `[4]`. 마지막 카드는 **4**입니다.
+
+## 4. 구현
+
+전체 코드는 [solution.py](solution.py)에 있습니다.
+
+```python
+from collections import deque
+
+queue = deque()
+queue.append(x)          # enqueue: 뒤에 넣기, O(1)
+front = queue.popleft()  # dequeue: 앞에서 꺼내기, O(1)
+```
+
+`Queue`, `TwoStackQueue`, `CircularQueue` 세 가지 직접 구현과, 카드 문제(`last_card`)와 그 공식 풀이(`last_card_formula`: n이 2의 거듭제곱이면 n, 아니면 `2 × (n − 가장 큰 2의 거듭제곱)`)가 있습니다. 직접 실행하면 N을 받아 마지막 카드를 출력합니다.
+
+## 5. 복잡도와 입력 크기 가이드
+
+- `enqueue`, `dequeue`는 모두 **O(1)** 입니다. (`TwoStackQueue`는 분할 상환 O(1))
+- 큐를 리스트로 만들고 `pop(0)`을 쓰면 연산당 O(n)이라 N = 10^5에서 이미 느립니다. ([복잡도 치트시트](../../../docs/complexity-cheatsheet.md))
+- 카드 문제처럼 N이 크면 시뮬레이션 대신 공식을 찾을 수 있는지 살펴보세요.
+
+## 6. 자주 하는 실수
+
+- **리스트의 `pop(0)`**: 느립니다. `deque.popleft()`를 쓰세요.
+- **빈 큐에서 꺼내기**: `IndexError`. BFS 반복문은 `while queue:`로 비었는지 먼저 확인합니다.
+- **원형 큐의 가득 참/빔 구분**: 머리와 꼬리 위치만 보면 구분이 안 됩니다. 크기(size)를 따로 두세요.
+- **BFS에서 꺼낼 때 방문 표시**: 큐에 **넣을 때** 표시해야 같은 정점이 중복해서 들어가지 않습니다. ([BFS](../../05-graph-basics/bfs/))
+
+## 7. 변형과 응용
+
+- **덱**: 양쪽 끝에서 넣고 뺄 수 있는 큐 → [덱](../deque/)
+- **우선순위 큐**: 들어온 순서가 아니라 우선순위로 꺼낸다 → [우선순위 큐](../priority-queue/)
+- **BFS**: 최단 거리 → [BFS](../../05-graph-basics/bfs/)
+
+## 8. 연습문제
+
+[problems.md](problems.md)에 쉬운 것부터 어려운 순서로 정리했습니다.
+
+## 9. 다음 단계
+
+- 선행: [배열](../../../lv0-basics/01-data-structures/array/)
+- 이어서: [덱](../deque/), [우선순위 큐](../priority-queue/), [BFS](../../05-graph-basics/bfs/)

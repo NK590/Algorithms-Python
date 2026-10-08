@@ -1,85 +1,141 @@
-### Linked List (연결 리스트)
+"""연결 리스트 — 노드들이 "다음 노드를 가리키는 링크"로 줄줄이 이어진 자료구조
 
-# 메모리의 있는 데이터를 물리적으로 연속된 공간을 사용하지 않고, 특정 데이터가 그 다음 데이터를 가르키도록
-# 다음 데이터의 위치를 포함시켜서 세트로 입/출력을 받는 자료 구조
-# 임의의 위치에 데이터를 입/출력을 받을 때 O(1)의 시간복잡도를 가져서 매우 효율적이지만,
-# 임의의 위치의 데이터를 참조할 때는 배열 등과 다르게 처음부터 데이터를 순차적으로 참조해야 될 필요가 있어
-# 시간복잡도가 O(n)으로 비효율적임
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 노드마다 값(value)과 다음 노드(next)를 가집니다. 중간 삽입·삭제는 링크만 바꾸면 되지만, i 번째를 찾으려면 처음부터 따라가야 합니다.
+- 직접 실행하면 `N` 과 N 개의 정수를 받아 순서를 뒤집어 한 줄에 출력합니다.
+"""
+import sys
 
-# 데이터의 참조 순서를 단방향으로 정의하는 단일 연결 리스트, 쌍방향으로 정의하는 이중 연결 리스트,
-# 시작 데이터와 끝 데이터 사이를 참조 가능하게 이어붙인 순환 연결 리스트 등이 있음
-
-# C와 같은 언어에서는 포인터를 이용하여 비교적 쉽게 구현이 가능하지만, Python에서는 구현이 다소 까다로움
-
-### 예시 코드
-# 여기서는 단일 연결 리스트를 구현함
 
 class Node:
-    def __init__(self, data):
-        self.data = data
-        # 초기값의 다음 값의 초기값은 None
-        self.next = None
+    __slots__ = ("value", "next")
 
-class Linked_List:
-    def __init__(self, data):
-        self.head = Node(data)
-    
-    # 헤더부터 탐색해 뒤에 새로운 노드 추가하기
-    def append(self, data):
-        cur = self.head
-        while cur.next is not None:
-            cur = cur.next
-        cur.next = Node(data)
-    
-    # 모든 노드 값 출력
-    def print_all(self):
-        cur = self.head
-        while cur is not None:
-            print(cur.data)
-            cur = cur.next
-    
-    # 노드 인덱스 알아내기
-    def get_node(self, index):
-        count = 0
+    def __init__(self, value, next=None):
+        self.value = value
+        self.next = next
+
+
+class LinkedList:
+    def __init__(self, values=()):
+        self.head = None
+        self._size = 0
+        for value in values:
+            self.append(value)
+
+    def prepend(self, value) -> None:
+        """맨 앞에 넣는다. O(1)"""
+        self.head = Node(value, self.head)
+        self._size += 1
+
+    def append(self, value) -> None:
+        """맨 뒤에 넣는다. 끝을 찾으러 처음부터 따라가야 하므로 O(n). (꼬리 포인터를 두면 O(1))"""
+        node = Node(value)
+        if self.head is None:
+            self.head = node
+        else:
+            tail = self.head
+            while tail.next is not None:
+                tail = tail.next
+            tail.next = node
+        self._size += 1
+
+    def find(self, value):
+        """값이 같은 첫 노드. 없으면 None. O(n)"""
         node = self.head
-        while count < index:
-            count += 1
+        while node is not None and node.value != value:
             node = node.next
         return node
-    
-    # 노드 삽입
-    def add_node(self, index, value):
-        new_node = Node(value)
-        if index == 0:
-            new_node.next = self.head
-            self.head = new_node
-            return
-        node = self.get_node(index - 1)
-        next_node = node.next
-        node.next = new_node
-        new_node.next = next_node
-    
-    # 노드 삭제
-    def delete_node(self, index):
-        if index == 0:
-            self.head = self.head.next
-            return
-        node = self.get_node(index - 1)
-        node.next = node.next.next
-        
-### 예제
-# 위에서 정의한 연결리스트 클래스로 정의한 인스턴스
-LL = Linked_List(0)
 
-LL.print_all()
+    def insert_after(self, node: Node, value) -> None:
+        """이미 찾아 둔 node 바로 뒤에 넣는다. 링크 두 개만 바꾸므로 O(1)."""
+        node.next = Node(value, node.next)
+        self._size += 1
 
-LL.append(1)
-LL.append(2)
-LL.append(4)
-LL.print_all()
+    def remove(self, value) -> bool:
+        """값이 같은 첫 노드를 지운다. 지웠으면 True. 앞 노드의 링크를 건너뛰게 바꾼다."""
+        previous, node = None, self.head
+        while node is not None and node.value != value:
+            previous, node = node, node.next
+        if node is None:
+            return False
+        if previous is None:
+            self.head = node.next  # 맨 앞 노드를 지우는 경우
+        else:
+            previous.next = node.next
+        self._size -= 1
+        return True
 
-LL.add_node(1, 10)
-LL.print_all()
+    def reverse(self) -> None:
+        """링크의 방향을 모두 뒤집는다. 노드를 하나씩 따라가며 next 를 앞 노드로 바꾼다. O(n)"""
+        previous, node = None, self.head
+        while node is not None:
+            node.next, previous, node = previous, node, node.next  # 오른쪽 식이 모두 계산된 뒤에 한꺼번에 대입된다
+        self.head = previous
 
-LL.delete_node(3)
-LL.print_all()
+    def middle(self):
+        """가운데 노드의 값 (짝수 개이면 뒤쪽 가운데). 한 칸씩 가는 포인터와 두 칸씩 가는 포인터를 함께 쓴다."""
+        if self.head is None:
+            raise IndexError("빈 리스트입니다")
+        slow = fast = self.head
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+        return slow.value
+
+    def to_list(self) -> list:
+        result = []
+        node = self.head
+        while node is not None:
+            result.append(node.value)
+            node = node.next
+        return result
+
+    def __len__(self) -> int:
+        return self._size
+
+
+def has_cycle(head) -> bool:
+    """플로이드의 토끼와 거북이: 한 칸씩/두 칸씩 가는 포인터가 만나면 사이클이 있다. 추가 메모리 O(1)."""
+    slow = fast = head
+    while fast is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast:
+            return True
+    return False
+
+
+def merge_sorted(a: LinkedList, b: LinkedList) -> LinkedList:
+    """정렬된 두 연결 리스트를 합친 새 연결 리스트. 앞에서부터 작은 쪽을 이어 붙인다."""
+    merged = LinkedList()
+    x, y = a.head, b.head
+    values = []
+    while x is not None and y is not None:
+        if x.value <= y.value:
+            values.append(x.value)
+            x = x.next
+        else:
+            values.append(y.value)
+            y = y.next
+    while x is not None:
+        values.append(x.value)
+        x = x.next
+    while y is not None:
+        values.append(y.value)
+        y = y.next
+    for value in values:
+        merged.append(value)
+    return merged
+
+
+def main() -> None:
+    input = sys.stdin.readline
+    n = int(input())
+    values = list(map(int, input().split()))[:n]
+    linked = LinkedList(values)
+    linked.reverse()
+    print(*linked.to_list())
+
+
+if __name__ == "__main__":
+    main()
