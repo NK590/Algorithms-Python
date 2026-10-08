@@ -1,46 +1,94 @@
-### Dynamic Programming (다이나믹 프로그래밍, 동적 계획법)
+"""다이나믹 프로그래밍(DP) — 같은 부분 문제를 한 번만 풀고 저장해 두었다가 다시 쓰기
 
-# 기존의 해법을 이용하여 새로운 문제를 해결하는 패러다임
-# 같은 풀이를 지속적으로 사용하여 다른 문제를 해결해야 하는 상황에서, 기존의 데이터를 재활용하여
-# 새로운 문제에 접목시켜 푸는 시간을 줄일 수 있음
-# 주로 하위 문제의 답 데이터를 따로 저장하여, 같은 문제를 반복해서 풀지 않고 필요할 때마다 
-# 그 데이터를 참조하여 상위 문제를 푸는 형식으로 응용
-
-### 예제
-'''
-n번째 피보나치 수열을 구하시오 (n >= 2)
-'''
-
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 풀이 순서: ① 상태 정의 ② 점화식 ③ 초기값 ④ 계산 순서.
+- 피보나치를 (느린 재귀 → 메모이제이션 → 표 채우기 → 변수 두 개) 로 고쳐 가며 DP 가 빨라지는 이유를 보여 줍니다.
+- 직접 실행하면 `N` 을 받아 N 을 1 로 만드는 연산(÷3, ÷2, −1)의 최소 횟수를 출력합니다.
+"""
 import sys
 
-n = int(sys.stdin.readline())
 
-dp = [0 for _ in range(n+1)]
-dp[0] = 0
-dp[1] = 1
+def fib_naive(n: int) -> int:
+    """정의 그대로의 재귀. 같은 값을 계속 다시 계산해서 O(φⁿ) (φ ≈ 1.618) 으로 느리다."""
+    return n if n < 2 else fib_naive(n - 1) + fib_naive(n - 2)
 
-for i in range(2, n+1):
-    dp[i] = dp[i-1] + dp[i-2]
 
-print(dp[n])
+def fib_naive_calls(n: int) -> int:
+    """fib_naive(n) 이 함수를 몇 번 호출하는가. 호출 횟수 = 2·F(n+1) − 1 이다."""
+    return 1 if n < 2 else 1 + fib_naive_calls(n - 1) + fib_naive_calls(n - 2)
 
-### 예제 2
-'''
-수열이 주어질 떄, 그 수열에서 가장 긴 증가하는 부분 수열의 길이를 구하시오 (LIS 문제)
-'''
 
-n = int(sys.stdin.readline())
-li = list(map(int, sys.stdin.readline().split()))
+def fib_memo(n: int, memo: dict = None) -> int:
+    """위에서 아래로(top-down): 같은 재귀지만 한 번 구한 값을 memo 에 저장한다. O(n) 시간, 재귀 깊이도 n."""
+    if memo is None:
+        memo = {}
+    if n < 2:
+        return n
+    if n not in memo:
+        memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)
+    return memo[n]
 
-# dp[i] == 주어진 수열에서 i번째 수를 마지막 수로 갖는 LIS의 길이 
-dp = [0 for _ in range(n)]
 
-for i in range(n):
-    for j in range(i):
-        # i에 대해 0 ~ i-1 번째의 수를 탐색하면서, i번째 수가 j번째 수보다 클 시
-        # 해당 dp[j] + 1과 현재 dp[i]를 비교하여 둘 중에 큰 수로 갱신
-        if li[i] > li[j]:
-            dp[i] = max(dp[i], dp[j] + 1)
+def fib_table(n: int) -> list:
+    """아래에서 위로(bottom-up): 작은 것부터 표를 채운다. 반환값[i] = F(i)."""
+    dp = [0] * (n + 1)
+    if n >= 1:
+        dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+    return dp
 
-# 각각의 원소가 그 수를 마지막으로 갖는 LIS 길이 정보를 담고 있으므로, 그 중 최대값을 출력
-print(max(dp))
+
+def fib_fast(n: int) -> int:
+    """표에서 직전 두 값만 쓰므로 변수 두 개면 된다. O(n) 시간, O(1) 공간."""
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+
+def climb_stairs(n: int) -> int:
+    """한 번에 1칸 또는 2칸씩 올라 n 칸을 오르는 방법의 수. 마지막 걸음이 1칸 또는 2칸이므로 f(n) = f(n−1) + f(n−2)."""
+    a, b = 1, 1  # f(0) = 1 (제자리), f(1) = 1
+    for _ in range(n - 1):
+        a, b = b, a + b
+    return b if n >= 1 else 1
+
+
+def tile_2xn(n: int, mod: int = 10007) -> int:
+    """2×n 직사각형을 2×1, 1×2 타일로 채우는 방법의 수 (mod 로 나눈 나머지). 맨 왼쪽을 세로 1장 / 가로 2장으로 시작한다."""
+    a, b = 1, 1  # t(0) = 1, t(1) = 1
+    for _ in range(n - 1):
+        a, b = b, (a + b) % mod
+    return (b if n >= 1 else 1) % mod
+
+
+def min_steps_to_one(n: int) -> tuple:
+    """n 에 (n % 3 == 0 이면 ÷3, n % 2 == 0 이면 ÷2, −1) 연산을 써서 1 로 만드는 최소 횟수와 그때의 경로를 반환한다.
+
+    dp[i] = i 를 1 로 만드는 최소 횟수. 점화식: dp[i] = 1 + min(dp[i−1], dp[i/2], dp[i/3]).
+    parent[i] 에 어디서 왔는지 적어 두면 경로를 복원할 수 있다. 경로는 [n, …, 1]."""
+    dp = [0] * (n + 1)
+    parent = [0] * (n + 1)
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + 1
+        parent[i] = i - 1
+        if i % 2 == 0 and dp[i // 2] + 1 < dp[i]:
+            dp[i] = dp[i // 2] + 1
+            parent[i] = i // 2
+        if i % 3 == 0 and dp[i // 3] + 1 < dp[i]:
+            dp[i] = dp[i // 3] + 1
+            parent[i] = i // 3
+    path = [n]
+    while path[-1] != 1:
+        path.append(parent[path[-1]])
+    return dp[n], path
+
+
+def main() -> None:
+    n = int(sys.stdin.readline())
+    print(min_steps_to_one(n)[0])
+
+
+if __name__ == "__main__":
+    main()
