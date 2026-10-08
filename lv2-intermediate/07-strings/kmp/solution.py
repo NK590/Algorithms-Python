@@ -1,79 +1,74 @@
-### KMP Algorithm (KMP 알고리즘)
+"""KMP 알고리즘 — 불일치가 났을 때 이미 맞춘 부분을 활용해 패턴을 건너뛰며 O(n + m) 에 문자열을 찾기
 
-# 주어진 문자열(이하 word)에 어떤 문자열(이하 test)이 있는지 검색하는 대표적인 문자열 탐색 알고리즘
-# 먼저 test 문자열의 접두사와 접미사 중에 같은 문자열이 있는지 확인하여 LPS(Longest Prefix & Suffix)
-# 리스트를 작성함
-# word 문자열의 처음부터 부분 문자열이 test 문자열과 일치하는 지 확인한 뒤, 일치할 경우 문제 조건에 따라
-# 적당한 값을 출력하고 일치하지 않을 경우 위 LPS 리스트 값에 따라 word 문자열에서 체크할 값을 '건너뛰어서' 
-# 건너뛴 값 이후로 위 탐색을 반복함
+README.md 의 설명과 짝을 이루는 참고 구현입니다.
+- 실패 함수(접두사 함수) failure[i] = pattern[: i + 1] 의 "접두사이면서 접미사인 가장 긴 부분 문자열(자기 자신 제외)" 의 길이.
+- 본문을 한 번 훑으며 패턴과 맞춘 길이 k 를 유지하고, 불일치가 나면 k 를 failure[k - 1] 로 줄여서 다시 비교합니다. 본문 위치는 되돌아가지 않습니다.
+- 겹치는 등장도 모두 찾습니다. 위치는 0 부터입니다.
+- 직접 실행하면 두 줄(본문 T, 패턴 P)을 받아 등장 횟수와 시작 위치(1 부터)를 출력합니다. 공백이 포함될 수 있습니다.
+"""
+import sys
 
-# word의 길이를 n, test의 길이를 m이라고 하면 일반적인 이중 반복문 탐색은 시간 복잡도가 O(n*m)이지만,
-# KMP 알고리즘을 사용하면 시간 복잡도를 O(n+m)으로 획기적으로 줄일 수 있음
 
-### 예시 코드
+def failure_function(pattern: str) -> list[int]:
+    """failure[i] = pattern[: i + 1] 에서 접두사이자 접미사인 가장 긴 (자기 자신이 아닌) 부분 문자열의 길이. 패턴 자신을 본문으로 삼아 KMP 처럼 채운다."""
+    failure = [0] * len(pattern)
+    k = 0  # 지금까지 맞춘 접두사의 길이
+    for i in range(1, len(pattern)):
+        while k > 0 and pattern[i] != pattern[k]:
+            k = failure[k - 1]  # 불일치: 더 짧은 접두사로 후퇴
+        if pattern[i] == pattern[k]:
+            k += 1
+        failure[i] = k
+    return failure
 
-# 아래에서 정의하는 LPS 리스트를 실패 함수(Failure Function)라고 부르는 경우도 있음
-def computeLPS(word: str):
-    # 접두사, 접미사의 일치 여부를 나타내는 LPS 리스트 선언
-    # LPS 리스트의 인덱스가 부분 문자열의 길이를 나타내고, 그 원소가 일치하는 길이를 나타냄
-    lps = [0 for _ in range(len(word))]
-    prefix = 0
-    suffix = 1
-    while suffix < len(word):
-        # 값이 일치할 시 현재까지의 접두사 = 접미사 길이 값을 저장하고, 그 다음 접두사/접미사 값 확인
-        if word[suffix] == word[prefix]:
-            prefix += 1
-            lps[suffix] = prefix
-            suffix += 1
-        else:
-            # 값이 일치하지 않을 시 prefix가 0이 아니면 이전 인덱스에서는 같았으므로 줄여서 다시 검사
-            if prefix != 0:
-                prefix = lps[prefix-1]
-            # prefix가 0일 경우, 일치하는 문자열이 없으므로 lps[suffix]에 0을 넣고 한 칸 늘려서 탐색 반복
-            else:
-                lps[suffix] = 0
-                suffix += 1
-    return lps
 
-def KMP(word: str, test: str):
-    l_word = len(word)
-    l_test = len(test) 
-    
-    # lps 리스트를 계산
-    lps = computeLPS(test)
-    ans = []
-    
-    w_index = 0
-    t_index = 0
-    
-    while w_index < l_word:
-        # 주어진 문자열과 테스트 문자열의 문자가 일치할 시 그 다음 글자 확인
-        if test[t_index] == word[w_index]:
-            w_index += 1
-            t_index += 1
-        elif test[t_index] != word[w_index]:
-            # 일치하지 않을 때, 테스트 문자열 인덱스가 0이 아닐 시 lps만큼 건너뜀
-            if t_index != 0:
-                t_index = lps[t_index-1]
-            # 테스트 문자열 인덱스가 0일 때는 주어진 문자열 인덱스를 하나 늘림
-            else:
-                w_index += 1
-        
-        # 테스트 문자열을 마지막까지 확인했을 때, 해당 값을 저장하고 lps만큼 건너뜀
-        if t_index == l_test:
-            ans.append(w_index - t_index + 1)
-            t_index = lps[t_index - 1]
-    return ans
+def kmp_search(text: str, pattern: str) -> list[int]:
+    """text 에서 pattern 이 시작하는 모든 위치(0 부터, 겹쳐도 포함). 빈 패턴은 빈 리스트."""
+    if not pattern:
+        return []
+    failure = failure_function(pattern)
+    positions = []
+    k = 0
+    for i, ch in enumerate(text):
+        while k > 0 and ch != pattern[k]:
+            k = failure[k - 1]
+        if ch == pattern[k]:
+            k += 1
+        if k == len(pattern):
+            positions.append(i - k + 1)
+            k = failure[k - 1]  # 겹치는 다음 등장을 위해 후퇴
+    return positions
 
-### 예제
 
-word = 'ABC ABCDAB ABCDABCDABDE'
-test = 'ABCDABD'
+def count_occurrences(text: str, pattern: str) -> int:
+    return len(kmp_search(text, pattern))
 
-print('Count :', len(KMP(word, test)), 'Position :', KMP(word, test))
 
-word = 'ABABABABABABABABABABA'
-test = 'ABABA'
+def smallest_period(s: str) -> int:
+    """s 가 어떤 문자열을 반복해서 만들어지는 가장 짧은 반복 단위의 길이. 반복이 아니면 len(s).
 
-print('Count :', len(KMP(word, test)), 'Position :', KMP(word, test))
+    n - failure[n-1] 이 후보 단위이고, 그 길이가 n 을 나누어떨어뜨릴 때만 s 전체가 그 단위의 반복이다."""
+    n = len(s)
+    if n == 0:
+        return 0
+    unit = n - failure_function(s)[-1]
+    return unit if n % unit == 0 else n
 
+
+def shortest_prefix_covering(s: str) -> int:
+    """s 의 어떤 접두사를 (겹쳐서도) 이어 붙여 s 가 부분 문자열로 나오는 가장 짧은 길이 = n - failure[n-1]. 반복 단위를 겹쳐도 되는 경우의 '광고' 문제."""
+    if not s:
+        return 0
+    return len(s) - failure_function(s)[-1]
+
+
+def main() -> None:
+    text = sys.stdin.readline().rstrip("\n")
+    pattern = sys.stdin.readline().rstrip("\n")
+    positions = kmp_search(text, pattern)
+    print(len(positions))
+    print(" ".join(str(p + 1) for p in positions))
+
+
+if __name__ == "__main__":
+    main()
