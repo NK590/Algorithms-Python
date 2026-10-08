@@ -148,6 +148,13 @@ flowchart LR
   n_half_plane_intersection["half-plane-intersection"]
   n_link_cut_tree["link-cut-tree"]
   n_top_tree["top-tree"]
+  n_blossom["blossom"]
+  n_matroid_intersection["matroid-intersection"]
+  n_berlekamp_massey["berlekamp-massey"]
+  n_polynomial_operations["polynomial-operations"]
+  n_min_25_sieve["min-25-sieve"]
+  n_offline_dynamic_connectivity["offline-dynamic-connectivity"]
+  n_slope_trick["slope-trick"]
   n_array --> n_two_dimensional_array
   n_array --> n_string_basics
   n_naive_prime_check --> n_divisors_and_multiples
@@ -430,6 +437,26 @@ flowchart LR
   n_heavy_light_decomposition --> n_top_tree
   n_link_cut_tree --> n_top_tree
   n_tree_dp --> n_top_tree
+  n_bipartite_matching --> n_blossom
+  n_bfs --> n_blossom
+  n_bipartite_matching --> n_matroid_intersection
+  n_bellman_ford --> n_matroid_intersection
+  n_union_find --> n_matroid_intersection
+  n_kitamasa --> n_berlekamp_massey
+  n_modular_inverse --> n_berlekamp_massey
+  n_matrix_exponentiation --> n_berlekamp_massey
+  n_fft_ntt --> n_polynomial_operations
+  n_modular_inverse --> n_polynomial_operations
+  n_kitamasa --> n_polynomial_operations
+  n_sieve_of_eratosthenes --> n_min_25_sieve
+  n_euler_phi --> n_min_25_sieve
+  n_mobius_inversion --> n_min_25_sieve
+  n_union_find --> n_offline_dynamic_connectivity
+  n_segment_tree --> n_offline_dynamic_connectivity
+  n_divide_and_conquer --> n_offline_dynamic_connectivity
+  n_priority_queue --> n_slope_trick
+  n_dynamic_programming --> n_slope_trick
+  n_convex_hull_trick --> n_slope_trick
   classDef lv0 fill:#d8f0d8,stroke:#555,color:#111
   class n_array,n_two_dimensional_array,n_string_basics,n_naive_prime_check,n_divisors_and_multiples,n_base_conversion,n_modular_arithmetic,n_brute_force,n_permutations_and_combinations,n_fast_io,n_time_complexity,n_simulation,n_string_processing,n_recursion_basics lv0
   classDef lv1 fill:#d6e6fb,stroke:#555,color:#111
@@ -441,7 +468,7 @@ flowchart LR
   classDef lv4 fill:#f2d0ee,stroke:#555,color:#111
   class n_miller_rabin,n_pollard_rho,n_fft_ntt,n_mobius_inversion,n_lucas_theorem,n_burnside_lemma,n_heavy_light_decomposition,n_centroid_decomposition,n_persistent_segment_tree,n_merge_sort_tree,n_wavelet_tree,n_li_chao_tree,n_treap,n_splay_tree,n_min_cost_max_flow,n_hungarian_algorithm,n_suffix_automaton,n_kitamasa,n_sprague_grundy,n_aliens_trick,n_half_plane_intersection lv4
   classDef lv5 fill:#e0e0e0,stroke:#555,color:#111
-  class n_link_cut_tree,n_top_tree lv5
+  class n_link_cut_tree,n_top_tree,n_blossom,n_matroid_intersection,n_berlekamp_massey,n_polynomial_operations,n_min_25_sieve,n_offline_dynamic_connectivity,n_slope_trick lv5
 ```
 
 색상: Lv0 초록 · Lv1 파랑 · Lv2 노랑 · Lv3 주황 · Lv4 보라 · Lv5 회색
@@ -548,24 +575,48 @@ flowchart LR
 ## Lv4 · 최상급 (Diamond)
 
 **01-number-theory**
-- [x] [밀러-라빈 소수 판정법](lv4-expert/01-number-theory/miller-rabin/)
-- [ ] 폴라드 로
-- [ ] FFT / NTT
-- [ ] 뫼비우스 반전, 뤼카 정리, 번사이드 보조정리
+- [x] [밀러-라빈 소수 판정법](lv4-expert/01-number-theory/miller-rabin/), [폴라드 로](lv4-expert/01-number-theory/pollard-rho/), [고속 푸리에 변환](lv4-expert/01-number-theory/fft-ntt/), [뫼비우스 반전](lv4-expert/01-number-theory/mobius-inversion/), [뤼카 정리와 이항 계수의 일반화](lv4-expert/01-number-theory/lucas-theorem/), [번사이드 보조정리](lv4-expert/01-number-theory/burnside-lemma/)
 
-**새 그룹**
-- [ ] 트리 분해: HLD, 센트로이드 분해
-- [ ] 고급 자료구조: 퍼시스턴트 세그먼트 트리, 머지 소트 트리, 웨이블릿 트리, Li Chao 트리, 트립·스플레이 트리
-- [ ] 플로우·매칭: 최소 비용 최대 유량, 헝가리안 알고리즘
-- [ ] 문자열: 접미사 자동자
-- [ ] 기타: 반평면 교집합, 스프라그-그런디, Aliens trick(WQS 이분 탐색), 키타마사
+**02-tree-decomposition**
+- [x] [헤비-라이트 분할](lv4-expert/02-tree-decomposition/heavy-light-decomposition/), [센트로이드 분해](lv4-expert/02-tree-decomposition/centroid-decomposition/)
+
+**03-advanced-data-structures**
+- [x] [퍼시스턴트 세그먼트 트리](lv4-expert/03-advanced-data-structures/persistent-segment-tree/), [머지 소트 트리](lv4-expert/03-advanced-data-structures/merge-sort-tree/), [웨이블릿 트리](lv4-expert/03-advanced-data-structures/wavelet-tree/), [리 차오 트리 심화](lv4-expert/03-advanced-data-structures/li-chao-tree/), [트립](lv4-expert/03-advanced-data-structures/treap/), [스플레이 트리](lv4-expert/03-advanced-data-structures/splay-tree/)
+
+**04-flow-matching**
+- [x] [최소 비용 최대 유량](lv4-expert/04-flow-matching/min-cost-max-flow/), [헝가리안 알고리즘](lv4-expert/04-flow-matching/hungarian-algorithm/)
+
+**05-strings**
+- [x] [접미사 자동자](lv4-expert/05-strings/suffix-automaton/)
+
+**06-misc**
+- [x] [키타마사](lv4-expert/06-misc/kitamasa/), [스프라그-그런디 정리](lv4-expert/06-misc/sprague-grundy/), [에일리언 트릭](lv4-expert/06-misc/aliens-trick/), [반평면 교집합](lv4-expert/06-misc/half-plane-intersection/)
 
 ## Lv5 · 마스터 (Ruby)
 
-- [ ] Link-Cut Tree, Top Tree
-- [ ] Blossom 알고리즘, Matroid Intersection
-- [ ] Berlekamp-Massey, 다항식 연산(역원·ln·exp), min_25 체
-- [ ] 오프라인 동적 연결성, Slope trick
+**01-dynamic-trees**
+- [x] [링크-컷 트리](lv5-master/01-dynamic-trees/link-cut-tree/), [탑 트리](lv5-master/01-dynamic-trees/top-tree/)
+
+**02-matching-matroid**
+- [x] [블로섬 알고리즘](lv5-master/02-matching-matroid/blossom/), [매트로이드 교집합](lv5-master/02-matching-matroid/matroid-intersection/)
+
+**03-algebra**
+- [x] [벌레캠프–매시](lv5-master/03-algebra/berlekamp-massey/), [다항식 연산](lv5-master/03-algebra/polynomial-operations/), [민-25 체](lv5-master/03-algebra/min-25-sieve/)
+
+**04-offline-dynamic**
+- [x] [오프라인 동적 연결성](lv5-master/04-offline-dynamic/offline-dynamic-connectivity/), [기울기 트릭](lv5-master/04-offline-dynamic/slope-trick/)
+
+## 후보 주제 (아직 없음)
+
+Lv0~Lv5의 계획한 개념은 모두 작성되었습니다. 아래는 다음에 추가할 수 있는 후보입니다. 모두 `[ ]`(예정)이며 우선순위는 정해지지 않았습니다.
+
+- [ ] 문자열: 회문 트리(Eertree), 순환 문자열의 최소 표현, 접미사 트리
+- [ ] 트리: 위상이 바뀌는 탑 트리(동적 탑 트리), 오일러 투어 트리
+- [ ] 매칭·흐름: 가중치 있는 일반 그래프 매칭, 매트로이드 패리티, 마이칼리–바지라니 매칭
+- [ ] 정수론: 이산 로그(BSGS), 원시근, 디리클레 쌍곡선 방법, 파워풀 수 체
+- [ ] 기하: 최근접 점 쌍, 회전하는 캘리퍼스, 델로네 삼각분할
+- [ ] 자료구조: KD 트리, 2차원 구간 트리, 이진 트라이(XOR 최댓값)
+- [ ] 각 개념의 C++ 참고 구현 (제한 시간이 빡빡한 대회용)
 
 ## 진행 계획
 
@@ -574,7 +625,8 @@ flowchart LR
 3. **Phase 2 · Lv0~1** — 기존 개념을 템플릿에 맞게 다시 쓰고, 빠진 주제 추가 *(완료)*
 4. **Phase 3 · Lv2** *(완료)*
 5. **Phase 4 · Lv3** *(완료)*
-6. **Phase 5 · Lv4~5** *(진행 중)*
+6. **Phase 5 · Lv4~5** *(완료)*
+7. **Phase 6 · 후보 주제와 기존 문서 보강** *(예정)*
 
 ## 알려진 이슈 (기존 코드)
 

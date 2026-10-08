@@ -88,4 +88,4 @@ summary: 최단 경로·위상 정렬 같은 그래프 알고리즘과 DP 심화
 | [Sweep Line (스위핑)](08-search-techniques/sweeping/) | `done` | O(n log n) | [sort-with-key](../lv1-elementary/02-sorting/sort-with-key/), [priority-queue](../lv1-elementary/01-data-structures/priority-queue/), [coordinate-compression](08-search-techniques/coordinate-compression/) |
 <!-- INDEX:END -->
 
-이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.
+전체 커리큘럼과 개념 사이의 선행 관계는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.

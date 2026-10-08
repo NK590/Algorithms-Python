@@ -20,7 +20,7 @@
 | "정점을 칠하고 가장 가까운 칠한 정점까지 거리" | [센트로이드 분해](centroid-decomposition/) |
 | 값이 고정, 경로 합만 / 갱신 없는 경로 최댓값 | 둘 다 필요 없음: 누적 합 + [LCA](../../lv3-advanced/03-graph-advanced/lca/), 이진 올리기 |
 | 서브트리 연산만 | 오일러 투어(전위 번호)면 충분 |
-| 간선이 추가·삭제되는 트리 | 링크-컷 트리 (Lv5) |
+| 간선이 추가·삭제되는 트리 | [링크-컷 트리](../../lv5-master/01-dynamic-trees/link-cut-tree/) (Lv5) |
 
 핵심 구분: **경로 위 값에 대한 갱신·질의 → HLD, 경로의 끝점 *쌍* 에 대한 조건 → 센트로이드.**
 
@@ -43,4 +43,4 @@
 1. [헤비-라이트 분할](heavy-light-decomposition/): 트리를 배열로 펴서 구간 트리를 그대로 쓰기
 2. [센트로이드 분해](centroid-decomposition/): 분할 정복을 트리에 적용해 쌍 세기
 
-선행: [구간 트리](../../lv3-advanced/01-range-query-structures/segment-tree/), [지연 전파](../../lv3-advanced/01-range-query-structures/lazy-propagation/), [LCA](../../lv3-advanced/03-graph-advanced/lca/), [트리 DP](../../lv2-intermediate/03-trees/tree-dp/). 이후: 링크-컷 트리, 탑 트리 (Lv5).
+선행: [구간 트리](../../lv3-advanced/01-range-query-structures/segment-tree/), [지연 전파](../../lv3-advanced/01-range-query-structures/lazy-propagation/), [LCA](../../lv3-advanced/03-graph-advanced/lca/), [트리 DP](../../lv2-intermediate/03-trees/tree-dp/). 이후: [링크-컷 트리](../../lv5-master/01-dynamic-trees/link-cut-tree/), [탑 트리](../../lv5-master/01-dynamic-trees/top-tree/) (Lv5).

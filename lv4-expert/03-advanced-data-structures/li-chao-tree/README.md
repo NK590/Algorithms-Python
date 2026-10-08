@@ -168,4 +168,4 @@ class LiChaoTree:
 ## 9. 다음 단계
 
 - 선행: [볼록 껍질 트릭](../../../lv3-advanced/07-dp-advanced/convex-hull-trick/), [구간 트리](../../../lv3-advanced/01-range-query-structures/segment-tree/), [분할 정복](../../../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/)
-- 이어서: 슬로프 트릭 (Lv5), [센트로이드 분해](../../02-tree-decomposition/centroid-decomposition/)와 결합하는 경로 DP, 오프라인 동적 연결성 (Lv5, 같은 "시간 구간 트리 + 롤백" 구조)
+- 이어서: [기울기 트릭](../../../lv5-master/04-offline-dynamic/slope-trick/), [센트로이드 분해](../../02-tree-decomposition/centroid-decomposition/)와 결합하는 경로 DP, [오프라인 동적 연결성](../../../lv5-master/04-offline-dynamic/offline-dynamic-connectivity/) (Lv5, 같은 "시간 구간 트리 + 롤백" 구조)

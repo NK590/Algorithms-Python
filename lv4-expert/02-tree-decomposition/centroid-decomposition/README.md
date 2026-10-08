@@ -183,4 +183,4 @@ def build(n, adj):
 ## 9. 다음 단계
 
 - 선행: [트리 DP](../../../lv2-intermediate/03-trees/tree-dp/), [DFS](../../../lv1-elementary/05-graph-basics/dfs/), [BFS](../../../lv1-elementary/05-graph-basics/bfs/), [분할 정복](../../../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/), [투 포인터](../../../lv1-elementary/04-range-techniques/two-pointers/)
-- 이어서: [헤비-라이트 분할](../heavy-light-decomposition/) (같은 트리를 경로 질의에 맞게 쪼개는 다른 방법), 동적 트리 (Lv5)
+- 이어서: [헤비-라이트 분할](../heavy-light-decomposition/) (같은 트리를 경로 질의에 맞게 쪼개는 다른 방법), [동적 트리](../../../lv5-master/01-dynamic-trees/) (Lv5)

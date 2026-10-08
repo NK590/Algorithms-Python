@@ -61,4 +61,4 @@ summary: 입출력과 구현, 완전 탐색으로 쉬운 문제를 푼다
 | [Recursion Basics (재귀 함수의 구조)](06-recursion/recursion-basics/) | `done` | 호출 횟수에 비례 | - |
 <!-- INDEX:END -->
 
-이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.
+전체 커리큘럼과 개념 사이의 선행 관계는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.

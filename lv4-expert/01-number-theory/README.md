@@ -48,4 +48,4 @@ Lv1~Lv3의 정수론(소수, 소인수분해, 오일러 피, 모듈러 역원, �
 5. [뤼카 정리](lucas-theorem/): 큰 이항 계수의 나머지
 6. [번사이드 보조정리](burnside-lemma/): 대칭을 고려한 세기
 
-선행: [페르마의 소정리](../../lv2-intermediate/06-number-theory/fermat-little-theorem/), [오일러 피 함수](../../lv2-intermediate/06-number-theory/euler-phi/), [조합 mod 소수](../../lv2-intermediate/06-number-theory/ncr-mod/), [확장 유클리드](../../lv3-advanced/02-number-theory/extended-euclidean-algorithm/), [중국인의 나머지 정리](../../lv3-advanced/02-number-theory/chinese-remainder-theorem/). 이후: 다항식 연산, 베를캠프-매시, min_25 체 (Lv5).
+선행: [페르마의 소정리](../../lv2-intermediate/06-number-theory/fermat-little-theorem/), [오일러 피 함수](../../lv2-intermediate/06-number-theory/euler-phi/), [조합 mod 소수](../../lv2-intermediate/06-number-theory/ncr-mod/), [확장 유클리드](../../lv3-advanced/02-number-theory/extended-euclidean-algorithm/), [중국인의 나머지 정리](../../lv3-advanced/02-number-theory/chinese-remainder-theorem/). 이후: [다항식 연산](../../lv5-master/03-algebra/polynomial-operations/), [벌레캠프–매시](../../lv5-master/03-algebra/berlekamp-massey/), [민-25 체](../../lv5-master/03-algebra/min-25-sieve/) (Lv5).

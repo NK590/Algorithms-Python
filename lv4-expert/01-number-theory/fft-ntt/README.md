@@ -155,7 +155,7 @@ def ntt(a, invert=False, mod=998244353, root=3):
 
 ## 7. 변형과 응용
 
-- **다항식 연산**: 역원, 로그, 지수, 나눗셈, 다점 평가 — 모두 합성곱 위에 쌓입니다 (Lv5).
+- **[다항식 연산](../../../lv5-master/03-algebra/polynomial-operations/)**: 역원, 로그, 지수, 나눗셈, 다점 평가 — 모두 합성곱 위에 쌓입니다.
 - **문자열 매칭**: 와일드카드가 있는 매칭을 `Σ (aᵢ − bⱼ)²·aᵢ·bⱼ`의 합성곱 세 번으로, 또는 문자별 지시 배열의 합성곱 (Codeforces 528D).
 - **부분집합 합성곱(왈시-아다마르 / 제타 변환)**: `i | j = k`나 `i ⊕ j = k` 꼴의 합성곱은 비트마스크 위의 비슷한 변환으로 `O(n log n)`에 풉니다.
 - **온라인 합성곱**: `dp[i] = Σ dp[j]·w[i − j]` 같은 점화식은 CDQ 분할 정복 + FFT로 `O(n log² n)`.
@@ -171,4 +171,4 @@ def ntt(a, invert=False, mod=998244353, root=3):
 ## 9. 다음 단계
 
 - 선행: [빠른 거듭제곱](../../../lv2-intermediate/05-divide-and-conquer/fast-exponentiation/), [모듈러 역원](../../../lv2-intermediate/06-number-theory/modular-inverse/), [분할 정복](../../../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/), [중국인의 나머지 정리](../../../lv3-advanced/02-number-theory/chinese-remainder-theorem/)
-- 이어서: [뫼비우스 반전](../mobius-inversion/), 다항식 연산·베를캠프-매시 (Lv5)
+- 이어서: [뫼비우스 반전](../mobius-inversion/), [다항식 연산](../../../lv5-master/03-algebra/polynomial-operations/), [벌레캠프–매시](../../../lv5-master/03-algebra/berlekamp-massey/)

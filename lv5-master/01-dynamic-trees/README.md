@@ -41,4 +41,4 @@
 1. [링크-컷 트리](link-cut-tree/): 모양이 바뀌는 트리의 경로 질의
 2. [탑 트리](top-tree/): 고정된 모양에서 DP를 `O(log n)`에 갱신
 
-선행: [스플레이 트리](../../lv4-expert/03-advanced-data-structures/splay-tree/), [헤비-라이트 분할](../../lv4-expert/02-tree-decomposition/heavy-light-decomposition/), [트리 DP](../../lv2-intermediate/03-trees/tree-dp/). 이후: 오프라인 동적 연결성 (Lv5).
+선행: [스플레이 트리](../../lv4-expert/03-advanced-data-structures/splay-tree/), [헤비-라이트 분할](../../lv4-expert/02-tree-decomposition/heavy-light-decomposition/), [트리 DP](../../lv2-intermediate/03-trees/tree-dp/). 이후: [오프라인 동적 연결성](../04-offline-dynamic/offline-dynamic-connectivity/).

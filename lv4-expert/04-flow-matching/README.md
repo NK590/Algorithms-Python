@@ -30,7 +30,7 @@ Lv3에서 [디닉](../../lv3-advanced/03-graph-advanced/dinic/)(최대 유량)�
 | 이득이 나는 동안만 보내기 | [최소 비용 최대 유량](min-cost-max-flow/) (`flow_curve`의 볼록성) |
 | 가장 큰 한 칸을 최소로 (병목 배정) | [헝가리안](hungarian-algorithm/)의 `bottleneck_assignment` |
 | 비용 없이 최대 유량/최대 매칭 | [디닉](../../lv3-advanced/03-graph-advanced/dinic/) / [이분 매칭](../../lv3-advanced/03-graph-advanced/bipartite-matching/) |
-| 이분이 아닌 일반 그래프의 매칭 | 블로섬 (Lv5) |
+| 이분이 아닌 일반 그래프의 매칭 | [블로섬](../../lv5-master/02-matching-matroid/blossom/) (Lv5) |
 
 ## 개념 사이의 관계
 
@@ -51,4 +51,4 @@ Lv3에서 [디닉](../../lv3-advanced/03-graph-advanced/dinic/)(최대 유량)�
 1. [최소 비용 최대 유량](min-cost-max-flow/): 비용 있는 네트워크 유량의 일반 모델
 2. [헝가리안 알고리즘](hungarian-algorithm/): 꽉 찬 행렬에 특화된 더 빠른 방법과 쌍대성
 
-선행: [디닉](../../lv3-advanced/03-graph-advanced/dinic/), [이분 매칭](../../lv3-advanced/03-graph-advanced/bipartite-matching/), [다익스트라](../../lv2-intermediate/01-shortest-path/dijkstra/), [벨만-포드](../../lv2-intermediate/01-shortest-path/bellman-ford/). 이후: 블로섬, 매트로이드 교집합 (Lv5).
+선행: [디닉](../../lv3-advanced/03-graph-advanced/dinic/), [이분 매칭](../../lv3-advanced/03-graph-advanced/bipartite-matching/), [다익스트라](../../lv2-intermediate/01-shortest-path/dijkstra/), [벨만-포드](../../lv2-intermediate/01-shortest-path/bellman-ford/). 이후: [블로섬](../../lv5-master/02-matching-matroid/blossom/), [매트로이드 교집합](../../lv5-master/02-matching-matroid/matroid-intersection/) (Lv5).

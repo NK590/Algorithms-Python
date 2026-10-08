@@ -7,7 +7,7 @@ summary: 트리 분해, 영속·고급 자료구조, FFT, 정수론 심화 등 �
 
 # Lv4 · 최상급 (Diamond)
 
-대회 상위권에서 쓰이는 도구를 다루는 단계입니다. Python으로는 제한 시간을 맞추기 어려운 주제가 많아, 개념과 참고 구현 중심으로 구성하고 필요하면 C++ 구현을 함께 둡니다.
+대회 상위권에서 쓰이는 도구를 다루는 단계입니다. 모든 개념에 파이썬 참고 구현과, 순진한 방법·전수 탐색과 비교하는 테스트가 있습니다. 대회 제한 시간을 맞추기 어려운 주제는 각 개념의 "복잡도와 입력 크기 가이드"에 이 환경에서 측정한 한계를 적었습니다.
 
 - **solved.ac 기준**: Diamond 난이도의 문제 (알고리즘별 난이도는 문제에 따라 달라 대략적인 기준입니다)
 - **선수 지식**: Lv3 내용
@@ -68,4 +68,4 @@ summary: 트리 분해, 영속·고급 자료구조, FFT, 정수론 심화 등 �
 | [반평면 교집합 (Half-Plane Intersection)](06-misc/half-plane-intersection/) | `done` | O(n log n) (각도 정렬이 지배), 정렬된 입력이면 O(n) | [ccw](../lv3-advanced/04-geometry/ccw/), [convex-hull](../lv3-advanced/04-geometry/convex-hull/), [segment-intersection](../lv3-advanced/04-geometry/segment-intersection/) |
 <!-- INDEX:END -->
 
-이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.
+전체 커리큘럼과 개념 사이의 선행 관계는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.

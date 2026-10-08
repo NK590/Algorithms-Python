@@ -144,4 +144,4 @@ def _penalized_subarrays(a, lam, allow_adjacent):      # max over c ( 합 - lam�
 ## 9. 다음 단계
 
 - 선행: [매개변수 탐색](../../../lv2-intermediate/08-search-techniques/parametric-search/), [볼록 껍질 트릭](../../../lv3-advanced/07-dp-advanced/convex-hull-trick/), [DP](../../../lv1-elementary/07-algorithm-paradigms/dynamic-programming/)
-- 이어서: 슬로프 트릭 (Lv5, 볼록 함수를 자료구조로 직접 유지하는 기법)
+- 이어서: [기울기 트릭](../../../lv5-master/04-offline-dynamic/slope-trick/) (Lv5, 볼록 함수를 자료구조로 직접 유지하는 기법)

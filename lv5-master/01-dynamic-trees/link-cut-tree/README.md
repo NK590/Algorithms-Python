@@ -19,7 +19,7 @@ status: done
 - "루트를 바꾸며 LCA", "`u`와 `v` 사이 간선 중 최대", **동적 최소 신장 트리**(간선을 정점으로 쪼개서)
 - 트리가 아닌 일반 그래프의 연결성이 아니라 **숲(사이클이 없음)** 이어야 한다 (간선을 넣을 때 사이클이 생기지 않는다는 것이 보장되거나 직접 검사)
 - 트리 모양이 고정이면 [HLD](../../../lv4-expert/02-tree-decomposition/heavy-light-decomposition/)가 더 빠르고 단순하다. 정점 값만 바뀌는 DP면 [탑 트리](../top-tree/)
-- 질의를 모두 미리 알면 오프라인 동적 연결성 (Lv5)이 더 단순할 수 있다
+- 질의를 모두 미리 알면 [오프라인 동적 연결성](../../04-offline-dynamic/offline-dynamic-connectivity/)이 더 단순할 수 있다
 
 ## 2. 핵심 아이디어
 
@@ -123,7 +123,7 @@ def cut(self, u, v):
 - **이분성/2-간선 연결성 증분**: 간선만 추가되는 문제에서 사이클이 생길 때 경로를 압축.
 - **오일러 투어 트리**: 서브트리 질의에 특화된 다른 동적 트리 구조 (균형 트리로 오일러 투어를 유지).
 - **경로 갱신 + 경로 최대 부분합**: 노드에 접두·접미·최대 부분합을 두고 뒤집을 때 접두/접미를 바꿉니다.
-- **오프라인 대안**: 질의를 모두 알면 오프라인 동적 연결성 (Lv5)(시간 구간 트리 + 롤백 유니온 파인드)이 파이썬에서 훨씬 빠릅니다.
+- **오프라인 대안**: 질의를 모두 알면 [오프라인 동적 연결성](../../04-offline-dynamic/offline-dynamic-connectivity/)(시간 구간 트리 + 롤백 유니온 파인드)이 파이썬에서 훨씬 빠릅니다.
 
 ## 8. 연습문제
 
@@ -132,4 +132,4 @@ def cut(self, u, v):
 ## 9. 다음 단계
 
 - 선행: [스플레이 트리](../../../lv4-expert/03-advanced-data-structures/splay-tree/), [헤비-라이트 분할](../../../lv4-expert/02-tree-decomposition/heavy-light-decomposition/), [LCA](../../../lv3-advanced/03-graph-advanced/lca/)
-- 이어서: [탑 트리](../top-tree/) (정점 값만 바뀌는 트리 DP), 오프라인 동적 연결성 (Lv5)
+- 이어서: [탑 트리](../top-tree/) (정점 값만 바뀌는 트리 DP), [오프라인 동적 연결성](../../04-offline-dynamic/offline-dynamic-connectivity/)

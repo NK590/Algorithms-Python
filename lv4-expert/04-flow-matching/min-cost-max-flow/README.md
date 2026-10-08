@@ -138,4 +138,4 @@ def flow(self, source, sink, limit=INF, algorithm="dijkstra"):
 ## 9. 다음 단계
 
 - 선행: [디닉](../../../lv3-advanced/03-graph-advanced/dinic/), [벨만-포드](../../../lv2-intermediate/01-shortest-path/bellman-ford/), [다익스트라](../../../lv2-intermediate/01-shortest-path/dijkstra/), [이분 매칭](../../../lv3-advanced/03-graph-advanced/bipartite-matching/)
-- 이어서: [헝가리안 알고리즘](../hungarian-algorithm/) (완전 이분 배정 전용), 블로섬·매트로이드 교집합 (Lv5, 일반 그래프·확장된 매칭)
+- 이어서: [헝가리안 알고리즘](../hungarian-algorithm/) (완전 이분 배정 전용), [블로섬](../../../lv5-master/02-matching-matroid/blossom/)·[매트로이드 교집합](../../../lv5-master/02-matching-matroid/matroid-intersection/) (Lv5, 일반 그래프·확장된 매칭)

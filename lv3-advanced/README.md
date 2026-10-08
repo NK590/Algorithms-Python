@@ -79,4 +79,4 @@ summary: 구간 질의 자료구조, 고급 그래프(SCC·플로우), 문자열
 | [행렬 거듭제곱 (Matrix Exponentiation)](07-dp-advanced/matrix-exponentiation/) | `done` | O(k³ log n) | [fast-exponentiation](../lv2-intermediate/05-divide-and-conquer/fast-exponentiation/), [dynamic-programming](../lv1-elementary/07-algorithm-paradigms/dynamic-programming/) |
 <!-- INDEX:END -->
 
-이 레벨에서 다룰 예정인 주제는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.
+전체 커리큘럼과 개념 사이의 선행 관계는 [ROADMAP](../ROADMAP.md)에서 볼 수 있습니다.

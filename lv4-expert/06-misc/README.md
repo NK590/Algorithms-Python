@@ -20,7 +20,7 @@
 | 두 사람이 번갈아, 마지막에 둘 수 없는 쪽이 진다, 돌 더미/구간/말이 여러 개 | [스프라그-그런디](sprague-grundy/) |
 | "정확히 `k`개" 고르기, `O(nk)`가 느리다, `k`에 대해 볼록/오목 | [에일리언 트릭](aliens-trick/) |
 | `a_n = c₁a_{n−1} + … + c_k a_{n−k}`, `n`이 아주 크다 | [키타마사](kitamasa/) |
-| 점화식을 모른다 (수열의 앞부분만 있다) | 베를캠프-매시 (Lv5) 후 [키타마사](kitamasa/) |
+| 점화식을 모른다 (수열의 앞부분만 있다) | [벌레캠프–매시](../../lv5-master/03-algebra/berlekamp-massey/) (Lv5) 후 [키타마사](kitamasa/) |
 
 ## 개념 사이의 관계
 
@@ -41,4 +41,4 @@
 3. [반평면 교집합](half-plane-intersection/): 기하 심화
 4. [에일리언 트릭](aliens-trick/): 볼록성과 이분 탐색, 앞의 도구들이 모이는 기법
 
-선행: [행렬 거듭제곱](../../lv3-advanced/07-dp-advanced/matrix-exponentiation/), [볼록 껍질](../../lv3-advanced/04-geometry/convex-hull/), [볼록 껍질 트릭](../../lv3-advanced/07-dp-advanced/convex-hull-trick/), [매개변수 탐색](../../lv2-intermediate/08-search-techniques/parametric-search/). 이후: 베를캠프-매시, 슬로프 트릭 (Lv5).
+선행: [행렬 거듭제곱](../../lv3-advanced/07-dp-advanced/matrix-exponentiation/), [볼록 껍질](../../lv3-advanced/04-geometry/convex-hull/), [볼록 껍질 트릭](../../lv3-advanced/07-dp-advanced/convex-hull-trick/), [매개변수 탐색](../../lv2-intermediate/08-search-techniques/parametric-search/). 이후: [벌레캠프–매시](../../lv5-master/03-algebra/berlekamp-massey/), [기울기 트릭](../../lv5-master/04-offline-dynamic/slope-trick/) (Lv5).

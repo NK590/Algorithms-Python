@@ -155,7 +155,7 @@ def linear_recurrence_nth(coeffs, initial, n, mod=None):
 | 같은 함수, `k = 100` | 6.91초 |
 | 단순 DP로 `k = 100`, `n = 10⁵` | 0.87초 |
 
-- `k`가 2배가 되면 시간이 약 8배(`k³`)입니다. `k = 100`을 넘으면 파이썬으로는 부담스럽고, 점화식이면 키타마사(`O(k² log n)`)·베를캠프-매시 같은 방법이 있습니다(Lv4~5).
+- `k`가 2배가 되면 시간이 약 8배(`k³`)입니다. `k = 100`을 넘으면 파이썬으로는 부담스럽고, 점화식이면 [키타마사](../../../lv4-expert/06-misc/kitamasa/)(`O(k² log n)`)·[벌레캠프–매시](../../../lv5-master/03-algebra/berlekamp-massey/) 같은 방법이 있습니다(Lv4~5).
 - 단순 반복으로 `F(10¹⁸)`을 구하려면 `n = 10⁶`에 0.12초이므로 약 3800년(**추정**).
 - `n`이 작으면(`≤ 10⁷`) 그냥 반복하는 DP가 더 빠릅니다. 행렬 거듭제곱은 `n`이 `k³`보다 훨씬 클 때 유리합니다.
 
@@ -175,7 +175,7 @@ def linear_recurrence_nth(coeffs, initial, n, mod=None):
 ## 7. 변형과 응용
 
 - **키타마사(Kitamasa)**: 선형 점화식의 `n`번째 항을 `O(k² log n)`(다항식 나눗셈으로 `O(k log k log n)`)에. 행렬 대신 *다항식 `xⁿ mod 특성다항식`*을 거듭제곱합니다 (Lv4).
-- **베를캠프-매시(Berlekamp-Massey)**: 수열의 처음 `2k`항만 주어졌을 때 점화식 자체를 찾아냅니다 (Lv5).
+- **[벌레캠프–매시](../../../lv5-master/03-algebra/berlekamp-massey/)(Berlekamp–Massey)**: 수열의 처음 `2k`항만 주어졌을 때 점화식 자체를 찾아냅니다.
 - **오토마톤 위의 경로 수**: [아호-코라식](../../05-strings-advanced/aho-corasick/)의 노드를 상태로 하고 금지 노드로 가는 간선을 지운 인접 행렬의 거듭제곱 — "금지 문자열을 포함하지 않는 길이 `L`의 문자열 수".
 - **타일링 문제**: `3 × n`을 `2 × 1` 도미노로 채우는 수 같은 문제는 열 하나의 상태를 전이시키는 행렬 (Lv2의 [비트마스크 DP](../../../lv2-intermediate/04-dynamic-programming/bitmask-dp/)로 상태를 정의하고 거듭제곱).
 - **조건 만족하는 길이의 문자열 수**: 이전 몇 글자만 보는 제약은 모두 상태를 만들어 행렬로.
@@ -190,4 +190,4 @@ def linear_recurrence_nth(coeffs, initial, n, mod=None):
 ## 9. 다음 단계
 
 - 선행: [빠른 거듭제곱](../../../lv2-intermediate/05-divide-and-conquer/fast-exponentiation/), [DP](../../../lv1-elementary/07-algorithm-paradigms/dynamic-programming/), [모듈러 역원](../../../lv2-intermediate/06-number-theory/modular-inverse/)
-- 이어서: [기댓값 DP](../expected-value-dp/), [아호-코라식](../../05-strings-advanced/aho-corasick/), 키타마사·베를캠프-매시 (Lv4~5)
+- 이어서: [기댓값 DP](../expected-value-dp/), [아호-코라식](../../05-strings-advanced/aho-corasick/), [키타마사](../../../lv4-expert/06-misc/kitamasa/)·[벌레캠프–매시](../../../lv5-master/03-algebra/berlekamp-massey/) (Lv4~5)

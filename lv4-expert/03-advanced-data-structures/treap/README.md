@@ -159,7 +159,7 @@ def _merge(self, a, b):                         # a 의 모든 원소가 b 의 �
 - **데카르트 트리**: 우선순위를 배열 값으로 주면 구간 최솟값(RMQ) 구조가 됩니다. 이 단원의 구조들이 모두 "트리 모양을 우선순위로 결정" 한다는 점에서 연결됩니다.
 - **동적 순서 통계**: 값이 계속 들어오고 나가는 문제의 `k`번째/순위 질의. 값 범위가 작으면 [펜윅 트리](../../../lv3-advanced/01-range-query-structures/fenwick-tree/)로 충분.
 - **스플레이 트리와의 비교**: 같은 연산을 [스플레이 트리](../splay-tree/)가 분할 상환 `O(log n)`으로 하고, 무작위성이 필요 없는 대신 한 연산이 `O(n)`일 수 있습니다.
-- **더 큰 구조의 부품**: [링크-컷 트리](../../../lv5-master/)(Lv5)가 경로를 균형 트리(스플레이 또는 트립)로 표현합니다.
+- **더 큰 구조의 부품**: [링크-컷 트리](../../../lv5-master/01-dynamic-trees/link-cut-tree/)(Lv5)가 경로를 균형 트리(스플레이 또는 트립)로 표현합니다.
 
 ## 8. 연습문제
 
@@ -168,4 +168,4 @@ def _merge(self, a, b):                         # a 의 모든 원소가 b 의 �
 ## 9. 다음 단계
 
 - 선행: [이진 탐색 트리](../../../lv2-intermediate/03-trees/binary-search-tree/), [지연 전파](../../../lv3-advanced/01-range-query-structures/lazy-propagation/), [분할 정복](../../../lv2-intermediate/05-divide-and-conquer/divide-and-conquer/)
-- 이어서: [스플레이 트리](../splay-tree/) (같은 연산, 다른 균형 방식), 링크-컷 트리 (Lv5)
+- 이어서: [스플레이 트리](../splay-tree/) (같은 연산, 다른 균형 방식), [링크-컷 트리](../../../lv5-master/01-dynamic-trees/link-cut-tree/) (Lv5)

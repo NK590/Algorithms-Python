@@ -43,8 +43,8 @@ Lv3의 구간 트리·펜윅 트리는 "구간의 합이나 최솟값" 처럼 *�
 ## 개념 사이의 관계
 
 - 정적 구간 순서 통계 세 구조는 **같은 질문 / 다른 트레이드오프** 입니다. 모두 "값을 기준으로 구간을 나눈다" 는 발상이지만 구조가 다릅니다: 머지 소트 트리는 *위치로* 쪼개고 노드에 *값 정렬 리스트* 를, 웨이블릿은 *값의 비트로* 쪼개고 *위치 정보* 를 저장하며, 퍼시스턴트는 *값 구간 트리* 를 위치 순으로 쌓은 *버전* 으로 둡니다.
-- [리 차오 트리](li-chao-tree/)는 Lv3의 [볼록 껍질 트릭](../../lv3-advanced/07-dp-advanced/convex-hull-trick/) 기본형을 선분·롤백·오프라인으로 넓힙니다. "오프라인 + 롤백" 구조는 Lv5의 오프라인 동적 연결성과 같은 틀입니다.
-- [트립](treap/)과 [스플레이 트리](splay-tree/)는 **같은 연산 집합**(삽입·삭제·순위·구간 뒤집기·구간 합)을 서로 다른 균형 전략으로 제공합니다. 트립은 무작위성 + `split`/`merge`, 스플레이는 회전 + 분할 상환입니다. 스플레이 트리는 Lv5의 링크-컷 트리의 부품입니다.
+- [리 차오 트리](li-chao-tree/)는 Lv3의 [볼록 껍질 트릭](../../lv3-advanced/07-dp-advanced/convex-hull-trick/) 기본형을 선분·롤백·오프라인으로 넓힙니다. "오프라인 + 롤백" 구조는 Lv5의 [오프라인 동적 연결성](../../lv5-master/04-offline-dynamic/offline-dynamic-connectivity/)과 같은 틀입니다.
+- [트립](treap/)과 [스플레이 트리](splay-tree/)는 **같은 연산 집합**(삽입·삭제·순위·구간 뒤집기·구간 합)을 서로 다른 균형 전략으로 제공합니다. 트립은 무작위성 + `split`/`merge`, 스플레이는 회전 + 분할 상환입니다. 스플레이 트리는 Lv5의 [링크-컷 트리](../../lv5-master/01-dynamic-trees/link-cut-tree/)의 부품입니다.
 - 트리 위의 문제에서는 [헤비-라이트 분할](../02-tree-decomposition/heavy-light-decomposition/)이 경로를 구간으로 바꾸어 이 단원의 구조에 연결해 줍니다.
 
 ## 공통 원칙
@@ -64,4 +64,4 @@ Lv3의 구간 트리·펜윅 트리는 "구간의 합이나 최솟값" 처럼 *�
 5. [트립](treap/): `split`/`merge`로 하는 동적 시퀀스
 6. [스플레이 트리](splay-tree/): 같은 연산을 회전과 분할 상환으로
 
-선행: [구간 트리](../../lv3-advanced/01-range-query-structures/segment-tree/), [지연 전파](../../lv3-advanced/01-range-query-structures/lazy-propagation/), [볼록 껍질 트릭](../../lv3-advanced/07-dp-advanced/convex-hull-trick/), [이진 탐색 트리](../../lv2-intermediate/03-trees/binary-search-tree/). 이후: 링크-컷 트리, 탑 트리 (Lv5).
+선행: [구간 트리](../../lv3-advanced/01-range-query-structures/segment-tree/), [지연 전파](../../lv3-advanced/01-range-query-structures/lazy-propagation/), [볼록 껍질 트릭](../../lv3-advanced/07-dp-advanced/convex-hull-trick/), [이진 탐색 트리](../../lv2-intermediate/03-trees/binary-search-tree/). 이후: [링크-컷 트리](../../lv5-master/01-dynamic-trees/link-cut-tree/), [탑 트리](../../lv5-master/01-dynamic-trees/top-tree/) (Lv5).

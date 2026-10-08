@@ -147,4 +147,4 @@ def half_plane_intersection(planes, bound=10**9):
 ## 9. 다음 단계
 
 - 선행: [CCW](../../../lv3-advanced/04-geometry/ccw/), [볼록 껍질](../../../lv3-advanced/04-geometry/convex-hull/), [선분 교차](../../../lv3-advanced/04-geometry/segment-intersection/)
-- 이어서: 이 단원의 [에일리언 트릭](../aliens-trick/)과 같은 "볼록성" 도구들, Lv5의 슬로프 트릭 (볼록 함수를 직접 유지)
+- 이어서: 이 단원의 [에일리언 트릭](../aliens-trick/)과 같은 "볼록성" 도구들, Lv5의 [기울기 트릭](../../../lv5-master/04-offline-dynamic/slope-trick/) (볼록 함수를 직접 유지)

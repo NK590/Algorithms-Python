@@ -171,7 +171,7 @@ class HLD:
 - **LCA**: `lca`가 `O(log n)`에 나오고 전처리가 `O(n)`이라 희소 배열 LCA의 `O(n log n)` 메모리가 부담스러울 때 대안.
 - **루트 변경**: 질의마다 루트가 바뀌는 문제는 같은 분해로 "`v`의 서브트리" 를 케이스 분석합니다 (루트가 `v`의 서브트리 안에 있는지에 따라 구간 보수).
 - **트리 위의 `k` 번째 조상**: 사슬 안에서는 `pos` 산술로 `O(1)`, 사슬을 건너뛰면서 `O(log n)`.
-- **동적 트리**: 간선이 추가·삭제되면 HLD는 고정이라 못 씁니다 → [링크-컷 트리](../../../lv5-master/) (Lv5).
+- **동적 트리**: 간선이 추가·삭제되면 HLD는 고정이라 못 씁니다 → [링크-컷 트리](../../../lv5-master/01-dynamic-trees/link-cut-tree/) (Lv5).
 - **경로 위의 서로 다른 값의 수·`k` 번째 값**: 위치 순서가 아니라 값 기준이라 HLD만으로는 안 됩니다 — 트리에서의 [모스 알고리즘](../../../lv3-advanced/06-query-techniques/mos-algorithm/)이나 퍼시스턴트 구조.
 - **센트로이드 분해**와의 선택: 경로 위에 놓인 값에 *갱신 + 질의* 면 HLD, "모든 쌍의 경로 중 조건을 만족하는 것을 센다" 면 [센트로이드 분해](../centroid-decomposition/).
 
@@ -182,4 +182,4 @@ class HLD:
 ## 9. 다음 단계
 
 - 선행: [구간 트리](../../../lv3-advanced/01-range-query-structures/segment-tree/), [지연 전파](../../../lv3-advanced/01-range-query-structures/lazy-propagation/), [펜윅 트리](../../../lv3-advanced/01-range-query-structures/fenwick-tree/), [LCA](../../../lv3-advanced/03-graph-advanced/lca/), [트리 DP](../../../lv2-intermediate/03-trees/tree-dp/)
-- 이어서: [센트로이드 분해](../centroid-decomposition/) (같은 트리를 다른 방식으로 쪼갭니다), 링크-컷 트리 (Lv5, 동적으로 변하는 트리)
+- 이어서: [센트로이드 분해](../centroid-decomposition/) (같은 트리를 다른 방식으로 쪼갭니다), [링크-컷 트리](../../../lv5-master/01-dynamic-trees/link-cut-tree/) (Lv5, 동적으로 변하는 트리)

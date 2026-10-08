@@ -144,7 +144,7 @@ class StaticTopTree:
 - **완전한 동적 탑 트리**: 간선 삽입·삭제까지 하려면 클러스터 트리를 스플레이나 균형 트리로 유지하며 `rake`/`compress`를 분할·병합합니다 (자기 조정 탑 트리). 구현이 매우 어렵습니다.
 - **링크-컷 트리의 가상 서브트리**: LCT에서 가상 서브트리(경로 부모로 매달린 서브트리)의 집계를 함께 유지하면 비슷한 질의를 모양이 바뀌는 트리에서도 풉니다.
 - **HLD + 구간 트리 (동적 DP)**: 같은 문제를 무거운 경로마다 구간 트리를 두는 `O(log² n)` 풀이. 이 구현은 그 두 겹의 `log`를 하나로 합친 것입니다.
-- **정적 → 오프라인 동적**: 질의를 먼저 알면 시간 구간 트리 + 롤백 같은 오프라인 방법(오프라인 동적 연결성 (Lv5))도 있습니다.
+- **정적 → 오프라인 동적**: 질의를 먼저 알면 시간 구간 트리 + 롤백 같은 오프라인 방법([오프라인 동적 연결성](../../04-offline-dynamic/offline-dynamic-connectivity/))도 있습니다.
 
 ## 8. 연습문제
 
@@ -153,4 +153,4 @@ class StaticTopTree:
 ## 9. 다음 단계
 
 - 선행: [헤비-라이트 분할](../../../lv4-expert/02-tree-decomposition/heavy-light-decomposition/), [링크-컷 트리](../link-cut-tree/), [트리 DP](../../../lv2-intermediate/03-trees/tree-dp/)
-- 이어서: 이 단원의 [링크-컷 트리](../link-cut-tree/)(모양이 바뀌는 트리), 오프라인 동적 연결성 (Lv5)
+- 이어서: 이 단원의 [링크-컷 트리](../link-cut-tree/)(모양이 바뀌는 트리), [오프라인 동적 연결성](../../04-offline-dynamic/offline-dynamic-connectivity/)
