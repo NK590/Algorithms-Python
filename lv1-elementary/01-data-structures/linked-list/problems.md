@@ -1,17 +1,19 @@
 # 연습문제 — 연결 리스트
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [LeetCode 206 Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | 뒤집기 | `previous`, `node`로 링크 방향을 바꾼다. [solution.py](solution.py)의 `reverse` |
-| 2 | [LeetCode 876 Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/) | 가운데 | 한 칸/두 칸 포인터를 함께 쓴다 (`middle`) |
-| 3 | [LeetCode 21 Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | 합치기 | 두 리스트의 앞에서 작은 쪽을 이어 붙인다 (`merge_sorted`) |
-| 4 | [LeetCode 141 Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) | 사이클 | 토끼와 거북이로 추가 메모리 없이 판별한다 (`has_cycle`) |
-| 5 | [백준 1406 에디터](https://www.acmicpc.net/problem/1406) | 커서 편집 | 커서 왼쪽·오른쪽을 두 스택(또는 연결 리스트)으로 관리한다. 문자열에 직접 삽입하면 시간 초과가 난다 |
-| 6 | [백준 5397 키로거](https://www.acmicpc.net/problem/5397) | 커서 편집 | 에디터와 같은 아이디어를 여러 테스트 케이스에 적용한다 |
+| 1 | [AOJ — Doubly Linked List](https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_3_C) | 핵심 연습 | 앞뒤 연결을 바꾸며 삽입과 삭제를 수행한다 |
+| 2 | [LeetCode 206 Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | 뒤집기 | `previous`, `node`로 링크 방향을 바꾼다. [solution.py](solution.py)의 `reverse` |
+| 3 | [LeetCode 876 Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/) | 가운데 | 한 칸/두 칸 포인터를 함께 쓴다 (`middle`) |
+| 4 | [LeetCode 21 Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | 합치기 | 두 리스트의 앞에서 작은 쪽을 이어 붙인다 (`merge_sorted`) |
+| 5 | [LeetCode 141 Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) | 사이클 | 토끼와 거북이로 추가 메모리 없이 판별한다 (`has_cycle`) |
 
-## 풀이 메모
+## 연습 순서
 
-- 1~4번은 LeetCode의 `ListNode`가 이 저장소의 `Node`와 필드 이름(`val`/`next`)만 다릅니다. 링크를 조작하는 방식은 같습니다.
-- 5, 6번은 파이썬에서 직접 연결 리스트를 만들기보다 두 스택(리스트) 방식이 훨씬 빠르고 간단합니다.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

@@ -357,6 +357,50 @@ def test_taylor_shift_matches_binomial_expansion():
     assert solution.taylor_shift([1, 2, 3], 2) == [17, 14, 3]
 
 
+@pytest.mark.parametrize("mod", [2, 3, 5, 7, 11])
+def test_taylor_shift_at_prime_characteristic_boundary(mod):
+    # The highest factorial needed is (n-1)!, not n!: n == mod is still valid.
+    f = [0] * (mod - 1) + [1]
+    expected = [comb(mod - 1, degree) % mod for degree in range(mod)]
+    assert solution.taylor_shift(f, 1, mod) == expected
+
+
+def test_noninvertible_series_denominators_are_rejected():
+    with pytest.raises(ValueError, match="분모"):
+        solution.poly_integral([1] * 7, 7)
+    with pytest.raises(ValueError, match="항 수"):
+        solution.poly_log([1, 1], 8, 7)
+    with pytest.raises(ValueError, match="항 수"):
+        solution.poly_exp([0, 1], 8, 7)
+    with pytest.raises(ValueError, match="항 수"):
+        solution.taylor_shift([1] * 8, 1, 7)
+
+
+def test_log_exp_keep_newton_precision_within_the_prime_boundary():
+    for mod in [2, 3, 5, 7, 11]:
+        f = [0, 1] + [0] * (mod - 2)
+        series = solution.poly_exp(f, mod, mod)
+        assert series == naive_exp(f, mod, mod)
+        assert solution.poly_log(series, mod, mod) == f
+
+
+def test_square_roots_in_characteristic_two_terminate_and_match_the_square():
+    assert solution.mod_sqrt(0, 2) == 0
+    assert solution.mod_sqrt(1, 2) == 1
+    assert solution.poly_sqrt([1, 0, 1], 3, 2) == [1, 1, 0]
+    assert solution.poly_sqrt([1, 1], 2, 2) is None
+    for f in [[1, 0, 1], [0, 0, 1], [1, 0, 0, 0, 1]]:
+        root = solution.poly_sqrt(f, len(f), 2)
+        assert root is not None
+        assert solution.multiply(root, root, 2)[:len(f)] == f
+
+
+@pytest.mark.parametrize("mod", [2, 3, 5, 7, 11])
+def test_catalan_numbers_match_integer_binomial_formula_for_small_primes(mod):
+    expected = [comb(2 * k, k) // (k + 1) % mod for k in range(40)]
+    assert solution.catalan_numbers(40, mod) == expected
+
+
 def test_bell_numbers_match_the_bell_triangle():
     row, bell = [1], [1]
     for _ in range(40):

@@ -9,7 +9,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
   다항식 곱셈을 NTT 로 바꾸면 O(k log k log n) 이 된다.
 - matrix_power_term: 비교용 O(k³ log n) 행렬 거듭제곱. sum_of_prefix: a_0 + … + a_n (점화식에 합 항을 붙여 차수 k+1 로).
 - fibonacci(n, mod): kitamasa 의 특수한 경우.
-- 직접 실행하면 BOJ 13976 형식 — 정수 N (≤ 10^18) — 을 받아 3 × N 판을 2 × 1 타일로 채우는 방법의 수를 10^9+7 로 나눈 나머지로 출력합니다 (N 이 홀수면 0, 짝수면 f_k = 4 f_{k-1} - f_{k-2}, k = N/2).
+- 직접 실행하면 폭 3 타일링 예제 형식 — 정수 N (≤ 10^18) — 을 받아 3 × N 판을 2 × 1 타일로 채우는 방법의 수를 10^9+7 로 나눈 나머지로 출력합니다 (N 이 홀수면 0, 짝수면 f_k = 4 f_{k-1} - f_{k-2}, k = N/2).
 """
 import sys
 from itertools import accumulate

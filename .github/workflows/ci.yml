@@ -16,7 +16,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install test dependencies
-        run: python -m pip install pytest
+        run: python -m pip install -r requirements-dev.txt
 
       # front matter, 선행 개념, 파일 구성, 상대 경로 링크, 자동 생성 목차가 최신인지 확인
       - name: Validate structure, links and generated index

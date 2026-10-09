@@ -1,22 +1,19 @@
 # 연습문제 — 느리게 갱신되는 세그먼트 트리
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [백준 16975 수열과 쿼리 21](https://www.acmicpc.net/problem/16975) | 구간 더하기 + 점 질의 | 질의가 한 칸이라 차분 배열 + 펜윅 트리로도 풀린다. 느리게 갱신되는 트리와 비교 |
-| 2 | [백준 10999 구간 합 구하기 2](https://www.acmicpc.net/problem/10999) | 구간 더하기 + 구간 합 | 기본형. [solution.py](solution.py)의 `main()`이 같은 형태 (`range_add_range_sum`) |
-| 3 | [백준 1395 스위치](https://www.acmicpc.net/problem/1395) | 구간 뒤집기 + 개수 | 갱신 `flip`, `apply = 길이 − x`, `compose = xor`. 항등원은 `False` |
-| 4 | [백준 12844 XOR](https://www.acmicpc.net/problem/12844) | 구간 XOR + 구간 XOR 합 | 구간 길이가 홀수일 때만 질의 값이 바뀐다 |
-| 5 | [LeetCode 699 Falling Squares](https://leetcode.com/problems/falling-squares/) | 구간 대입 + 구간 최댓값 | 떨어진 사각형의 윗면이 구간의 높이가 된다. 좌표 압축 + 대입 갱신 |
-| 6 | [LeetCode 732 My Calendar III](https://leetcode.com/problems/my-calendar-iii/) | 구간 더하기 + 전체 최댓값 | 겹치는 일정의 최대 개수. 동적 개설이거나 좌표 압축 |
-| 7 | [백준 12895 화려한 마을](https://www.acmicpc.net/problem/12895) | 구간 대입 + 비트마스크 | 칠한 색 집합을 비트마스크로 저장한 `or` 트리 + 대입 갱신 |
-| 8 | [백준 13925 수열과 쿼리 13](https://www.acmicpc.net/problem/13925) | 아핀 갱신 | 더하기·곱하기·대입이 섞인 갱신을 `(a, b)`로 일반화. 합성 순서 연습 |
+| 1 | [CSES — Range Updates and Sums](https://cses.fi/problemset/task/1735) | 핵심 연습 | 구간 대입과 더하기의 합성 순서를 구분한다 |
+| 2 | [AtCoder — Range Affine Range Sum](https://atcoder.jp/contests/practice2/tasks/practice2_k) | 핵심 연습 | 아핀 변환을 갱신 연산으로 일반화한다 |
+| 3 | [AOJ — Range Add Query](https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_G) | 핵심 연습 | 구간 더하기와 구간 합을 구현한다 |
+| 4 | [LeetCode 699 Falling Squares](https://leetcode.com/problems/falling-squares/) | 구간 대입 + 구간 최댓값 | 떨어진 사각형의 윗면이 구간의 높이가 된다. 좌표 압축 + 대입 갱신 |
+| 5 | [LeetCode 732 My Calendar III](https://leetcode.com/problems/my-calendar-iii/) | 구간 더하기 + 전체 최댓값 | 겹치는 일정의 최대 개수. 동적 개설이거나 좌표 압축 |
 
-## 풀이 메모
+## 연습 순서
 
-- 2번은 [`RangeAddFenwick`](../fenwick-tree/solution.py)로도 풀립니다. 두 구현의 속도를 비교해 보세요 ([README](README.md#5-복잡도와-입력-크기-가이드)에서 약 5배 차이).
-- 3번에서 불리언 갱신의 합성은 `xor`입니다. 같은 구간을 두 번 뒤집으면 원래대로 돌아오므로 표시가 사라져야 합니다.
-- 5번, 6번은 좌표가 크므로 [좌표 압축](../../../lv2-intermediate/08-search-techniques/coordinate-compression/)이 먼저 필요합니다 (오프라인으로 모든 구간의 끝점을 모은다).
-- 대입과 더하기를 섞는 8번을 풀 때, 합성 공식 `compose((a₁, b₁), (a₂, b₂)) = (a₁a₂, a₁b₂ + b₁)`을 종이에 먼저 유도해 보세요. [테스트](test_solution.py)의 `test_non_commutative_affine_updates`가 같은 구성을 확인합니다.
-- 입력이 크면 재귀 구현은 파이썬에서 시간 초과가 날 수 있으니, 질의 수가 10⁵를 넘는 문제는 반복문 구현이나 다른 접근(제곱근 분할 등)을 고려하세요.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

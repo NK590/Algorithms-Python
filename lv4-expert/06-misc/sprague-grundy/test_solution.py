@@ -149,7 +149,13 @@ def test_grundy_of_handles_deep_games_without_recursion():
 
 
 def test_main_nim_game_format(monkeypatch, capsys):
-    for text, expected in [("3\n1 2 3\n", "cubelover"), ("2\n1 2\n", "koosaga"), ("1\n5\n", "koosaga")]:
+    for text, expected in [("1\n3\n1 2 3\n", "second"), ("1\n2\n1 2\n", "first"), ("1\n1\n5\n", "first")]:
         monkeypatch.setattr("sys.stdin", io.StringIO(text))
         solution.main()
         assert capsys.readouterr().out.strip() == expected
+
+
+def test_main_handles_multiple_cses_nim_cases(monkeypatch, capsys):
+    monkeypatch.setattr("sys.stdin", io.StringIO("3\n3\n1 2 3\n2\n1 2\n1\n0\n"))
+    solution.main()
+    assert capsys.readouterr().out.splitlines() == ["second", "first", "second"]

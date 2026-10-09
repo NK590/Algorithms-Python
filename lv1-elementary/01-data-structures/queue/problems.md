@@ -1,15 +1,17 @@
 # 연습문제 — 큐
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [백준 10845 큐](https://www.acmicpc.net/problem/10845) | 구현 | push/pop/size/empty/front/back 명령을 처리한다. `deque`를 쓴다 |
-| 2 | [백준 18258 큐 2](https://www.acmicpc.net/problem/18258) | 대량 명령 | 명령이 매우 많다. 리스트의 `pop(0)`을 쓰면 시간 초과가 나고 입력도 빠르게 읽어야 한다 |
-| 3 | [백준 2164 카드2](https://www.acmicpc.net/problem/2164) | 큐 시뮬레이션 | [solution.py](solution.py)의 `last_card`/`main()`이 그대로 풀이다. N이 크면 공식 `last_card_formula`로도 풀린다 |
-| 4 | [백준 1158 요세푸스 문제](https://www.acmicpc.net/problem/1158) | 원형 제거 | 앞의 K−1명을 뒤로 보내고 K번째를 제거한다. 큐로 그대로 시뮬레이션한다 |
+| 1 | [AOJ — Queue](https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_3_B) | 핵심 연습 | 라운드 로빈의 대기 순서를 큐로 시뮬레이션한다 |
+| 2 | [CSES — Message Route](https://cses.fi/problemset/task/1667) | 핵심 연습 | BFS에서 FIFO 순서가 최단 거리를 보장하는 이유를 확인한다 |
+| 3 | [CSES — Labyrinth](https://cses.fi/problemset/task/1193) | 핵심 연습 | 격자 BFS와 경로 복원을 결합한다 |
 
-## 풀이 메모
+## 연습 순서
 
-- 2번은 입력이 수십만 줄입니다. [빠른 입출력](../../../lv0-basics/04-io-and-complexity/fast-io/)을 함께 쓰세요.
-- 큐를 배웠다면 [BFS](../../05-graph-basics/bfs/)로 이어지는 문제를 풀어 볼 차례입니다.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

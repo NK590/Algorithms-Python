@@ -8,7 +8,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - convolution_exact(a, b): 계수가 (음수여도) 정수일 때의 정확한 결과. 세 소수의 곱(≈ 7.8·10²⁵) 안에 결과 계수가 들어야 한다.
 - fft_convolution(a, b): 복소수 부동소수점 FFT 로 구한 뒤 반올림 (계수가 작을 때만 정확).
 - multiply_decimal_strings: 아주 긴 십진수의 곱 (자릿수를 계수로). max_cyclic_dot_product, count_pair_sums: 합성곱의 대표 응용.
-- 직접 실행하면 BOJ 13277 형식 — 한 줄에 두 개의 자연수 — 를 받아 곱을 출력합니다 (NTT 로 구함).
+- 직접 실행하면 큰 정수 곱 예제 형식 — 한 줄에 두 개의 자연수 — 를 받아 곱을 출력합니다 (NTT 로 구함).
 """
 import cmath
 import sys

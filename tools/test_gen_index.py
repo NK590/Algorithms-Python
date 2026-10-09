@@ -132,6 +132,101 @@ def test_broken_relative_link_is_reported(tmp_path):
     assert len(broken) == 1 and "nope.md" in broken[0]
 
 
+def completed_concept(tmp_path):
+    path = tmp_path / "concept"
+    write(path / "test_solution.py", "def test_example():\n    assert 2 + 2 == 4\n")
+    write(path / "problems.md", "\n".join(
+        f"| {i} | [problem](https://example.com/{i}) | 핵심 연습 | 상태와 전이를 확인한다 |"
+        for i in range(1, 4)))
+    body = "\n".join(f"## {i}. 설명\n본문" for i in range(1, 10))
+    for heading in gi.EXPLANATION_HEADINGS:
+        # Inline expressions are meaningful explanation content; fenced code is not.
+        body += f"\n### {heading}\n`dist[v] = min(dist[v], dist[u] + weight)`로 더 짧은 경로를 반영한다.\n"
+    return path, {"time": "O(n)", "space": "O(n)"}, body
+
+
+def test_done_accepts_real_tests_and_explanation_with_inline_expressions(tmp_path):
+    path, meta, body = completed_concept(tmp_path)
+    repo = gi.Repo(tmp_path)
+    gi.validate_done_content(repo, path, meta, body)
+    assert repo.errors == []
+
+
+def test_done_rejects_empty_tests_and_duplicate_or_unexplained_problems(tmp_path):
+    path, meta, body = completed_concept(tmp_path)
+    write(path / "test_solution.py", "# Tests will be added later.\n")
+    write(path / "problems.md", "\n".join([
+        "| 1 | [a](https://example.com/a) | 핵심 연습 | 설명 |",
+        "| 2 | [a again](https://example.com/a) | 핵심 연습 | 설명 |",
+        "| 3 | [b](https://example.com/b) | 핵심 연습 | |",
+        "| 4 | [c](https://example.com/c) | 핵심 연습 | |",
+    ]))
+    repo = gi.Repo(tmp_path)
+    gi.validate_done_content(repo, path, meta, body)
+    assert any("실제 테스트 함수" in error for error in repo.errors)
+    assert any("문제 링크를 3개" in error for error in repo.errors)
+
+
+def test_done_rejects_missing_complexity_and_heading_only_explanations(tmp_path):
+    path, meta, body = completed_concept(tmp_path)
+    del meta["space"]
+    body = "\n".join(f"### {heading}" for heading in gi.EXPLANATION_HEADINGS)
+    body += "\n```python\n## 1. This is code, not a section\n```\n"
+    repo = gi.Repo(tmp_path)
+    gi.validate_done_content(repo, path, meta, body)
+    assert any("space" in error for error in repo.errors)
+    assert sum("구체적으로" in error for error in repo.errors) == 3
+    assert sum("번 섹션" in error for error in repo.errors) == 9
+
+
+def test_done_reports_test_file_syntax_error(tmp_path):
+    path, meta, body = completed_concept(tmp_path)
+    write(path / "test_solution.py", "def test_broken(:\n")
+    repo = gi.Repo(tmp_path)
+    gi.validate_done_content(repo, path, meta, body)
+    assert any("구문 오류" in error for error in repo.errors)
+
+
+def test_markdown_anchors_support_unicode_duplicates_and_html_but_ignore_fences():
+    text = """# 한글 `Code`!
+# 한글 Code!
+# 한글 Code-1
+<a id="explicit"></a>
+~~~html
+# hidden
+<span id="also-hidden"></span>
+~~~
+"""
+    assert gi.markdown_anchors(text) == {"한글-code", "한글-code-1", "한글-code-1-1", "explicit"}
+
+
+def test_link_check_reports_missing_fragments_and_accepts_percent_encoded_anchors(tmp_path):
+    root = make_repo(tmp_path)
+    write(root / "docs.md", "# 한글 제목\n[a](#%ED%95%9C%EA%B8%80-%EC%A0%9C%EB%AA%A9)\n[b](#missing)\n")
+    write(root / "other.md", "[valid](docs.md#한글-제목)\n[bad](docs.md#nope)\n")
+    repo = gi.load_repo(root)
+    gi.check_links(repo)
+    assert len(repo.errors) == 2
+    assert all("없는 문서 앵커" in error for error in repo.errors)
+
+
+@pytest.mark.parametrize("url", ["https:///missing-host", "https://user:pass@example.com/", "https://[invalid/"])
+def test_invalid_external_urls_are_reported(tmp_path, url):
+    root = make_repo(tmp_path)
+    write(root / "docs.md", f"[problem]({url})\n")
+    repo = gi.load_repo(root)
+    gi.check_links(repo)
+    assert len(repo.errors) == 1 and "잘못된 외부 URL" in repo.errors[0]
+
+
+def test_replaced_problem_platform_is_rejected(tmp_path):
+    root = make_repo(tmp_path)
+    write(root / "docs.md", "[old problem](https://www.acmicpc.net/problem/1000)\n")
+    repo = gi.load_repo(root)
+    gi.check_links(repo)
+    assert any("교체가 필요한 문제 레퍼런스" in error for error in repo.errors)
+
+
 # ---------------------------------------------------------------- 실제 리포지토리
 
 def test_repository_structure_and_links_are_valid():

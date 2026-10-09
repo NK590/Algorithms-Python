@@ -8,7 +8,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
   그보다 큰 n 은 무작위 밑으로 `rounds` 번 (오답 확률 ≤ 4^(-rounds)).
 - is_strong_probable_prime(n, a): 밑 하나로 한 번 시험. is_fermat_probable_prime(n, a): 페르마 판정(비교용).
 - next_prime(n): n 보다 큰 가장 작은 소수.
-- 직접 실행하면 BOJ 5615 형식 — `N` 과 N 개의 넓이 S — 을 받아, 2S + 1 이 소수인 S 의 개수를 출력합니다 (S = 2xy + x + y 로 쓸 수 없는 넓이).
+- 직접 실행하면 소수 판별 응용 예제 형식 — `N` 과 N 개의 넓이 S — 을 받아, 2S + 1 이 소수인 S 의 개수를 출력합니다 (S = 2xy + x + y 로 쓸 수 없는 넓이).
 """
 import random
 import sys

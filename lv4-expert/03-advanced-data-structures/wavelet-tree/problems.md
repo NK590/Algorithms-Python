@@ -1,18 +1,17 @@
 # 연습문제 — 웨이블릿 트리
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [백준 7469 K번째 수](https://www.acmicpc.net/problem/7469) | 구간 `k`번째로 작은 수 | 가장 기본형. `kth_smallest`. 퍼시스턴트 세그먼트 트리와 결과 비교 |
-| 2 | [Library Checker - Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) | 구간 `k`번째 (`n, q ≤ 2·10⁵`, 값이 큼) | [solution.py](solution.py)의 `main()`이 같은 형태. 값 압축은 구조가 알아서 한다 |
-| 3 | [백준 13537 수열과 쿼리 1](https://www.acmicpc.net/problem/13537) | 구간에서 `k`보다 큰 수의 개수 | `(길이) − count_at_most`. 질의 값이 배열에 없어도 `bisect`로 순위를 구하면 된다 |
-| 4 | [Library Checker - Static Range Frequency](https://judge.yosupo.jp/problem/static_range_frequency) | 구간에서 값 `x`가 나온 횟수 | `count_equal`. 값 하나는 `count_in_range(l, r, x, x)`와 같다 |
-| 5 | [백준 14897 서로 다른 수의 개수 2](https://www.acmicpc.net/problem/14897) | 구간에서 서로 다른 수의 개수 | `prev[i]`(이전에 같은 값이 나온 위치)를 배열로 만들고 `prev[i] < l`인 개수 = `count_less(l, r, l)`. 웨이블릿으로 온라인 풀이 (`n = 10⁶`이면 파이썬에서는 오프라인 펜윅 풀이가 더 현실적) |
+| 1 | [Library Checker — Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) | 핵심 연습 | 값의 절반으로 내려가며 k를 갱신한다 |
+| 2 | [Library Checker — Static Range Frequency](https://judge.yosupo.jp/problem/static_range_frequency) | 핵심 연습 | 같은 값으로 좁혀지는 인덱스 범위를 추적한다 |
+| 3 | [LeetCode — Count of Smaller Numbers After Self](https://leetcode.com/problems/count-of-smaller-numbers-after-self/) | 핵심 연습 | 각 위치 뒤 구간에서 현재 값보다 작은 수의 개수를 센다 |
 
-## 풀이 메모
+## 연습 순서
 
-- 1번과 2번은 같은 문제의 다른 판본입니다. 입력이 클수록 [머지 소트 트리](../merge-sort-tree/)와의 속도 차이가 커집니다 (머지 소트 트리의 `kth_smallest`는 `O(log³ n)`).
-- 3번에서 흔한 실수 하나: "`k`보다 큰" 은 `count_at_most`의 여집합입니다. `k`가 배열에 없어도 `bisect_right`가 올바른 한도를 줍니다.
-- 직접 해 보기: 가장 작은 `k`개의 합(`sum_smallest`)은 위 문제에 나오지 않는 응용입니다. 임의의 구간과 `k`에 대해 `sorted(a[l:r])[:k]`의 합과 비교하는 테스트를 만들어 보세요 ([test_solution.py](test_solution.py)가 같은 방식으로 검증합니다).
-- 5번은 *구간 안에서 처음 나오는 위치* 만 센다는 변환이 핵심입니다. 위치 `i`가 `[l, r)` 안에서 처음 나오는 것 ⟺ `prev[i] < l` (`prev[i]` = 같은 값이 직전에 나온 위치, 없으면 `−1`). 이렇게 만든 `prev` 배열 위에서 `count_less(l, r, l)`가 답입니다.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

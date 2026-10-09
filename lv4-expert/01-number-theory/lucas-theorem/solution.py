@@ -7,7 +7,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - 소수의 거듭제곱 p^e 가 모듈러일 때는 n! 에서 p 의 배수를 모두 뺀 값을 "p^e 를 주기로 하는 곱" 의 성질로 O(p^e) 에 구한다 (그랜빌).
   binomial_prime_power(n, k, p, e).  일반 m 은 m 을 p^e 들로 분해해 각각 구한 뒤 중국인의 나머지 정리로 합친다: binomial_mod(n, k, m).
 - catalan_mod: C_n = C(2n, n) - C(2n, n + 1) (나눗셈 없이).
-- 직접 실행하면 BOJ 11402 형식 — `N K M` (M 은 소수) — 을 받아 C(N, K) mod M 을 출력합니다.
+- 직접 실행하면 이항계수 예제 형식 — `N K M` (M 은 소수) — 을 받아 C(N, K) mod M 을 출력합니다.
 """
 import sys
 from functools import lru_cache

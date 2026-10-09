@@ -1,19 +1,17 @@
 # 연습문제 — 0-1 BFS
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [백준 1261 알고스팟](https://www.acmicpc.net/problem/1261) | 기본형 | 벽을 부수는 최소 횟수. [solution.py](solution.py)의 `main()`이 같은 형태를 처리한다 |
-| 2 | [LeetCode 2290 Minimum Obstacle Removal to Reach Corner](https://leetcode.com/problems/minimum-obstacle-removal-to-reach-corner/) | 기본형 | 알고스팟과 같은 문제. `grid_min_walls` |
-| 3 | [백준 13549 숨바꼭질 3](https://www.acmicpc.net/problem/13549) | 순간이동 | `x−1`, `x+1`은 비용 1, `2x`는 비용 0. 범위 밖으로 나가지 않게 주의 |
-| 4 | [백준 14497 주난의 난(難)](https://www.acmicpc.net/problem/14497) | 격자 | 친구 위치까지 점프 횟수의 최솟값. 번진 칸의 비용을 0/1로 모델링 |
-| 5 | [백준 1584 게임](https://www.acmicpc.net/problem/1584) | 격자 | 위험 구역은 비용 1, 죽음 구역은 이동 불가. 직사각형 영역으로 격자를 먼저 만든다 |
-| 6 | [LeetCode 1368 Minimum Cost to Make at Least One Valid Path in a Grid](https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/) | 방향 비용 | 칸의 화살표 방향으로 가면 비용 0, 다른 방향은 1(화살표를 바꾼다) |
+| 1 | [CSES — Labyrinth](https://cses.fi/problemset/task/1193) | 선행 연습 | 선행으로 모든 간선 비용이 1인 BFS를 연습한다 |
+| 2 | [LeetCode 2290 Minimum Obstacle Removal to Reach Corner](https://leetcode.com/problems/minimum-obstacle-removal-to-reach-corner/) | 핵심 연습 | 빈칸 진입은 비용 0, 장애물 진입은 비용 1로 두고 덱의 앞·뒤에 후보를 넣는다. `grid_min_walls` |
+| 3 | [LeetCode 1368 Minimum Cost to Make at Least One Valid Path in a Grid](https://leetcode.com/problems/minimum-cost-to-make-at-least-one-valid-path-in-a-grid/) | 방향 비용 | 칸의 화살표 방향으로 가면 비용 0, 다른 방향은 1(화살표를 바꾼다) |
 
-## 풀이 메모
+## 연습 순서
 
-- 1번과 2번은 같은 문제입니다. 먼저 [다익스트라](../dijkstra/)로 풀고 0-1 BFS로 바꿔서 같은 답이 나오는지, 시간이 줄어드는지 비교하세요.
-- 3번은 정점이 `0..100000`의 수이고 이웃이 `x−1`, `x+1`, `2x`입니다. `2x`는 비용 0이므로 `appendleft`입니다. 범위 검사를 빠뜨리지 마세요.
-- 5번처럼 "구역"이 직사각형으로 주어지면 격자 배열에 먼저 표시한 뒤 탐색합니다.
-- 6번은 칸의 정점마다 네 방향 간선이 있고, 화살표와 같은 방향이 가중치 0, 나머지 세 방향이 1입니다.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

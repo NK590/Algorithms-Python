@@ -37,16 +37,26 @@ lvN-<레벨 이름>/NN-<그룹>/<개념>/
 | `draft` | 템플릿에 맞춰 작성 중 |
 | `done` | 설명 · 구현 · `test_solution.py` · `problems.md`를 모두 갖춤 |
 
+`done`으로 올리기 전에 다음 내용을 채웁니다. 구조 검사만으로 알고리즘의 정당성이 증명되지는 않으므로 작성자가 설명과 테스트를 함께 검토합니다.
+
+- 1~9절을 모두 작성하고 `time`·`space`에 복잡도와 가정을 적습니다.
+- 2절에 **무엇을 저장하고 어떻게 움직이나**, **왜 이 방법이 맞는가**, **작은 예제로 검산하기**를 작성합니다. 상태 의미·적용 조건·불변식과 구체적인 계산값을 넣고 제목만 남기지 않습니다.
+- 테스트 파일에 실제 실행되는 `test_` 함수를 작성합니다. 작은 입력의 독립적인 정답 기준과 경계 조건을 포함합니다.
+- 문제 목록에 서로 다른 HTTPS 원문을 3개 이상 선정하고 각각의 학습 포인트를 적습니다. 선행 연습과 직접 적용 문제를 구분합니다.
+
 ## 4. 확인하기
 
 ```bash
+python -m pip install -r requirements-dev.txt
 python tools/gen_index.py    # 목차(README, ROADMAP 그래프) 갱신
 python tools/gen_index.py --check
 python -m pytest
 ```
 
-- `gen_index.py`는 front matter 형식, 선행 개념(`prerequisites`) 존재 여부와 사이클, 파일 구성, 문서 안의 상대 경로 링크를 검사합니다. 같은 검사를 CI에서도 실행합니다.
+- `gen_index.py`는 front matter, 선행 개념과 사이클, 필수 설명과 실제 테스트 함수, 문제 링크, 상대 경로와 문서 앵커를 검사합니다. 같은 검사를 CI에서도 실행합니다.
 - 테스트는 같은 폴더의 `solution.py`를 `tools.loader.load_solution(__file__)`로 불러옵니다. (개념 폴더마다 같은 파일 이름을 쓰기 때문에 `import solution`을 쓰면 충돌합니다)
+- `python`으로 표시한 문서 코드 블록은 모두 구문 검사합니다. 실행 가능한 블록 바로 앞에 `<!-- RUNNABLE -->`을 붙이고 기대 결과를 `assert`로 검사하면 `tools/test_documentation.py`가 별도 프로세스에서 실행합니다. 코드는 저장소 루트를 작업 디렉터리로 사용합니다. 축약 코드는 생략한 부분을 설명하고, Python 문법을 따르지 않는 의사 코드는 `text` 블록으로 표시합니다.
+- 외부 페이지는 `python tools/check_external_links.py`로 선택적으로 점검합니다. 접근 제한 응답만으로 문제를 삭제됐다고 판단하지 않습니다.
 
 ## 5. 문서 쓰기 원칙
 
@@ -55,3 +65,5 @@ python -m pytest
 - 복잡도는 결과만이 아니라 이유를 한 줄 적습니다.
 - 다른 사이트의 문제 지문은 옮기지 않습니다. 링크와 풀이 아이디어만 적습니다.
 - 파이썬 특유의 함정(재귀 한도, 느린 연산 등)은 [파이썬으로 PS 하기](docs/python-for-ps.md)를 참고해서 반영합니다.
+- 문서의 코드와 `solution.py`를 함께 검토하고, [알고리즘 설명을 읽는 법](docs/algorithm-reading-guide.md)의 상태·전이·정당성 순서를 사용합니다.
+- 새 문제 링크는 [사이트 이용 안내](docs/reference-guide.md)에 따라 실제 문제 식별자와 구현의 적용 범위를 확인합니다. 입력 형식이 다르면 참고 구현의 `main()`이 그대로 제출 가능하다고 설명하지 않습니다.

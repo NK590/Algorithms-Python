@@ -10,7 +10,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
   ① max_sum_k_subarrays(a, k): 서로 겹치지 않는 k 개의 비어 있지 않은 구간의 합의 최댓값 (인접 허용 여부 선택). 벌점 DP 는 O(n).
   ② partition_min_cost(n, cost, k): 1..n 을 k 개의 연속 구간으로 나눠 구간 비용 cost(l, r) 의 합 최소화 (비용이 사각 부등식을 만족해야 F 가 볼록). 벌점 DP 는 O(n²).
   ③ partition_sum_of_squares(a, k): 음이 아닌 수열을 k 개의 연속 구간으로 나눠 (구간 합)² 의 합 최소화. 벌점 DP 를 볼록 껍질 트릭으로 O(n).
-- 직접 실행하면 BOJ 2228 "구간 나누기" 와 같은 형태 — `N M`, 이어서 N 개의 정수 — 를 받아 서로 인접하지 않는 M 개의 구간의 합의 최댓값을 출력합니다.
+- 직접 실행하면 서로 떨어진 구간 선택 예제 형식 — `N M`, 이어서 N 개의 정수 — 를 받아 서로 인접하지 않는 M 개의 구간의 합의 최댓값을 출력합니다.
 """
 import sys
 from typing import Callable, Optional, Sequence

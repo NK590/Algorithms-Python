@@ -7,7 +7,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
   각 게임은 따로 분석하면 되고, 이기는 수는 XOR 를 0 으로 만드는 한 성분의 수를 찾아 고르면 된다.
 - 여기서 제공하는 것: mex, grundy_subtraction(뺄셈 게임), grundy_of(일반 게임: 위치에서 다음 위치들을 돌려주는 함수, 반복형 메모), nim_sum / nim_winning_move,
   misere_nim_first_player_wins(마지막에 가져가면 지는 님), octal_game_grundy(8진 게임 코드 — 케일스 0.77, 도슨의 케일스 0.07 등), winning_move_in_sum(합에서 이기는 수 찾기).
-- 직접 실행하면 BOJ 11868 형식 — 돌 더미 개수 N 과 각 더미의 크기 — 을 받아 선공이 이기면 koosaga, 지면 cubelover 를 출력합니다.
+- 직접 실행하면 CSES Nim Game I 형식 — 테스트 수 T, 각 테스트의 더미 수 N과 N개의 크기 — 을 받아 선공이 이기면 `first`, 지면 `second`를 한 줄씩 출력합니다.
 """
 import sys
 from typing import Callable, Hashable, Iterable, Optional, Sequence
@@ -124,9 +124,14 @@ def winning_move_in_sum(
 
 
 def main() -> None:
-    data = sys.stdin.read().split()
-    n = int(data[0])
-    print("koosaga" if nim_sum(int(x) for x in data[1 : 1 + n]) else "cubelover")
+    data = iter(map(int, sys.stdin.read().split()))
+    cases = next(data)
+    out = []
+    for _ in range(cases):
+        n = next(data)
+        piles = [next(data) for _ in range(n)]
+        out.append("first" if nim_sum(piles) else "second")
+    print("\n".join(out))
 
 
 if __name__ == "__main__":

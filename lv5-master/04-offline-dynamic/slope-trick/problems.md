@@ -1,17 +1,18 @@
 # 연습문제 — 기울기 트릭
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [Codeforces 713C - Sonya and Problem Wihtout a Legend](https://codeforces.com/problemset/problem/713/C) | 수열을 순증가하게 만드는 최소 ±1 횟수 | [solution.py](solution.py)의 `main()`이 같은 형식. `aᵢ − i`로 바꿔 비감소 문제로 |
-| 2 | [Codeforces 865D - Buy Low Sell High](https://codeforces.com/problemset/problem/865/D) | 하루 한 주씩 사고팔기, 마지막에 주식이 없어야 함 | 힙 하나로 푸는 그리디가 기울기 트릭의 `L` 힙과 같다 (`max_profit_buy_sell`) |
-| 3 | [AtCoder ARC070 E - NarrowRectangles](https://atcoder.jp/contests/arc070/tasks/arc070_e) | 층마다 구간을 옮겨 이웃과 닿게 하는 최소 이동 거리 | 구간 최솟값 연산 (`window_min`)과 `narrow_rectangles` |
-| 4 | [AtCoder ABC217 H - Snuketoon](https://atcoder.jp/contests/abc217/tasks/abc217_h) | 시각마다 한 점을 향해 최소 비용으로 위치 유지 | 이동 제한(`window_min`)과 절댓값 더하기(`add_abs`)의 반복 |
-| 5 | (직접 만들어 보는 문제) 이웃 차 제한이 있는 수열 | 이웃한 값의 차가 `d` 이하일 때 `aᵢ`와 `bᵢ`의 차이의 합의 최소 | `min_cost_bounded_difference`를 `O(n · 값 범위)` DP와 비교 (테스트가 같은 방식) |
+| 1 | [AtCoder — NarrowRectangles](https://atcoder.jp/contests/arc070/tasks/arc070_e) | 핵심 연습 | 이웃한 구간의 겹침 제약을 볼록 DP의 이동으로 표현한다 |
+| 2 | [AtCoder — Snuketoon](https://atcoder.jp/contests/abc217/tasks/abc217_h) | 핵심 연습 | 기울기가 변하는 점을 두 힙과 오프셋으로 유지한다 |
+| 3 | [Codeforces 713C - Sonya and Problem Wihtout a Legend](https://codeforces.com/problemset/problem/713/C) | 수열을 순증가하게 만드는 최소 ±1 횟수 | [solution.py](solution.py)의 `main()`이 같은 형식. `aᵢ − i`로 바꿔 비감소 문제로 |
+| 4 | [Codeforces 865D - Buy Low Sell High](https://codeforces.com/problemset/problem/865/D) | 하루 한 주씩 사고팔기, 마지막에 주식이 없어야 함 | 힙 하나로 푸는 그리디가 기울기 트릭의 `L` 힙과 같다 (`max_profit_buy_sell`) |
 
-## 풀이 메모
+## 연습 순서
 
-- 1번은 `min_cost_strictly_increasing` 한 줄입니다. 구현을 보지 않고 `add_abs`와 `prefix_min`만 가지고 직접 짜 보세요.
-- 2번은 "비싼 날에 팔고, 팔았던 가격을 다시 힙에 넣어 더 비싼 날에 번복할 수 있게 한다" 가 핵심입니다. 이 구현의 `max_profit_buy_sell`이 그 그리디입니다.
-- 3, 4번은 변화의 한도가 있는 DP입니다. `window_min(lo, hi)`의 부호(`L`이 `−hi`, `R`이 `−lo`)를 식에서 직접 유도하세요.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

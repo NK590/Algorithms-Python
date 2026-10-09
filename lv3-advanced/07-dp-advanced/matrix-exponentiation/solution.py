@@ -8,7 +8,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - recurrence_prefix_sum: a_0 + … + a_n — 상태에 "지금까지의 합" 을 한 칸 더 넣는 방법.
 - count_walks: 인접 행렬의 거듭제곱으로 "정확히 L 개의 간선을 지나는 경로(walk)의 수".
 - longest_walks: (max, +) 반환 구조로 같은 구조를 풀어 "정확히 L 개의 간선을 지나는 가장 무거운 경로".
-- 직접 실행하면 n 을 받아 F(n) mod 1_000_000_007 을 출력합니다 (BOJ 11444 형식, n ≤ 10^18).
+- 직접 실행하면 n 을 받아 F(n) mod 1_000_000_007 을 출력합니다 (피보나치 계산 예제 형식, n ≤ 10^18).
 """
 import sys
 from typing import Optional, Sequence

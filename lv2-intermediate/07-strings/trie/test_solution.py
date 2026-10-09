@@ -108,6 +108,6 @@ def test_many_words_share_a_trie_without_recursion():
 
 
 def test_main(monkeypatch, capsys):
-    monkeypatch.setattr("sys.stdin", io.StringIO("3 4\nbaekjoononlinejudge\nstartlink\ncodeplus\nstartlink\nsample\nbaekjoon\ncodeplus\n"))
+    monkeypatch.setattr("sys.stdin", io.StringIO("3 4\nalgorithmstudy\npython\ntrie\npython\nsample\nalgorithm\ntrie\n"))
     solution.main()
     assert capsys.readouterr().out.strip() == "2"

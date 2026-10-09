@@ -17,12 +17,13 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import os
 import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from urllib.parse import unquote
+from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -42,6 +43,11 @@ SLUG_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 FRONT_MATTER_RE = re.compile(r"\A---\n(.*?)\n---\n?", re.S)
 LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
+EXPLANATION_HEADINGS = (
+    "무엇을 저장하고 어떻게 움직이나",
+    "왜 이 방법이 맞는가",
+    "작은 예제로 검산하기",
+)
 
 
 # ---------------------------------------------------------------- 파싱
@@ -195,8 +201,44 @@ def load_concept(repo: Repo, lv: Level, group: Group, path: Path) -> None:
         for name in ("test_solution.py", "problems.md"):
             if not (path / name).is_file():
                 repo.errors.append(f"{rel}: status 가 done 이면 {name} 이 필요합니다")
+        validate_done_content(repo, path, meta, body)
 
     group.concepts.append(Concept(path.name, lv.number, group.name, path, title or path.name, meta))
+
+
+def validate_done_content(repo: Repo, path: Path, meta: dict, body: str) -> None:
+    """완료 표시가 빈 파일이나 제목만으로 통과하지 않도록 최소 내용을 검사한다."""
+    rel = repo.rel(path)
+    for key in ("time", "space"):
+        if not isinstance(meta.get(key), str) or not meta[key].strip():
+            repo.errors.append(f"{rel}/README.md: done 개념에는 {key} 복잡도 설명이 필요합니다")
+    prose = strip_fenced_code(body)
+    for number in range(1, 10):
+        if not re.search(rf"^## {number}\.\s+\S", prose, flags=re.M):
+            repo.errors.append(f"{rel}/README.md: done 개념에는 {number}번 섹션이 필요합니다")
+    for heading in EXPLANATION_HEADINGS:
+        match = re.search(rf"^### {re.escape(heading)}\s*\n(.*?)(?=^#|\Z)", prose, flags=re.M | re.S)
+        if not match or len(match[1].strip()) < 40:
+            repo.errors.append(f"{rel}/README.md: '{heading}' 설명을 구체적으로 작성하세요")
+    tests = path / "test_solution.py"
+    if tests.is_file():
+        try:
+            tree = ast.parse(read_text(tests), filename=str(tests))
+            if not any(isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+                       and node.name.startswith("test_") for node in ast.walk(tree)):
+                repo.errors.append(f"{rel}/test_solution.py: 실제 테스트 함수가 없습니다")
+        except SyntaxError as error:
+            repo.errors.append(f"{rel}/test_solution.py: 구문 오류: {error.msg}")
+    problems = path / "problems.md"
+    if problems.is_file():
+        rows = re.findall(r"^\|\s*\d+\s*\|.*$", read_text(problems), flags=re.M)
+        urls = set()
+        for row in rows:
+            columns = re.split(r"(?<!\\)\|", row)[1:-1]
+            if len(columns) == 4 and all(column.strip() for column in columns):
+                urls.update(target for target in LINK_RE.findall(columns[1]) if target.startswith("https://"))
+        if len(urls) < 3:
+            repo.errors.append(f"{rel}/problems.md: 학습 포인트가 있는 서로 다른 HTTPS 문제 링크를 3개 이상 작성하세요")
 
 
 def load_group(repo: Repo, lv: Level, path: Path) -> None:
@@ -292,14 +334,39 @@ def load_repo(root: Path = ROOT) -> Repo:
 
 # ---------------------------------------------------------------- 링크 검사
 
+def strip_fenced_code(text: str) -> str:
+    return re.sub(r"^```.*?^```|^~~~.*?^~~~", "", text, flags=re.S | re.M)
+
+
 def strip_code(text: str) -> str:
-    text = re.sub(r"^```.*?^```", "", text, flags=re.S | re.M)
-    return re.sub(r"`[^`\n]*`", "", text)
+    return re.sub(r"`[^`\n]*`", "", strip_fenced_code(text))
+
+
+def markdown_anchors(text: str) -> set[str]:
+    """GitHub의 일반적인 제목 앵커와 명시적 HTML 앵커를 수집한다."""
+    without_fences = strip_fenced_code(text)
+    anchors = set(re.findall(r'<(?:a|span)\s+[^>]*(?:id|name)=[\"\']([^\"\']+)', without_fences, flags=re.I))
+    counts: dict[str, int] = {}
+    heading_anchors: set[str] = set()
+    for heading in re.findall(r"^#{1,6}\s+(.+?)\s*#*\s*$", without_fences, flags=re.M):
+        heading = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", heading)
+        heading = re.sub(r"<[^>]+>", "", heading).lower()
+        slug = re.sub(r"[^\w\- ]", "", heading).replace(" ", "-")
+        duplicate = counts.get(slug, 0)
+        candidate = f"{slug}-{duplicate}" if duplicate else slug
+        while candidate in heading_anchors:
+            duplicate += 1
+            candidate = f"{slug}-{duplicate}"
+        counts[slug] = duplicate + 1
+        heading_anchors.add(candidate)
+    anchors.update(heading_anchors)
+    return anchors
 
 
 def check_links(repo: Repo) -> None:
-    """모든 .md 의 상대 경로 링크가 실제로 존재하는지 확인 (docs/TEMPLATE 은 자리표시자라 제외)"""
+    """상대 파일·문서 앵커·외부 URL 형식을 검사한다. 외부 접속은 별도 도구가 맡는다."""
     template = (repo.root / "docs" / "TEMPLATE").resolve()
+    anchor_cache: dict[Path, set[str]] = {}
     for dirpath, dirnames, filenames in os.walk(repo.root):
         dirnames[:] = [d for d in dirnames if not d.startswith(".") and d != "__pycache__"]
         for name in filenames:
@@ -307,11 +374,27 @@ def check_links(repo: Repo) -> None:
             if path.suffix != ".md" or template in path.resolve().parents:
                 continue
             for target in LINK_RE.findall(strip_code(read_text(path))):
-                if target.startswith("#") or SCHEME_RE.match(target):
+                if SCHEME_RE.match(target):
+                    try:
+                        parsed = urlsplit(target)
+                    except ValueError:
+                        repo.errors.append(f"{repo.rel(path)}: 잘못된 외부 URL → {target}")
+                        continue
+                    if parsed.scheme in ("http", "https"):
+                        if not parsed.hostname or parsed.username or parsed.password:
+                            repo.errors.append(f"{repo.rel(path)}: 잘못된 외부 URL → {target}")
+                        elif parsed.hostname == "acmicpc.net" or parsed.hostname.endswith(".acmicpc.net"):
+                            repo.errors.append(f"{repo.rel(path)}: 교체가 필요한 문제 레퍼런스 → {target}")
                     continue
-                file_part = unquote(target.split("#", 1)[0])
-                if file_part and not (path.parent / file_part).exists():
+                file_part, _, fragment = target.partition("#")
+                destination = (path.parent / unquote(file_part)).resolve() if file_part else path.resolve()
+                if not destination.exists():
                     repo.errors.append(f"{repo.rel(path)}: 깨진 링크 → {target}")
+                elif fragment and destination.is_file() and destination.suffix == ".md":
+                    if destination not in anchor_cache:
+                        anchor_cache[destination] = markdown_anchors(read_text(destination))
+                    if unquote(fragment) not in anchor_cache[destination]:
+                        repo.errors.append(f"{repo.rel(path)}: 없는 문서 앵커 → {target}")
 
 
 # ---------------------------------------------------------------- 생성
@@ -327,7 +410,7 @@ def link(from_dir: Path, to: Path, text: str) -> str:
 
 def render_root_index(repo: Repo) -> str:
     statuses = list(STATUSES)
-    lines = ["| 레벨 | 이름 | solved.ac | 개념 | " + " | ".join(f"`{s}`" for s in statuses) + " | 목표 |",
+    lines = ["| 레벨 | 이름 | 난이도 표기 | 개념 | " + " | ".join(f"`{s}`" for s in statuses) + " | 목표 |",
              "|---|---|---|---:|" + "---:|" * len(statuses) + "---|"]
     for lv in repo.levels:
         concepts = lv.concepts

@@ -1,20 +1,18 @@
 # 연습문제 — 머지 소트 트리
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [백준 13537 수열과 쿼리 1](https://www.acmicpc.net/problem/13537) | 구간에서 `k`보다 큰 수의 개수 | 가장 기본형. `(길이) − count_at_most`. 오프라인(펜윅)으로도 풀리니 둘 다 짜서 비교 |
-| 2 | [SPOJ KQUERY - K-Query](https://www.spoj.com/problems/KQUERY/) | 구간에서 `k`보다 큰 수의 개수 | 1번과 같은 유형. 질의 수가 많을 때 파이썬 상수를 가늠 |
-| 3 | [백준 13544 수열과 쿼리 3](https://www.acmicpc.net/problem/13544) | 1번과 같은 질의 + 이전 답으로 복원(온라인) | [solution.py](solution.py)의 `main()`이 같은 형태. 오프라인 풀이가 막혀 있어서 머지 소트 트리가 맞는 도구 |
-| 4 | [Library Checker - Static Range Frequency](https://judge.yosupo.jp/problem/static_range_frequency) | 구간에서 값 `x`가 나오는 횟수 | `count_in_value_range(l, r, x, x)`. 값별 위치 리스트에 이분 탐색하는 풀이와 비교 |
-| 5 | [SPOJ GIVEAWAY - Give Away](https://www.spoj.com/problems/GIVEAWAY/) | **갱신이 있는** 구간에서 `x` 이상의 수의 개수 | `update`가 필요한 문제. 정렬된 블록(제곱근 분할)과 구현·속도 비교 |
-| 6 | [백준 7469 K번째 수](https://www.acmicpc.net/problem/7469) | 구간 `k`번째로 작은 수 | `kth_smallest`는 `O(log³ n)`이라 느리다. [퍼시스턴트](../persistent-segment-tree/)·[웨이블릿](../wavelet-tree/) `O(log n)`과 시간을 비교 |
-| 7 | [Library Checker - Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) | 구간 `k`번째 (큰 입력) | 머지 소트 트리로는 느릴 수 있다. 어떤 크기에서 구조를 바꿔야 하는지 직접 확인 |
+| 1 | [Library Checker — Static Range Frequency](https://judge.yosupo.jp/problem/static_range_frequency) | 핵심 연습 | 정렬된 노드 목록에서 특정 값의 개수를 센다 |
+| 2 | [Library Checker — Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) | 핵심 연습 | 값에 대한 이분 탐색과 구간 개수 질의를 결합한다 |
+| 3 | [SPOJ KQUERY - K-Query](https://www.spoj.com/problems/KQUERY/) | 구간에서 `k`보다 큰 수의 개수 | 구간을 덮는 노드마다 upper_bound로 개수를 구한다. 질의를 정렬하는 오프라인 풀이와 비교한다 |
+| 4 | [SPOJ GIVEAWAY - Give Away](https://www.spoj.com/problems/GIVEAWAY/) | **갱신이 있는** 구간에서 `x` 이상의 수의 개수 | `update`가 필요한 문제. 정렬된 블록(제곱근 분할)과 구현·속도 비교 |
 
-## 풀이 메모
+## 연습 순서
 
-- 1번~3번은 같은 질의의 세 가지 얼굴입니다. 1번과 2번은 질의를 먼저 읽어 정렬할 수 있어 오프라인 펜윅 트리로도 풀리지만, 3번은 이전 답으로 질의가 정해지므로 구조 자체가 온라인이어야 합니다.
-- 4번은 `[l, r)`에서 값이 `[x, x]` 범위인 개수이므로 `count_in_value_range`를 그대로 씁니다. 다른 풀이로 "값마다 위치를 정렬한 리스트를 만들고 `bisect`로 `[l, r)` 안의 개수를 센다" 가 있습니다 (메모리 `O(n)`).
-- 5번은 갱신이 있는 거의 유일한 이 단원 문제입니다. 머지 소트 트리의 `update`는 최악 `O(n)`이지만 리스트 이동이 C 속도라 파이썬에서도 통합니다. 정렬된 블록을 쓰는 제곱근 분할과 비교하면 어느 쪽이 파이썬에서 유리한지 알 수 있습니다.
-- 6번과 7번은 `kth_smallest`가 값에 대한 이분 탐색(`O(log n)`번) × `count_at_most`(`O(log² n)`)이라 입력이 크면 느립니다. 질의가 `10⁵` 이상이면 웨이블릿 트리나 퍼시스턴트 세그먼트 트리로 바꾸는 것이 맞습니다.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

@@ -133,7 +133,7 @@ def test_large_input_is_fast():
         assert structure.kth(left, right, k) == sorted(values[left:right])[k - 1]
 
 
-def test_main_matches_the_boj_7469_sample(monkeypatch, capsys):
+def test_main_answers_range_order_statistics(monkeypatch, capsys):
     text = "7 3\n1 5 2 6 3 7 4\n2 5 3\n4 4 1\n1 7 3\n"
     monkeypatch.setattr("sys.stdin", io.TextIOWrapper(io.BytesIO(text.encode())))
     solution.main()

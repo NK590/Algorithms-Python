@@ -1,20 +1,19 @@
 # 연습문제 — 트리 DP
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [백준 15681 트리와 쿼리](https://www.acmicpc.net/problem/15681) | 서브트리 크기 | 루트를 정하고 서브트리 크기를 한 번 구해 질의에 답한다. 가장 기본적인 트리 DP |
-| 2 | [백준 1068 트리](https://www.acmicpc.net/problem/1068) | 서브트리 제거 | 노드를 지운 뒤 리프의 수. 자식 목록에서 지운 노드를 빼고 다시 센다 |
-| 3 | [LeetCode 337 House Robber III](https://leetcode.com/problems/house-robber-iii/) | 독립 집합 | 이진 트리에서 인접한 집을 못 턴다. `(턴다, 안 턴다)` 두 상태 |
-| 4 | [백준 1949 우수 마을](https://www.acmicpc.net/problem/1949) | 독립 집합 + 조건 | 우수 마을끼리는 인접할 수 없고, 우수 마을이 아닌 마을은 반드시 우수 마을과 인접해야 한다. 상태를 하나 더 둔다 |
-| 5 | [백준 2213 트리의 독립집합](https://www.acmicpc.net/problem/2213) | 독립 집합 + 복원 | 최댓값과 고른 정점들을 출력. `max_weight_independent_set` |
-| 6 | [백준 2533 사회망 서비스(SNS)](https://www.acmicpc.net/problem/2533) | 정점 덮개 | 얼리 아답터가 최소 몇 명 필요한가 = 최소 정점 덮개. `min_vertex_cover` |
-| 7 | [LeetCode 968 Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras/) | 지배 집합 | 카메라가 자신과 인접한 노드를 감시. 세 가지 상태. `min_dominating_set` |
+| 1 | [CSES — Tree Matching](https://cses.fi/problemset/task/1130) | 핵심 연습 | 부모 간선 사용 여부에 따른 트리 매칭 상태를 세운다 |
+| 2 | [AtCoder — Independent Set](https://atcoder.jp/contests/dp/tasks/dp_p) | 핵심 연습 | 선택·미선택 상태로 독립 집합 수를 센다 |
+| 3 | [CSES — Tree Distances II](https://cses.fi/problemset/task/1133) | 심화·응용 | 심화로 루트를 바꾸며 거리 합을 갱신한다 |
+| 4 | [LeetCode 337 House Robber III](https://leetcode.com/problems/house-robber-iii/) | 독립 집합 | 이진 트리에서 인접한 집을 못 턴다. `(턴다, 안 턴다)` 두 상태 |
+| 5 | [LeetCode 968 Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras/) | 지배 집합 | 카메라가 자신과 인접한 노드를 감시. 세 가지 상태. `min_dominating_set` |
 
-## 풀이 메모
+## 연습 순서
 
-- 1번을 풀면서 `부모 방향 간선을 자식으로 세는 실수`를 확인하세요. BFS/DFS로 루트에서 내려가며 부모를 기록합니다.
-- 3번과 4번은 같은 독립 집합이라도 조건이 다릅니다. 상태가 "고름/안 고름"으로 충분한지, "이웃에 골라진 정점이 있는가"까지 필요한지 문제를 읽고 판단하세요.
-- 6번과 7번을 비교하면 정점 덮개(간선을 덮음)와 지배 집합(정점을 덮음)의 차이를 알 수 있습니다.
-- 정점이 10⁶까지 가는 문제는 재귀를 쓰지 않는 이 폴더의 방식(BFS 순서 역순)이 안전합니다.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

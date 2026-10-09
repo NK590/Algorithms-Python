@@ -9,7 +9,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - KthSmallest(values): 구간 [l, r) 에서 k 번째로 작은 값 (오프라인이 아니라 온라인), count_less(l, r, x).
   값을 압축해 i 번째 버전 = 앞의 i 개 원소를 넣은 트리로 만들고, 두 버전의 차(root[r] - root[l]) 가 구간의 값 분포이므로 트리를 내려가며 k 번째를 찾는다.
 - 모든 연산이 반복문이라 깊이 문제가 없다.
-- 직접 실행하면 BOJ 7469 형식 — `N M`, 수열, M 개의 `i j k`(1부터) — 를 받아 a[i..j] 에서 k 번째로 작은 값을 출력합니다.
+- 직접 실행하면 구간 k번째 값 예제 형식 — `N M`, 수열, M 개의 `i j k`(1부터) — 를 받아 a[i..j] 에서 k 번째로 작은 값을 출력합니다.
 """
 import sys
 from bisect import bisect_left, bisect_right

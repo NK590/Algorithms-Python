@@ -1,4 +1,4 @@
-"""다항식 연산(Polynomial Operations) — 곱셈 하나를 빠르게 만든 뒤 뉴턴 방법으로 역수·로그·지수·거듭제곱·제곱근·나눗셈을, 부분곱 트리로 다점 계산·보간을 O(n log n) ~ O(n log² n) 에 하기
+"""다항식 연산(Polynomial Operations) — 곱셈 비용 M(n)을 기준으로 급수 연산 O(M(n)), 다점 계산·보간 O(M(n) log n)
 
 README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - 다항식(형식적 거듭제곱 급수)은 낮은 차수부터의 계수 리스트이고, 계수는 소수 mod 위에서 다룬다. n 은 "x^n 으로 나눈 나머지까지만 구한다" (항의 개수).
@@ -45,6 +45,8 @@ def multiply(a: Sequence[int], b: Sequence[int], mod: int = MOD) -> list[int]:
 
 def _inverses(n: int, mod: int) -> list[int]:
     """1..n 의 역원 (0 번 칸은 비워 둔다)."""
+    if n >= mod:
+        raise ValueError("적분 분모는 소수 mod 보다 작아야 합니다")
     inv = [0, 1] + [0] * max(0, n - 1)
     for i in range(2, n + 1):
         inv[i] = (mod - (mod // i) * inv[mod % i] % mod) % mod
@@ -56,7 +58,7 @@ def poly_derivative(f: Sequence[int], mod: int = MOD) -> list[int]:
 
 
 def poly_integral(f: Sequence[int], mod: int = MOD) -> list[int]:
-    inv = _inverses(len(f) + 1, mod)
+    inv = _inverses(len(f), mod)
     return [0] + [f[i] * inv[i + 1] % mod for i in range(len(f))]
 
 
@@ -77,6 +79,8 @@ def poly_inverse(f: Sequence[int], n: int, mod: int = MOD) -> list[int]:
 
 def poly_log(f: Sequence[int], n: int, mod: int = MOD) -> list[int]:
     """ln f 를 x^n 까지 (f[0] = 1)."""
+    if n > mod:
+        raise ValueError("로그의 항 수는 소수 mod 이하여야 합니다")
     if not f or f[0] % mod != 1:
         raise ValueError("log 는 상수항이 1 인 급수에서만 정의됩니다")
     quotient = multiply(poly_derivative(f[:n], mod), poly_inverse(f, n - 1, mod), mod)[:n - 1]
@@ -86,13 +90,15 @@ def poly_log(f: Sequence[int], n: int, mod: int = MOD) -> list[int]:
 
 def poly_exp(f: Sequence[int], n: int, mod: int = MOD) -> list[int]:
     """e^f 를 x^n 까지 (f[0] = 0)."""
+    if n > mod:
+        raise ValueError("지수 급수의 항 수는 소수 mod 이하여야 합니다")
     if f and f[0] % mod != 0:
         raise ValueError("exp 는 상수항이 0 인 급수에서만 정의됩니다")
     g = [1]
     size = 1
     padded = list(f) + [0] * max(0, n - len(f))
     while size < n:
-        size *= 2
+        size = min(size * 2, n)
         log_g = poly_log(g + [0] * (size - len(g)), size, mod)
         h = [(padded[i] if i < len(padded) else 0) - log_g[i] for i in range(size)]
         h[0] += 1
@@ -124,6 +130,8 @@ def poly_pow(f: Sequence[int], k: int, n: int, mod: int = MOD) -> list[int]:
 def mod_sqrt(a: int, mod: int) -> Optional[int]:
     """x² ≡ a (mod p) 의 해 중 작은 쪽 (토넬리-섕크스). 없으면 None."""
     a %= mod
+    if mod == 2:
+        return a
     if a == 0:
         return 0
     if pow(a, (mod - 1) // 2, mod) != 1:
@@ -150,6 +158,10 @@ def poly_sqrt(f: Sequence[int], n: int, mod: int = MOD) -> Optional[list[int]]:
     """g² = f (mod x^n) 인 g (상수항이 작은 쪽). 없으면 None."""
     if n == 0:
         return []
+    if mod == 2:
+        if any(f[i] % 2 for i in range(1, min(len(f), n), 2)):
+            return None
+        return [f[2 * i] % 2 if 2 * i < min(len(f), n) else 0 for i in range(n)]
     first = next((i for i, c in enumerate(f) if c % mod), None)
     if first is None or first >= n:
         return [0] * n
@@ -213,7 +225,7 @@ def _horner(f: Sequence[int], x: int, mod: int) -> int:
 
 
 def multipoint_evaluate(f: Sequence[int], xs: Sequence[int], mod: int = MOD) -> list[int]:
-    """f(x_i) 를 모든 i 에 대해 (O(n log² n))."""
+    """f(x_i) 를 모든 i 에 대해 (곱셈 비용 M(n)에 대해 O(M(n) log n))."""
     if not xs:
         return []
     f = _trim([c % mod for c in f])
@@ -257,14 +269,18 @@ def interpolate(xs: Sequence[int], ys: Sequence[int], mod: int = MOD) -> list[in
 
 
 def taylor_shift(f: Sequence[int], c: int, mod: int = MOD) -> list[int]:
-    """g(x) = f(x + c) 의 계수."""
+    """g(x) = f(x + c) 의 계수. len(f) <= 소수 mod."""
     n = len(f)
-    fact = [1] * (n + 1)
-    for i in range(1, n + 1):
+    if not n:
+        return []
+    if n > mod:
+        raise ValueError("테일러 이동의 항 수는 소수 mod 이하여야 합니다")
+    fact = [1] * n
+    for i in range(1, n):
         fact[i] = fact[i - 1] * i % mod
-    inv_fact = [1] * (n + 1)
-    inv_fact[n] = pow(fact[n], mod - 2, mod)
-    for i in range(n, 0, -1):
+    inv_fact = [1] * n
+    inv_fact[n - 1] = pow(fact[n - 1], mod - 2, mod)
+    for i in range(n - 1, 0, -1):
         inv_fact[i - 1] = inv_fact[i] * i % mod
     a = [f[i] % mod * fact[i] % mod for i in range(n)][::-1]  # a[n-1-i] = f_i · i!
     powers = [1] * n
@@ -314,6 +330,9 @@ def catalan_numbers(n: int, mod: int = MOD) -> list[int]:
     """C_0 … C_{n-1} (mod): sqrt(1 - 4x) = 1 - 2 Σ C_k x^{k+1}."""
     if n == 0:
         return []
+    if mod == 2:
+        # C_k is odd exactly when k = 2^m - 1; division by 2 is unavailable here.
+        return [int((k & (k + 1)) == 0) for k in range(n)]
     root = poly_sqrt([1, (-4) % mod], n + 1, mod)
     half = pow(2, mod - 2, mod)
     return [(-root[k + 1]) * half % mod for k in range(n)]

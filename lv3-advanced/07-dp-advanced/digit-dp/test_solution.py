@@ -29,7 +29,7 @@ def test_digit_counts_match_writing_out_every_number():
     for n in list(range(0, 300)) + [999, 1000, 1001, 4321, 9999, 10000, 12345]:
         expected = [sum(str(x).count(str(d)) for x in range(1, n + 1)) for d in range(10)]
         assert solution.digit_counts(n) == expected, n
-    assert solution.digit_counts(11) == [1, 4, 1, 1, 1, 1, 1, 1, 1, 1]  # BOJ 1019 의 예제
+    assert solution.digit_counts(11) == [1, 4, 1, 1, 1, 1, 1, 1, 1, 1]  # 1부터 11까지 직접 세어 검산
     assert solution.digit_counts(0) == [0] * 10
 
 

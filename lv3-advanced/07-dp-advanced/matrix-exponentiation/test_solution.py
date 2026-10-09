@@ -79,7 +79,7 @@ def test_fibonacci_both_ways_match_the_list():
 
 
 def test_huge_fibonacci_agree_and_match_a_known_value():
-    assert solution.fibonacci_matrix(1000, MOD) == 517691607  # BOJ 11444 의 예제
+    assert solution.fibonacci_matrix(1000, MOD) == 517691607  # F(1000)의 알려진 나머지
     for n in [10**9, 10**18, 2**60 - 1, 10**18 + 7]:
         assert solution.fibonacci_matrix(n, MOD) == solution.fibonacci_doubling(n, MOD)
     # F(n) mod p 는 주기(피사노 주기)가 있다: F(n + period) 가 같다.  mod 10 의 주기는 60

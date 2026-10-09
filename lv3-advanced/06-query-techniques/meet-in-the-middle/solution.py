@@ -7,7 +7,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - closest_subset_sum: target 에 가장 가까운 부분집합 합 (같은 거리면 작은 쪽).
 - knapsack_meet: 무게가 너무 커서 DP 표를 못 만드는 0/1 배낭을 풀기 (원소 수 ≤ 40 정도).
 - four_sum_zero_count: 네 배열에서 하나씩 골라 합이 0 인 (i, j, k, l) 의 수 — 두 배열씩 묶어 4 중이 아니라 2 + 2 로.
-- 직접 실행하면 BOJ 1450 형식 — `N C` 와 N 개의 무게 — 을 받아 무게의 합이 C 이하인 부분집합(빈 집합 포함) 의 수를 출력합니다.
+- 직접 실행하면 부분집합 무게 예제 형식 — `N C` 와 N 개의 무게 — 을 받아 무게의 합이 C 이하인 부분집합(빈 집합 포함) 의 수를 출력합니다.
 """
 import sys
 from bisect import bisect_left, bisect_right

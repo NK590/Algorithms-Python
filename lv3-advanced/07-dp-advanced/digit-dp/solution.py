@@ -7,7 +7,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - digit_dp(upper, init, step): 1..upper 를 훑어 {최종 상태: (수의 개수, 이득의 합)} 을 돌려줍니다.
   step(상태, 숫자) 는 (새 상태, 이 숫자가 주는 이득) 또는 None(이 숫자는 금지 — 그 수는 세지 않음) 을 돌려줍니다.
 - 그 위에 쓴 함수들: 숫자가 나온 횟수, 자릿수 합의 총합, 금지 숫자가 없는 수, 자릿수 합이 정해진 수, m 의 배수, 이웃한 숫자가 같지 않은 수.
-- 직접 실행하면 N 을 받아 1..N 의 모든 자연수에서 0, 1, …, 9 가 각각 몇 번 나오는지 출력합니다 (BOJ 1019 형식).
+- 직접 실행하면 N 을 받아 1..N 의 모든 자연수에서 0, 1, …, 9 가 각각 몇 번 나오는지 출력합니다 (자릿수 출현 집계 예제 형식).
 """
 import sys
 from typing import Callable, Hashable, Optional
@@ -87,7 +87,7 @@ def count_digit_occurrences(n: int, digit: int, base: int = 10) -> int:
 
 
 def digit_counts(n: int) -> list[int]:
-    """1..n 에서 0, 1, …, 9 가 나오는 횟수 (BOJ 1019)."""
+    """1..n 에서 0, 1, …, 9 가 나오는 횟수 (자릿수 출현 집계 예제)."""
     return [count_digit_occurrences(n, d) for d in range(10)]
 
 

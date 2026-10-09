@@ -1,19 +1,18 @@
 # 연습문제 — 뤼카 정리
 
-쉬운 것부터 어려운 순서로 정리했습니다. **문제 지문은 옮기지 않고** 링크와 "배울 점"만 적었습니다. 난이도(solved.ac 티어)는 시간이 지나며 바뀔 수 있어서 표에 적지 않았으니 각 링크에서 확인하세요.
+아래 순서는 개념의 기본 연산을 익힌 뒤 응용으로 넘어가기 위한 추천 순서입니다. 문제 지문은 원문 링크에서 확인하고, 표의 **배울 점**을 먼저 읽어 어떤 상태와 전이를 사용할지 정리하세요.
+
+[문제 사이트 이용 안내](../../../docs/reference-guide.md)를 참고하세요. `solution.py`는 개념의 참고 구현입니다. 제출 전에는 원문의 입력·출력, 인덱스, 제약 조건에 맞게 호출부를 작성해야 합니다.
 
 | # | 문제 | 유형 | 배울 점 |
 |---|---|---|---|
-| 1 | [LeetCode 62 Unique Paths](https://leetcode.com/problems/unique-paths/) | `C(m + n − 2, m − 1)` | 정확한 값. `math.comb`와 `binomial_mod`가 같은 나머지를 내는지 비교 |
-| 2 | [백준 11401 이항 계수 3](https://www.acmicpc.net/problem/11401) | `C(n, k) mod 10⁹+7`, `n ≤ 4·10⁶` | `n < p`라서 뤼카가 아니라 팩토리얼 + 페르마 역원이 맞다 |
-| 3 | [백준 11402 이항 계수 4](https://www.acmicpc.net/problem/11402) | `n ≤ 4·10¹⁸`, `M ≤ 2000` (소수) | [solution.py](solution.py)의 `main()`이 같은 형태. 뤼카의 기본 |
-| 4 | [Project Euler 148 - Exploring Pascal's triangle](https://projecteuler.net/problem=148) | 파스칼 삼각형 처음 10⁹줄에서 7로 나누어떨어지지 않는 항의 수 | `n`번째 줄의 개수 `Π (nᵢ + 1)`(7진법), 줄 합을 자릿수 DP처럼 |
-| 5 | [Library Checker - Binomial Coefficient (Prime Mod)](https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod) | `n, k ≤ 10¹⁸`, 소수 `m ≤ 10⁶` 질의 여러 개 | 같은 `p`는 표 재사용. 질의 수가 많으면 입력 읽기도 중요 |
-| 6 | [Library Checker - Binomial Coefficient](https://judge.yosupo.jp/problem/binomial_coefficient) | 임의의 `m ≤ 10⁷` | 소인수 `p^e`마다 곱 표 + CRT. `binomial_mod`가 그대로 대응 |
+| 1 | [Library Checker — Binomial Coefficient (Prime Mod)](https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod) | 핵심 연습 | n과 r을 소수 진법의 자릿수로 나눠 조합을 곱한다 |
+| 2 | [LeetCode 62 Unique Paths](https://leetcode.com/problems/unique-paths/) | `C(m + n − 2, m − 1)` | 정확한 값. `math.comb`와 `binomial_mod`가 같은 나머지를 내는지 비교 |
+| 3 | [Project Euler 148 - Exploring Pascal's triangle](https://projecteuler.net/problem=148) | 파스칼 삼각형 처음 10⁹줄에서 7로 나누어떨어지지 않는 항의 수 | `n`번째 줄의 개수 `Π (nᵢ + 1)`(7진법), 줄 합을 자릿수 DP처럼 |
+| 4 | [Library Checker - Binomial Coefficient](https://judge.yosupo.jp/problem/binomial_coefficient) | 임의의 `m ≤ 10⁷` | 소인수 `p^e`마다 곱 표 + CRT. `binomial_mod`가 그대로 대응 |
 
-## 풀이 메모
+## 연습 순서
 
-- 2번과 3번은 모듈러와 `n`의 크기에 따라 방법이 갈립니다: `n < p`(2번)는 팩토리얼 공식, `n ≥ p`(3번)는 뤼카. 두 방법이 `n < p`에서 같은 값을 내는지 [테스트](test_solution.py)처럼 비교해 보세요.
-- 4번은 7진법으로 `n`을 쓴 줄의 "7의 배수가 아닌 항의 수"가 `Π (nᵢ + 1)`임을 뤼카에서 유도합니다. `0..7ᵐ−1`번 줄 전체의 합은 한 자리의 합 `1 + 2 + … + 7 = 28`의 거듭제곱 `28ᵐ`이고, `10⁹`을 7진법으로 쓴 자릿수를 위에서부터 고정해 가며 더하면 답이 나옵니다.
-- 5번과 6번은 입력이 많으므로 `sys.stdin.buffer.read().split()` 하나로 읽습니다. 6번은 `m`이 `10⁷`까지라 소인수 `p^e`의 곱 표가 최대 `10⁷`이어서 파이썬에서는 느립니다.
-- 모든 문제에서 `m`이 소수인지, 소수의 거듭제곱인지, 일반 합성수인지를 먼저 판단하세요. 이 판단이 방법을 결정합니다.
+1. 기본 연산을 작은 입력에서 손으로 실행하고, 코드의 중간 상태와 비교합니다.
+2. 핵심 연습을 풀 때 적용 조건과 시간 복잡도를 먼저 확인합니다. 선행 연습은 해당 도구가 반드시 필요한 문제라는 뜻은 아닙니다.
+3. 응용 문제에서는 추가 상태, 자료구조, 전처리가 필요한지 구분하고 작은 입력의 단순한 풀이로 답을 검산합니다.

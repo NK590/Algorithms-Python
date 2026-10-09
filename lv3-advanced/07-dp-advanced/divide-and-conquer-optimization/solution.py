@@ -7,7 +7,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
 - 방법: 가운데 i = mid 의 최적 j 를 j 의 허용 범위 [opt_lo, opt_hi] 에서 모두 확인해 찾고, mid 의 왼쪽은 [opt_lo, j*] 에서, 오른쪽은 [j*, opt_hi] 에서만 찾는다.
   한 층의 모든 i 를 O(n log n) 에 계산한다. 재귀의 깊이는 log n 이라 안전합니다.
 - partition_cost: 이 방법으로 n 개를 정확히 k 개(비어 있지 않은)의 묶음으로 나눌 때의 최소 비용. naive_partition_cost 는 O(k n²) 기준 구현.
-- 직접 실행하면 BOJ 13261 형식 — `L G` 와 L 개의 위험도 — 을 받아, 감옥을 G 개의 연속한 구역으로 나눌 때 (구역 크기 × 구역 위험도의 합) 의 합의 최솟값을 출력합니다.
+- 직접 실행하면 구역 분할 예제 형식 — `L G` 와 L 개의 위험도 — 을 받아, 감옥을 G 개의 연속한 구역으로 나눌 때 (구역 크기 × 구역 위험도의 합) 의 합의 최솟값을 출력합니다.
 """
 import sys
 from typing import Callable, Optional, Sequence
@@ -17,7 +17,7 @@ Cost = Callable[[int, int], int]
 
 
 def cost_size_times_sum(values: Sequence[int]) -> Cost:
-    """cost(j, i) = (i - j) · (values[j] + … + values[i-1])  — BOJ 13261 의 구역 비용. 값이 음이 아니면 monge."""
+    """cost(j, i) = (i - j) · (values[j] + … + values[i-1]). 값이 음이 아니면 Monge 비용."""
     prefix = [0]
     for v in values:
         prefix.append(prefix[-1] + v)

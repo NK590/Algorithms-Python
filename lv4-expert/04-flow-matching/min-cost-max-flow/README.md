@@ -42,6 +42,18 @@ status: done
 - 여러 출발·도착 → 가상 `s`, `t`.
 - 최대화 → 비용 부호 반전.
 
+### 무엇을 저장하고 어떻게 움직이나
+
+잔여 간선에 용량과 비용을 함께 저장합니다. 순방향으로 보낸 유량을 취소할 수 있도록 역간선의 비용은 음수입니다. 한 번에 보내는 양은 최단 비용 증가 경로의 최소 잔여 용량이며, 총 비용은 그 양과 경로 비용의 곱만큼 늘어납니다.
+
+### 왜 이 방법이 맞는가
+
+음의 사이클이 없는 초기 잔여 그래프에서 최단 증가 경로를 반복하면 각 유량량의 최소 비용을 유지합니다. 퍼텐셜은 줄인 비용을 비음수로 만들어 다익스트라를 사용할 수 있게 합니다. 일반적인 음의 비용 순환까지 허용하는 b-flow는 추가 기법이 필요합니다.
+
+### 작은 예제로 검산하기
+
+작업자 A가 일 1 비용 1·일 2 비용 2, B가 일 1 비용 2·일 2 비용 10이면 A-1을 먼저 골라도 역간선으로 취소하고 B-1·A-2로 바꿔 총 4를 얻습니다. 최대 매칭 개수와 그중 최소 비용이라는 두 목표를 구분합니다.
+
 ## 3. 손으로 따라가기
 
 작업자 2명(`W0`, `W1`)과 작업 2개(`T0`, `T1`). 비용: `W0→T0 = 1`, `W0→T1 = 2`, `W1→T0 = 2`, `W1→T1 = 10`. 모든 용량 1. 최소 비용 최대 유량은?
@@ -67,7 +79,15 @@ status: done
 
 전체 코드는 [solution.py](solution.py)에 있습니다.
 
+아래는 핵심 증가 경로 계산을 실행 가능한 형태로 묶은 예제입니다. 저장소 루트에서 실행하면 마지막 검산까지 수행됩니다. 전체 클래스의 입력 검사·흐름 곡선 기록은 `solution.py`에 있습니다.
+
+<!-- RUNNABLE -->
 ```python
+import runpy
+
+module = runpy.run_path('lv4-expert/04-flow-matching/min-cost-max-flow/solution.py')
+INF = module['INF']
+
 def flow(self, source, sink, limit=INF, algorithm="dijkstra"):
     potential = [0 if d == INF else d for d in self._bellman_ford(source)]   # 음의 사이클 검사 + 시작 퍼텐셜
     total_flow = total_cost = 0
@@ -80,18 +100,24 @@ def flow(self, source, sink, limit=INF, algorithm="dijkstra"):
         v = sink
         while v != source:
             push = min(push, self.capacity[parent_edge[v]]); v = self.to[parent_edge[v] ^ 1]
+        path_cost = 0
         v = sink
         while v != source:                           # 경로를 따라 흘리고 비용을 합산
             e = parent_edge[v]
             self.capacity[e] -= push; self.capacity[e ^ 1] += push; path_cost += self.cost[e]
             v = self.to[e ^ 1]
         total_flow += push; total_cost += push * path_cost
+    return int(total_flow), int(total_cost)
+
+network = module['MinCostFlow'](2)
+network.add_edge(0, 1, 1, 3)
+assert flow(network, 0, 1) == (1, 3)
 ```
 
 - `MinCostFlow(n)`: `add_edge(u, v, capacity, cost)`(간선 번호, 역간선은 `^ 1`), `flow(source, sink, limit=∞, algorithm='dijkstra'|'spfa')` → `(보낸 양, 총 비용)`, `flow_on(edge_id)`, `flow_curve()`(마지막 호출의 `(누적 유량, 누적 최소 비용)` 점들), `augmentations`(경로별 `(단위당 비용, 양)`).
 - 처음 네트워크에 음의 사이클이 있으면 `ValueError`. 음수 비용 간선 자체는 괜찮습니다.
 - `assignment_by_flow(cost)`: `n × m`(`n ≤ m`) 비용 행렬의 최소 비용 배정을 흐름으로.
-- 직접 실행하면 BOJ 11408 형식 — `N M`, 이어서 직원마다 `k`와 `k`개의 `(일 번호, 월급)` — 을 받아 최대로 할 수 있는 일의 수와 월급의 최소 합을 출력합니다.
+- 직접 실행하면 비용 배정 예제 형식 — `N M`, 이어서 직원마다 `k`와 `k`개의 `(일 번호, 월급)` — 을 받아 최대로 할 수 있는 일의 수와 월급의 최소 합을 출력합니다.
 
 ## 5. 복잡도와 입력 크기 가이드
 

@@ -173,7 +173,7 @@ def test_land_purchase_matches_all_set_partitions():
     assert solution.land_purchase_cost([(4, 5)]) == 20
     # 한 땅이 다른 땅에 덮이면 공짜
     assert solution.land_purchase_cost([(4, 5), (3, 2), (4, 5)]) == 20
-    # BOJ 6171 의 예제
+    # 네 직사각형을 묶어 구매하는 검산 예제
     assert solution.land_purchase_cost([(100, 1), (15, 15), (20, 5), (1, 100)]) == 500
 
 

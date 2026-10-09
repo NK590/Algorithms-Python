@@ -7,7 +7,7 @@ README.md 의 설명과 짝을 이루는 참고 구현입니다.
   이진 탐색(임의의 x, O(log n)) 또는 포인터(x 가 줄지 않을 때, 상각 O(1)).  외적을 곱셈으로 비교하므로 정수에서 정확합니다.
 - LiChaoTree: 정의역 [lo, hi] 의 정수 x 에서, 기울기 순서 없이 직선을 넣고 최솟값을 묻는 트리. 구간의 가운데에서 더 낮은 직선을 남기고 진 직선은 한쪽으로 내려보낸다. O(log(hi - lo)).
 - land_purchase_cost: 땅 사기 — (w, h) 땅들을 묶어 사고, 묶음의 값은 (최대 w) × (최대 h).  min_cost_batches: 나눈 묶음마다 (합)² + c.
-- 직접 실행하면 BOJ 6171 형식 — `N` 과 N 개의 `w h` — 을 받아 땅을 사는 최소 비용을 출력합니다.
+- 직접 실행하면 직사각형 묶음 구매 예제 형식 — `N` 과 N 개의 `w h` — 을 받아 땅을 사는 최소 비용을 출력합니다.
 """
 import sys
 from typing import Iterable, Optional, Sequence
